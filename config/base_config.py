@@ -1,0 +1,88 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Mon Aug 13 15:53:57 2018
+
+@author: matthewszhang
+"""
+import argparse
+import init_path
+
+def get_base_config():
+    # get the parameters
+    parser = argparse.ArgumentParser(description='Model_based_rl.')
+
+    # the experiment settings
+    parser.add_argument("--task", type=str, default='gym_sokoban_tiny_world',
+                        help='the mujoco environment to test')
+    parser.add_argument("--exp_id", type=str, default=init_path.get_time(),
+                        help='the special id of the experiment')
+    parser.add_argument("--episode_length", type=int, default=100,
+                        help='length of the environment')
+    parser.add_argument("--gamma_max", type=float, default=.05,
+                        help='the discount factor for value function')
+    parser.add_argument("--seed", type=int, default=1234)
+
+    # training configuration
+    parser.add_argument("--batch_size", type=int, default=1000,
+                        help='number of steps in the rollout')
+    parser.add_argument("--max_timesteps", type=int, default=1e7)
+    parser.add_argument("--num_minibatches", type=int, default=5)
+    parser.add_argument("--num_workers", type=int, default=1)
+    
+    parser.add_argument("--use_replay_buffer", type=int, default=1)
+    parser.add_argument("--replay_buffer_size", type=int, default=1000)
+    parser.add_argument("--replay_buffer_type", type=str,
+                        default='prioritized_by_episode')
+    parser.add_argument("--buffer_priority_alpha", type=float,
+                        default=1.0)
+    parser.add_argument("--replay_batch_size", type=float,
+                        default=1000)
+
+    parser.add_argument("--policy_lr", type=float, default=3e-4)
+    parser.add_argument("--policy_epochs", type=int, default=5)
+    parser.add_argument("--policy_network_shape", type=str, default='64,64')
+    parser.add_argument("--policy_activation_type", type=str, default='tanh')
+    parser.add_argument("--policy_normalizer_type", type=str, 
+                        default='layer_norm')
+   
+    parser.add_argument("--joint_value_update", type=int, default=0)
+    
+    parser.add_argument("--clip_gradients", type=int, default=1)
+    parser.add_argument("--clip_gradient_threshold", type=float, default=.1)
+    
+    parser.add_argument("--value_lr", type=float, default=3e-4)
+    parser.add_argument("--value_epochs", type=int, default=10)
+    parser.add_argument("--value_network_shape", type=str, default='64,64')
+    parser.add_argument("--value_activation_type", type=str, default='relu')
+    parser.add_argument("--value_normalizer_type", type=str,
+                        default='batch_norm')
+    
+    # the checkpoint and summary setting
+    parser.add_argument("--ckpt_name", type=str, default=None)
+    parser.add_argument("--output_dir", '-o', type=str, default=None)
+    parser.add_argument('--write_log', type=int, default=1)
+
+    # debug setting
+    parser.add_argument("--monitor", type=int, default=0)
+    parser.add_argument("--debug", type=int, default=0)
+
+    return parser
+
+
+def make_parser(parser):
+    return post_process(parser.parse_args())
+
+
+def post_process(args):
+
+    # parse the network shape
+    for key in [i_key for i_key in dir(args) if 'network_shape' in i_key]:
+        setattr(args, key, [int(dim) for dim in getattr(args, key).split(',')])
+
+    if args.debug:
+        args.write_log, args.write_summary, args.monitor = 0, 0, 0
+
+    args.task_name = args.task
+
+    return args
