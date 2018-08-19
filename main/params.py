@@ -23,8 +23,6 @@ def env_args():
     params["--replay_buffer_size"] = [5000]
     params["--actor_entropy_coefficient"] = [1e-1, 1e-2, 1e-3, 1e-4]
     params["--clip_actor"] = [1e-1, 1e-2, 1e-3]
-    params["--output_dir"] = ["log_1"]
-    
     
     # Tuned Parameters
     return params
@@ -53,6 +51,8 @@ if __name__ == "__main__":
         args = " "
         for key in instance:
             args += key + " " + str(instance[key]) + " "
+            
+        args += "--output_dir log/{}".format(iterator)
         
         with open(output_dir, "a") as f:
             f.write("python ecco_main.py" + args + ';\n')

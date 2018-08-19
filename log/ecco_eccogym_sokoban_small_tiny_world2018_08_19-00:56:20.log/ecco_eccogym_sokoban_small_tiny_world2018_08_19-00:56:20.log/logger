@@ -301,3 +301,648 @@
 [32m[0819 01:15:03 @base_main.py:56][0m [loss_manager]: 0.012179916724562645
 [32m[0819 01:15:03 @base_main.py:56][0m [motivations_0]: 0.0
 [32m[0819 01:15:03 @base_main.py:56][0m [motivations_1]: 0.0007624262243241902
+[32m[0819 01:15:31 @task_sampler.py:88][0m 5000 timesteps from 100 episodes collected
+[32m[0819 01:15:31 @base_trainer.py:168][0m Mean reward: 6.016999999999999
+[32m[0819 01:15:48 @base_main.py:42][0m --------------- Iteration 21 ---------------
+[32m[0819 01:15:48 @base_main.py:49][0m Time elapsed for [** Program Total Time **] is 18.4333 mins
+[32m[0819 01:15:48 @base_main.py:49][0m Time elapsed for [Generate Rollout] is 0.4592 mins
+[32m[0819 01:15:48 @base_main.py:49][0m Time elapsed for [Train Weights] is 0.2797 mins
+[32m[0819 01:15:48 @base_main.py:49][0m Time elapsed for [Assign Weights] is 0.0002 mins
+[32m[0819 01:15:48 @base_main.py:51][0m 105000 total steps have happened
+[32m[0819 01:15:48 @base_main.py:56][0m [avg_reward]: 6.016999999999999
+[32m[0819 01:15:48 @base_main.py:56][0m [surr_loss_actor]: -0.01838587038218975
+[32m[0819 01:15:48 @base_main.py:56][0m [entropy_loss_actor]: -0.019741112366318703
+[32m[0819 01:15:48 @base_main.py:56][0m [vf_loss_actor]: 0.32573431730270386
+[32m[0819 01:15:48 @base_main.py:56][0m [loss_actor]: -0.03812698274850845
+[32m[0819 01:15:48 @base_main.py:56][0m [motivations_0]: 0.0
+[32m[0819 01:15:48 @base_main.py:56][0m [motivations_1]: -0.0019498642290146108
+[32m[0819 01:16:17 @task_sampler.py:88][0m 5000 timesteps from 100 episodes collected
+[32m[0819 01:16:17 @base_trainer.py:168][0m Mean reward: -3.907000000000001
+[32m[0819 01:16:36 @base_main.py:42][0m --------------- Iteration 22 ---------------
+[32m[0819 01:16:36 @base_main.py:49][0m Time elapsed for [** Program Total Time **] is 19.1724 mins
+[32m[0819 01:16:36 @base_main.py:49][0m Time elapsed for [Generate Rollout] is 0.4925 mins
+[32m[0819 01:16:36 @base_main.py:49][0m Time elapsed for [Train Weights] is 0.3066 mins
+[32m[0819 01:16:36 @base_main.py:49][0m Time elapsed for [Assign Weights] is 0.0002 mins
+[32m[0819 01:16:36 @base_main.py:51][0m 110000 total steps have happened
+[32m[0819 01:16:36 @base_main.py:56][0m [avg_reward]: -3.907000000000001
+[32m[0819 01:16:36 @base_main.py:56][0m [surr_loss_manager]: 0.00951479747891426
+[32m[0819 01:16:36 @base_main.py:56][0m [entropy_loss_manager]: -0.002735470188781619
+[32m[0819 01:16:36 @base_main.py:56][0m [vf_loss_manager]: 0.07834699749946594
+[32m[0819 01:16:36 @base_main.py:56][0m [loss_manager]: 0.006779326591640711
+[32m[0819 01:16:36 @base_main.py:56][0m [motivations_0]: 0.0
+[32m[0819 01:16:36 @base_main.py:56][0m [motivations_1]: 4.952192349046527e-05
+[32m[0819 01:17:12 @task_sampler.py:88][0m 5000 timesteps from 100 episodes collected
+[32m[0819 01:17:12 @base_trainer.py:168][0m Mean reward: -4.226
+[32m[0819 01:17:28 @base_main.py:42][0m --------------- Iteration 23 ---------------
+[32m[0819 01:17:28 @base_main.py:49][0m Time elapsed for [** Program Total Time **] is 19.9718 mins
+[32m[0819 01:17:28 @base_main.py:49][0m Time elapsed for [Generate Rollout] is 0.5996 mins
+[32m[0819 01:17:28 @base_main.py:49][0m Time elapsed for [Train Weights] is 0.2687 mins
+[32m[0819 01:17:28 @base_main.py:49][0m Time elapsed for [Assign Weights] is 0.0001 mins
+[32m[0819 01:17:28 @base_main.py:51][0m 115000 total steps have happened
+[32m[0819 01:17:28 @base_main.py:56][0m [avg_reward]: -4.226
+[32m[0819 01:17:28 @base_main.py:56][0m [surr_loss_actor]: -0.018458332866430283
+[32m[0819 01:17:28 @base_main.py:56][0m [entropy_loss_actor]: -0.01952802576124668
+[32m[0819 01:17:28 @base_main.py:56][0m [vf_loss_actor]: 0.3969493508338928
+[32m[0819 01:17:28 @base_main.py:56][0m [loss_actor]: -0.037986356765031815
+[32m[0819 01:17:28 @base_main.py:56][0m [motivations_0]: 0.0
+[32m[0819 01:17:28 @base_main.py:56][0m [motivations_1]: 0.0010845188823295757
+[32m[0819 01:17:58 @task_sampler.py:88][0m 5000 timesteps from 100 episodes collected
+[32m[0819 01:17:58 @base_trainer.py:168][0m Mean reward: -4.093
+[32m[0819 01:18:13 @base_main.py:42][0m --------------- Iteration 24 ---------------
+[32m[0819 01:18:13 @base_main.py:49][0m Time elapsed for [** Program Total Time **] is 20.8403 mins
+[32m[0819 01:18:13 @base_main.py:49][0m Time elapsed for [Generate Rollout] is 0.5063 mins
+[32m[0819 01:18:13 @base_main.py:49][0m Time elapsed for [Train Weights] is 0.2437 mins
+[32m[0819 01:18:13 @base_main.py:49][0m Time elapsed for [Assign Weights] is 0.0001 mins
+[32m[0819 01:18:13 @base_main.py:51][0m 120000 total steps have happened
+[32m[0819 01:18:13 @base_main.py:56][0m [avg_reward]: -4.093
+[32m[0819 01:18:13 @base_main.py:56][0m [surr_loss_manager]: -0.011589880101382732
+[32m[0819 01:18:13 @base_main.py:56][0m [entropy_loss_manager]: -0.0027159154415130615
+[32m[0819 01:18:13 @base_main.py:56][0m [vf_loss_manager]: 0.05474431812763214
+[32m[0819 01:18:13 @base_main.py:56][0m [loss_manager]: -0.01430579461157322
+[32m[0819 01:18:13 @base_main.py:56][0m [motivations_0]: 0.0
+[32m[0819 01:18:13 @base_main.py:56][0m [motivations_1]: 0.0010694666168334151
+[32m[0819 01:18:43 @task_sampler.py:88][0m 5000 timesteps from 100 episodes collected
+[32m[0819 01:18:43 @base_trainer.py:168][0m Mean reward: -3.786
+[32m[0819 01:19:01 @base_main.py:42][0m --------------- Iteration 25 ---------------
+[32m[0819 01:19:01 @base_main.py:49][0m Time elapsed for [** Program Total Time **] is 21.5904 mins
+[32m[0819 01:19:01 @base_main.py:49][0m Time elapsed for [Generate Rollout] is 0.5050 mins
+[32m[0819 01:19:01 @base_main.py:49][0m Time elapsed for [Train Weights] is 0.3005 mins
+[32m[0819 01:19:01 @base_main.py:49][0m Time elapsed for [Assign Weights] is 0.0002 mins
+[32m[0819 01:19:01 @base_main.py:51][0m 125000 total steps have happened
+[32m[0819 01:19:01 @base_main.py:56][0m [avg_reward]: -3.786
+[32m[0819 01:19:01 @base_main.py:56][0m [surr_loss_actor]: 0.004733181092888117
+[32m[0819 01:19:01 @base_main.py:56][0m [entropy_loss_actor]: -0.019324731081724167
+[32m[0819 01:19:01 @base_main.py:56][0m [vf_loss_actor]: 0.8938440680503845
+[32m[0819 01:19:01 @base_main.py:56][0m [loss_actor]: -0.014591550454497337
+[32m[0819 01:19:01 @base_main.py:56][0m [motivations_0]: 0.0
+[32m[0819 01:19:01 @base_main.py:56][0m [motivations_1]: -0.002148339945495718
+[32m[0819 01:19:33 @task_sampler.py:88][0m 5000 timesteps from 100 episodes collected
+[32m[0819 01:19:33 @base_trainer.py:168][0m Mean reward: -3.9040000000000004
+[32m[0819 01:19:48 @base_main.py:42][0m --------------- Iteration 26 ---------------
+[32m[0819 01:19:48 @base_main.py:49][0m Time elapsed for [** Program Total Time **] is 22.3962 mins
+[32m[0819 01:19:48 @base_main.py:49][0m Time elapsed for [Generate Rollout] is 0.5280 mins
+[32m[0819 01:19:48 @base_main.py:49][0m Time elapsed for [Train Weights] is 0.2463 mins
+[32m[0819 01:19:48 @base_main.py:49][0m Time elapsed for [Assign Weights] is 0.0001 mins
+[32m[0819 01:19:48 @base_main.py:51][0m 130000 total steps have happened
+[32m[0819 01:19:48 @base_main.py:56][0m [avg_reward]: -3.9040000000000004
+[32m[0819 01:19:48 @base_main.py:56][0m [surr_loss_manager]: 0.007206992711871862
+[32m[0819 01:19:48 @base_main.py:56][0m [entropy_loss_manager]: -0.002695369068533182
+[32m[0819 01:19:48 @base_main.py:56][0m [vf_loss_manager]: 0.048633575439453125
+[32m[0819 01:19:48 @base_main.py:56][0m [loss_manager]: 0.004511623177677393
+[32m[0819 01:19:48 @base_main.py:56][0m [motivations_0]: 0.0
+[32m[0819 01:19:48 @base_main.py:56][0m [motivations_1]: -0.0009709383888115553
+[32m[0819 01:20:15 @task_sampler.py:88][0m 5000 timesteps from 100 episodes collected
+[32m[0819 01:20:15 @base_trainer.py:168][0m Mean reward: -3.009
+[32m[0819 01:20:32 @base_main.py:42][0m --------------- Iteration 27 ---------------
+[32m[0819 01:20:32 @base_main.py:49][0m Time elapsed for [** Program Total Time **] is 23.1706 mins
+[32m[0819 01:20:32 @base_main.py:49][0m Time elapsed for [Generate Rollout] is 0.4552 mins
+[32m[0819 01:20:32 @base_main.py:49][0m Time elapsed for [Train Weights] is 0.2815 mins
+[32m[0819 01:20:32 @base_main.py:49][0m Time elapsed for [Assign Weights] is 0.0001 mins
+[32m[0819 01:20:32 @base_main.py:51][0m 135000 total steps have happened
+[32m[0819 01:20:32 @base_main.py:56][0m [avg_reward]: -3.009
+[32m[0819 01:20:32 @base_main.py:56][0m [surr_loss_actor]: -0.00021407182794064283
+[32m[0819 01:20:32 @base_main.py:56][0m [entropy_loss_actor]: -0.019120436161756516
+[32m[0819 01:20:32 @base_main.py:56][0m [vf_loss_actor]: 0.11209174990653992
+[32m[0819 01:20:32 @base_main.py:56][0m [loss_actor]: -0.01933450810611248
+[32m[0819 01:20:32 @base_main.py:56][0m [motivations_0]: 0.0
+[32m[0819 01:20:32 @base_main.py:56][0m [motivations_1]: -0.0010648119385784412
+[32m[0819 01:21:08 @task_sampler.py:88][0m 5000 timesteps from 100 episodes collected
+[32m[0819 01:21:09 @base_trainer.py:168][0m Mean reward: 3.4769999999999963
+[32m[0819 01:21:23 @base_main.py:42][0m --------------- Iteration 28 ---------------
+[32m[0819 01:21:23 @base_main.py:49][0m Time elapsed for [** Program Total Time **] is 23.9075 mins
+[32m[0819 01:21:23 @base_main.py:49][0m Time elapsed for [Generate Rollout] is 0.6087 mins
+[32m[0819 01:21:23 @base_main.py:49][0m Time elapsed for [Train Weights] is 0.2387 mins
+[32m[0819 01:21:23 @base_main.py:49][0m Time elapsed for [Assign Weights] is 0.0001 mins
+[32m[0819 01:21:23 @base_main.py:51][0m 140000 total steps have happened
+[32m[0819 01:21:23 @base_main.py:56][0m [avg_reward]: 3.4769999999999963
+[32m[0819 01:21:23 @base_main.py:56][0m [surr_loss_manager]: 0.009639179334044456
+[32m[0819 01:21:23 @base_main.py:56][0m [entropy_loss_manager]: -0.0026745654176920652
+[32m[0819 01:21:23 @base_main.py:56][0m [vf_loss_manager]: 1.2744756937026978
+[32m[0819 01:21:23 @base_main.py:56][0m [loss_manager]: 0.006964616943150759
+[32m[0819 01:21:23 @base_main.py:56][0m [motivations_0]: 0.0
+[32m[0819 01:21:23 @base_main.py:56][0m [motivations_1]: 0.0003697073160259606
+[32m[0819 01:21:55 @task_sampler.py:88][0m 5000 timesteps from 100 episodes collected
+[32m[0819 01:21:55 @base_trainer.py:168][0m Mean reward: -3.881
+[32m[0819 01:22:11 @base_main.py:42][0m --------------- Iteration 29 ---------------
+[32m[0819 01:22:11 @base_main.py:49][0m Time elapsed for [** Program Total Time **] is 24.7550 mins
+[32m[0819 01:22:11 @base_main.py:49][0m Time elapsed for [Generate Rollout] is 0.5297 mins
+[32m[0819 01:22:11 @base_main.py:49][0m Time elapsed for [Train Weights] is 0.2809 mins
+[32m[0819 01:22:11 @base_main.py:49][0m Time elapsed for [Assign Weights] is 0.0001 mins
+[32m[0819 01:22:11 @base_main.py:51][0m 145000 total steps have happened
+[32m[0819 01:22:11 @base_main.py:56][0m [avg_reward]: -3.881
+[32m[0819 01:22:11 @base_main.py:56][0m [surr_loss_actor]: 0.02658526413142681
+[32m[0819 01:22:11 @base_main.py:56][0m [entropy_loss_actor]: -0.018872246146202087
+[32m[0819 01:22:11 @base_main.py:56][0m [vf_loss_actor]: 0.10361825674772263
+[32m[0819 01:22:11 @base_main.py:56][0m [loss_actor]: 0.007713021244853735
+[32m[0819 01:22:11 @base_main.py:56][0m [motivations_0]: 0.0
+[32m[0819 01:22:11 @base_main.py:56][0m [motivations_1]: 0.004227855628514589
+[32m[0819 01:22:45 @task_sampler.py:88][0m 5000 timesteps from 100 episodes collected
+[32m[0819 01:22:45 @base_trainer.py:168][0m Mean reward: -0.7979999999999996
+[32m[0819 01:22:59 @base_main.py:42][0m --------------- Iteration 30 ---------------
+[32m[0819 01:22:59 @base_main.py:49][0m Time elapsed for [** Program Total Time **] is 25.5658 mins
+[32m[0819 01:22:59 @base_main.py:49][0m Time elapsed for [Generate Rollout] is 0.5555 mins
+[32m[0819 01:22:59 @base_main.py:49][0m Time elapsed for [Train Weights] is 0.2345 mins
+[32m[0819 01:22:59 @base_main.py:49][0m Time elapsed for [Assign Weights] is 0.0002 mins
+[32m[0819 01:22:59 @base_main.py:51][0m 150000 total steps have happened
+[32m[0819 01:22:59 @base_main.py:56][0m [avg_reward]: -0.7979999999999996
+[32m[0819 01:22:59 @base_main.py:56][0m [surr_loss_manager]: 0.019631149247288704
+[32m[0819 01:22:59 @base_main.py:56][0m [entropy_loss_manager]: -0.002652538474649191
+[32m[0819 01:22:59 @base_main.py:56][0m [vf_loss_manager]: 0.3853731155395508
+[32m[0819 01:22:59 @base_main.py:56][0m [loss_manager]: 0.016978612169623375
+[32m[0819 01:22:59 @base_main.py:56][0m [motivations_0]: 0.0
+[32m[0819 01:22:59 @base_main.py:56][0m [motivations_1]: 0.001411266453704684
+[32m[0819 01:23:35 @task_sampler.py:88][0m 5000 timesteps from 100 episodes collected
+[32m[0819 01:23:35 @base_trainer.py:168][0m Mean reward: -1.3019999999999994
+[32m[0819 01:23:50 @base_main.py:42][0m --------------- Iteration 31 ---------------
+[32m[0819 01:23:50 @base_main.py:49][0m Time elapsed for [** Program Total Time **] is 26.3560 mins
+[32m[0819 01:23:50 @base_main.py:49][0m Time elapsed for [Generate Rollout] is 0.6001 mins
+[32m[0819 01:23:50 @base_main.py:49][0m Time elapsed for [Train Weights] is 0.2448 mins
+[32m[0819 01:23:50 @base_main.py:49][0m Time elapsed for [Assign Weights] is 0.0001 mins
+[32m[0819 01:23:50 @base_main.py:51][0m 155000 total steps have happened
+[32m[0819 01:23:50 @base_main.py:56][0m [avg_reward]: -1.3019999999999994
+[32m[0819 01:23:50 @base_main.py:56][0m [surr_loss_actor]: 0.00950524490326643
+[32m[0819 01:23:50 @base_main.py:56][0m [entropy_loss_actor]: -0.01860852912068367
+[32m[0819 01:23:50 @base_main.py:56][0m [vf_loss_actor]: 0.14373469352722168
+[32m[0819 01:23:50 @base_main.py:56][0m [loss_actor]: -0.00910328608006239
+[32m[0819 01:23:50 @base_main.py:56][0m [motivations_0]: 0.0
+[32m[0819 01:23:50 @base_main.py:56][0m [motivations_1]: -0.0009864797100643046
+[32m[0819 01:24:23 @task_sampler.py:88][0m 5000 timesteps from 100 episodes collected
+[32m[0819 01:24:23 @base_trainer.py:168][0m Mean reward: -4.204
+[32m[0819 01:24:38 @base_main.py:42][0m --------------- Iteration 32 ---------------
+[32m[0819 01:24:38 @base_main.py:49][0m Time elapsed for [** Program Total Time **] is 27.2011 mins
+[32m[0819 01:24:38 @base_main.py:49][0m Time elapsed for [Generate Rollout] is 0.5621 mins
+[32m[0819 01:24:38 @base_main.py:49][0m Time elapsed for [Train Weights] is 0.2456 mins
+[32m[0819 01:24:38 @base_main.py:49][0m Time elapsed for [Assign Weights] is 0.0002 mins
+[32m[0819 01:24:38 @base_main.py:51][0m 160000 total steps have happened
+[32m[0819 01:24:38 @base_main.py:56][0m [avg_reward]: -4.204
+[32m[0819 01:24:38 @base_main.py:56][0m [surr_loss_manager]: -0.00951986201107502
+[32m[0819 01:24:38 @base_main.py:56][0m [entropy_loss_manager]: -0.002627808367833495
+[32m[0819 01:24:38 @base_main.py:56][0m [vf_loss_manager]: 0.04700661823153496
+[32m[0819 01:24:38 @base_main.py:56][0m [loss_manager]: -0.012147670611739159
+[32m[0819 01:24:38 @base_main.py:56][0m [motivations_0]: 0.0
+[32m[0819 01:24:38 @base_main.py:56][0m [motivations_1]: 0.0013406855868086495
+[32m[0819 01:25:18 @task_sampler.py:88][0m 5000 timesteps from 100 episodes collected
+[32m[0819 01:25:18 @base_trainer.py:168][0m Mean reward: -3.98
+[32m[0819 01:25:38 @base_main.py:42][0m --------------- Iteration 33 ---------------
+[32m[0819 01:25:38 @base_main.py:49][0m Time elapsed for [** Program Total Time **] is 28.0091 mins
+[32m[0819 01:25:38 @base_main.py:49][0m Time elapsed for [Generate Rollout] is 0.6672 mins
+[32m[0819 01:25:38 @base_main.py:49][0m Time elapsed for [Train Weights] is 0.3330 mins
+[32m[0819 01:25:38 @base_main.py:49][0m Time elapsed for [Assign Weights] is 0.0001 mins
+[32m[0819 01:25:38 @base_main.py:51][0m 165000 total steps have happened
+[32m[0819 01:25:38 @base_main.py:56][0m [avg_reward]: -3.98
+[32m[0819 01:25:38 @base_main.py:56][0m [surr_loss_actor]: -0.01373223029077053
+[32m[0819 01:25:38 @base_main.py:56][0m [entropy_loss_actor]: -0.01841544546186924
+[32m[0819 01:25:38 @base_main.py:56][0m [vf_loss_actor]: 0.22466449439525604
+[32m[0819 01:25:38 @base_main.py:56][0m [loss_actor]: -0.03214767947793007
+[32m[0819 01:25:38 @base_main.py:56][0m [motivations_0]: 0.0
+[32m[0819 01:25:38 @base_main.py:56][0m [motivations_1]: -0.0015474879848933597
+[32m[0819 01:26:08 @task_sampler.py:88][0m 5000 timesteps from 100 episodes collected
+[32m[0819 01:26:08 @base_trainer.py:168][0m Mean reward: 2.5169999999999964
+[32m[0819 01:26:23 @base_main.py:42][0m --------------- Iteration 34 ---------------
+[32m[0819 01:26:23 @base_main.py:49][0m Time elapsed for [** Program Total Time **] is 29.0095 mins
+[32m[0819 01:26:23 @base_main.py:49][0m Time elapsed for [Generate Rollout] is 0.4919 mins
+[32m[0819 01:26:23 @base_main.py:49][0m Time elapsed for [Train Weights] is 0.2532 mins
+[32m[0819 01:26:23 @base_main.py:49][0m Time elapsed for [Assign Weights] is 0.0001 mins
+[32m[0819 01:26:23 @base_main.py:51][0m 170000 total steps have happened
+[32m[0819 01:26:23 @base_main.py:56][0m [avg_reward]: 2.5169999999999964
+[32m[0819 01:26:23 @base_main.py:56][0m [surr_loss_manager]: 0.03823063522577286
+[32m[0819 01:26:23 @base_main.py:56][0m [entropy_loss_manager]: -0.0026025595143437386
+[32m[0819 01:26:23 @base_main.py:56][0m [vf_loss_manager]: 0.7235512733459473
+[32m[0819 01:26:23 @base_main.py:56][0m [loss_manager]: 0.035628072917461395
+[32m[0819 01:26:23 @base_main.py:56][0m [motivations_0]: 0.0
+[32m[0819 01:26:23 @base_main.py:56][0m [motivations_1]: -0.0006177530721099174
+[32m[0819 01:27:02 @task_sampler.py:88][0m 5000 timesteps from 100 episodes collected
+[32m[0819 01:27:02 @base_trainer.py:168][0m Mean reward: 4.553999999999997
+[32m[0819 01:27:17 @base_main.py:42][0m --------------- Iteration 35 ---------------
+[32m[0819 01:27:17 @base_main.py:49][0m Time elapsed for [** Program Total Time **] is 29.7548 mins
+[32m[0819 01:27:17 @base_main.py:49][0m Time elapsed for [Generate Rollout] is 0.6582 mins
+[32m[0819 01:27:17 @base_main.py:49][0m Time elapsed for [Train Weights] is 0.2536 mins
+[32m[0819 01:27:17 @base_main.py:49][0m Time elapsed for [Assign Weights] is 0.0003 mins
+[32m[0819 01:27:17 @base_main.py:51][0m 175000 total steps have happened
+[32m[0819 01:27:17 @base_main.py:56][0m [avg_reward]: 4.553999999999997
+[32m[0819 01:27:17 @base_main.py:56][0m [surr_loss_actor]: 0.003197617596015334
+[32m[0819 01:27:17 @base_main.py:56][0m [entropy_loss_actor]: -0.018215900287032127
+[32m[0819 01:27:17 @base_main.py:56][0m [vf_loss_actor]: 0.13040806353092194
+[32m[0819 01:27:17 @base_main.py:56][0m [loss_actor]: -0.015018281526863575
+[32m[0819 01:27:17 @base_main.py:56][0m [motivations_0]: 0.0
+[32m[0819 01:27:17 @base_main.py:56][0m [motivations_1]: -0.0024700279119742844
+[32m[0819 01:27:54 @task_sampler.py:88][0m 5000 timesteps from 100 episodes collected
+[32m[0819 01:27:55 @base_trainer.py:168][0m Mean reward: -4.1099999999999985
+[32m[0819 01:28:11 @base_main.py:42][0m --------------- Iteration 36 ---------------
+[32m[0819 01:28:11 @base_main.py:49][0m Time elapsed for [** Program Total Time **] is 30.6669 mins
+[32m[0819 01:28:11 @base_main.py:49][0m Time elapsed for [Generate Rollout] is 0.6164 mins
+[32m[0819 01:28:11 @base_main.py:49][0m Time elapsed for [Train Weights] is 0.2816 mins
+[32m[0819 01:28:11 @base_main.py:49][0m Time elapsed for [Assign Weights] is 0.0001 mins
+[32m[0819 01:28:11 @base_main.py:51][0m 180000 total steps have happened
+[32m[0819 01:28:11 @base_main.py:56][0m [avg_reward]: -4.1099999999999985
+[32m[0819 01:28:11 @base_main.py:56][0m [surr_loss_manager]: 0.008594728074967861
+[32m[0819 01:28:11 @base_main.py:56][0m [entropy_loss_manager]: -0.002576370257884264
+[32m[0819 01:28:11 @base_main.py:56][0m [vf_loss_manager]: 0.043000563979148865
+[32m[0819 01:28:11 @base_main.py:56][0m [loss_manager]: 0.006018356885761023
+[32m[0819 01:28:11 @base_main.py:56][0m [motivations_0]: 0.0
+[32m[0819 01:28:11 @base_main.py:56][0m [motivations_1]: -0.0030504416091807797
+[32m[0819 01:28:53 @task_sampler.py:88][0m 5000 timesteps from 100 episodes collected
+[32m[0819 01:28:53 @base_trainer.py:168][0m Mean reward: -3.792
+[32m[0819 01:29:09 @base_main.py:42][0m --------------- Iteration 37 ---------------
+[32m[0819 01:29:09 @base_main.py:49][0m Time elapsed for [** Program Total Time **] is 31.5651 mins
+[32m[0819 01:29:09 @base_main.py:49][0m Time elapsed for [Generate Rollout] is 0.6942 mins
+[32m[0819 01:29:09 @base_main.py:49][0m Time elapsed for [Train Weights] is 0.2619 mins
+[32m[0819 01:29:09 @base_main.py:49][0m Time elapsed for [Assign Weights] is 0.0002 mins
+[32m[0819 01:29:09 @base_main.py:51][0m 185000 total steps have happened
+[32m[0819 01:29:09 @base_main.py:56][0m [avg_reward]: -3.792
+[32m[0819 01:29:09 @base_main.py:56][0m [surr_loss_actor]: -0.03108505718410015
+[32m[0819 01:29:09 @base_main.py:56][0m [entropy_loss_actor]: -0.017990604043006897
+[32m[0819 01:29:09 @base_main.py:56][0m [vf_loss_actor]: 0.1526186764240265
+[32m[0819 01:29:09 @base_main.py:56][0m [loss_actor]: -0.0490756593644619
+[32m[0819 01:29:09 @base_main.py:56][0m [motivations_0]: 0.0
+[32m[0819 01:29:09 @base_main.py:56][0m [motivations_1]: -0.0006085667081335487
+[32m[0819 01:29:58 @task_sampler.py:88][0m 5000 timesteps from 100 episodes collected
+[32m[0819 01:29:58 @base_trainer.py:168][0m Mean reward: -1.4679999999999997
+[32m[0819 01:30:13 @base_main.py:42][0m --------------- Iteration 38 ---------------
+[32m[0819 01:30:13 @base_main.py:49][0m Time elapsed for [** Program Total Time **] is 32.5213 mins
+[32m[0819 01:30:13 @base_main.py:49][0m Time elapsed for [Generate Rollout] is 0.8197 mins
+[32m[0819 01:30:13 @base_main.py:49][0m Time elapsed for [Train Weights] is 0.2507 mins
+[32m[0819 01:30:13 @base_main.py:49][0m Time elapsed for [Assign Weights] is 0.0002 mins
+[32m[0819 01:30:13 @base_main.py:51][0m 190000 total steps have happened
+[32m[0819 01:30:13 @base_main.py:56][0m [avg_reward]: -1.4679999999999997
+[32m[0819 01:30:13 @base_main.py:56][0m [surr_loss_manager]: -0.09183738380670547
+[32m[0819 01:30:13 @base_main.py:56][0m [entropy_loss_manager]: -0.0025482866913080215
+[32m[0819 01:30:13 @base_main.py:56][0m [vf_loss_manager]: 1.922086477279663
+[32m[0819 01:30:13 @base_main.py:56][0m [loss_manager]: -0.09438566863536835
+[32m[0819 01:30:13 @base_main.py:56][0m [motivations_0]: 0.0
+[32m[0819 01:30:13 @base_main.py:56][0m [motivations_1]: 0.0005162702407766574
+[32m[0819 01:30:46 @task_sampler.py:88][0m 5000 timesteps from 100 episodes collected
+[32m[0819 01:30:46 @base_trainer.py:168][0m Mean reward: -3.207
+[32m[0819 01:31:05 @base_main.py:42][0m --------------- Iteration 39 ---------------
+[32m[0819 01:31:05 @base_main.py:49][0m Time elapsed for [** Program Total Time **] is 33.5920 mins
+[32m[0819 01:31:05 @base_main.py:49][0m Time elapsed for [Generate Rollout] is 0.5518 mins
+[32m[0819 01:31:05 @base_main.py:49][0m Time elapsed for [Train Weights] is 0.3078 mins
+[32m[0819 01:31:05 @base_main.py:49][0m Time elapsed for [Assign Weights] is 0.0001 mins
+[32m[0819 01:31:05 @base_main.py:51][0m 195000 total steps have happened
+[32m[0819 01:31:05 @base_main.py:56][0m [avg_reward]: -3.207
+[32m[0819 01:31:05 @base_main.py:56][0m [surr_loss_actor]: 0.03099595569074154
+[32m[0819 01:31:05 @base_main.py:56][0m [entropy_loss_actor]: -0.01778111420571804
+[32m[0819 01:31:05 @base_main.py:56][0m [vf_loss_actor]: 0.11421447992324829
+[32m[0819 01:31:05 @base_main.py:56][0m [loss_actor]: 0.013214840553700924
+[32m[0819 01:31:05 @base_main.py:56][0m [motivations_0]: 0.0
+[32m[0819 01:31:05 @base_main.py:56][0m [motivations_1]: -0.0005010977697077579
+[32m[0819 01:40:32 @task_sampler.py:88][0m 5000 timesteps from 100 episodes collected
+[32m[0819 01:40:32 @base_trainer.py:168][0m Mean reward: -2.9479999999999995
+[32m[0819 01:40:50 @base_main.py:42][0m --------------- Iteration 40 ---------------
+[32m[0819 01:40:50 @base_main.py:49][0m Time elapsed for [** Program Total Time **] is 34.4518 mins
+[32m[0819 01:40:50 @base_main.py:49][0m Time elapsed for [Generate Rollout] is 9.4578 mins
+[32m[0819 01:40:50 @base_main.py:49][0m Time elapsed for [Train Weights] is 0.2920 mins
+[32m[0819 01:40:50 @base_main.py:49][0m Time elapsed for [Assign Weights] is 0.0001 mins
+[32m[0819 01:40:50 @base_main.py:51][0m 200000 total steps have happened
+[32m[0819 01:40:50 @base_main.py:56][0m [avg_reward]: -2.9479999999999995
+[32m[0819 01:40:50 @base_main.py:56][0m [surr_loss_manager]: 0.010871809907257557
+[32m[0819 01:40:50 @base_main.py:56][0m [entropy_loss_manager]: -0.0025189484003931284
+[32m[0819 01:40:50 @base_main.py:56][0m [vf_loss_manager]: 0.11419875919818878
+[32m[0819 01:40:50 @base_main.py:56][0m [loss_manager]: 0.008352861739695072
+[32m[0819 01:40:50 @base_main.py:56][0m [motivations_0]: 0.0
+[32m[0819 01:40:50 @base_main.py:56][0m [motivations_1]: 0.00018494619610210066
+[32m[0819 01:41:21 @task_sampler.py:88][0m 5000 timesteps from 100 episodes collected
+[32m[0819 01:41:21 @base_trainer.py:168][0m Mean reward: -4.215999999999999
+[32m[0819 01:41:43 @base_main.py:42][0m --------------- Iteration 41 ---------------
+[32m[0819 01:41:43 @base_main.py:49][0m Time elapsed for [** Program Total Time **] is 44.2017 mins
+[32m[0819 01:41:43 @base_main.py:49][0m Time elapsed for [Generate Rollout] is 0.5233 mins
+[32m[0819 01:41:43 @base_main.py:49][0m Time elapsed for [Train Weights] is 0.3734 mins
+[32m[0819 01:41:43 @base_main.py:49][0m Time elapsed for [Assign Weights] is 0.0002 mins
+[32m[0819 01:41:43 @base_main.py:51][0m 205000 total steps have happened
+[32m[0819 01:41:43 @base_main.py:56][0m [avg_reward]: -4.215999999999999
+[32m[0819 01:41:43 @base_main.py:56][0m [surr_loss_actor]: 0.02506968006491661
+[32m[0819 01:41:43 @base_main.py:56][0m [entropy_loss_actor]: -0.017499513924121857
+[32m[0819 01:41:43 @base_main.py:56][0m [vf_loss_actor]: 0.20395666360855103
+[32m[0819 01:41:43 @base_main.py:56][0m [loss_actor]: 0.007570169400423765
+[32m[0819 01:41:43 @base_main.py:56][0m [motivations_0]: 0.0
+[32m[0819 01:41:43 @base_main.py:56][0m [motivations_1]: 0.00354317129936444
+[32m[0819 01:42:30 @task_sampler.py:88][0m 5000 timesteps from 100 episodes collected
+[32m[0819 01:42:30 @base_trainer.py:168][0m Mean reward: -3.4219999999999993
+[32m[0819 01:42:48 @base_main.py:42][0m --------------- Iteration 42 ---------------
+[32m[0819 01:42:48 @base_main.py:49][0m Time elapsed for [** Program Total Time **] is 45.0988 mins
+[32m[0819 01:42:48 @base_main.py:49][0m Time elapsed for [Generate Rollout] is 0.7769 mins
+[32m[0819 01:42:48 @base_main.py:49][0m Time elapsed for [Train Weights] is 0.2947 mins
+[32m[0819 01:42:48 @base_main.py:49][0m Time elapsed for [Assign Weights] is 0.0001 mins
+[32m[0819 01:42:48 @base_main.py:51][0m 210000 total steps have happened
+[32m[0819 01:42:48 @base_main.py:56][0m [avg_reward]: -3.4219999999999993
+[32m[0819 01:42:48 @base_main.py:56][0m [surr_loss_manager]: 0.022211570292711258
+[32m[0819 01:42:48 @base_main.py:56][0m [entropy_loss_manager]: -0.002488735830411315
+[32m[0819 01:42:48 @base_main.py:56][0m [vf_loss_manager]: 0.07780996710062027
+[32m[0819 01:42:48 @base_main.py:56][0m [loss_manager]: 0.019722837954759598
+[32m[0819 01:42:48 @base_main.py:56][0m [motivations_0]: 0.0
+[32m[0819 01:42:48 @base_main.py:56][0m [motivations_1]: 0.00042885117467030795
+[32m[0819 01:43:20 @task_sampler.py:88][0m 5000 timesteps from 100 episodes collected
+[32m[0819 01:43:20 @base_trainer.py:168][0m Mean reward: 6.769
+[32m[0819 01:43:33 @base_main.py:42][0m --------------- Iteration 43 ---------------
+[32m[0819 01:43:33 @base_main.py:49][0m Time elapsed for [** Program Total Time **] is 46.1705 mins
+[32m[0819 01:43:33 @base_main.py:49][0m Time elapsed for [Generate Rollout] is 0.5342 mins
+[32m[0819 01:43:33 @base_main.py:49][0m Time elapsed for [Train Weights] is 0.2241 mins
+[32m[0819 01:43:33 @base_main.py:49][0m Time elapsed for [Assign Weights] is 0.0002 mins
+[32m[0819 01:43:33 @base_main.py:51][0m 215000 total steps have happened
+[32m[0819 01:43:33 @base_main.py:56][0m [avg_reward]: 6.769
+[32m[0819 01:43:33 @base_main.py:56][0m [surr_loss_actor]: 0.005357367917895317
+[32m[0819 01:43:33 @base_main.py:56][0m [entropy_loss_actor]: -0.017176108434796333
+[32m[0819 01:43:33 @base_main.py:56][0m [vf_loss_actor]: 0.1765318661928177
+[32m[0819 01:43:33 @base_main.py:56][0m [loss_actor]: -0.011818737722933292
+[32m[0819 01:43:33 @base_main.py:56][0m [motivations_0]: 0.0
+[32m[0819 01:43:33 @base_main.py:56][0m [motivations_1]: -0.00028241562103485196
+[32m[0819 01:44:07 @task_sampler.py:88][0m 5000 timesteps from 100 episodes collected
+[32m[0819 01:44:07 @base_trainer.py:168][0m Mean reward: -3.9720000000000004
+[32m[0819 01:44:23 @base_main.py:42][0m --------------- Iteration 44 ---------------
+[32m[0819 01:44:23 @base_main.py:49][0m Time elapsed for [** Program Total Time **] is 46.9290 mins
+[32m[0819 01:44:23 @base_main.py:49][0m Time elapsed for [Generate Rollout] is 0.5568 mins
+[32m[0819 01:44:23 @base_main.py:49][0m Time elapsed for [Train Weights] is 0.2730 mins
+[32m[0819 01:44:23 @base_main.py:49][0m Time elapsed for [Assign Weights] is 0.0002 mins
+[32m[0819 01:44:23 @base_main.py:51][0m 220000 total steps have happened
+[32m[0819 01:44:23 @base_main.py:56][0m [avg_reward]: -3.9720000000000004
+[32m[0819 01:44:23 @base_main.py:56][0m [surr_loss_manager]: 0.012665919028222561
+[32m[0819 01:44:23 @base_main.py:56][0m [entropy_loss_manager]: -0.002456976566463709
+[32m[0819 01:44:23 @base_main.py:56][0m [vf_loss_manager]: 0.035546302795410156
+[32m[0819 01:44:23 @base_main.py:56][0m [loss_manager]: 0.010208943858742714
+[32m[0819 01:44:23 @base_main.py:56][0m [motivations_0]: 0.0
+[32m[0819 01:44:23 @base_main.py:56][0m [motivations_1]: 0.0009118625405768398
+[32m[0819 01:44:55 @task_sampler.py:88][0m 5000 timesteps from 100 episodes collected
+[32m[0819 01:44:55 @base_trainer.py:168][0m Mean reward: -4.107
+[32m[0819 01:45:12 @base_main.py:42][0m --------------- Iteration 45 ---------------
+[32m[0819 01:45:12 @base_main.py:49][0m Time elapsed for [** Program Total Time **] is 47.7591 mins
+[32m[0819 01:45:12 @base_main.py:49][0m Time elapsed for [Generate Rollout] is 0.5380 mins
+[32m[0819 01:45:12 @base_main.py:49][0m Time elapsed for [Train Weights] is 0.2699 mins
+[32m[0819 01:45:12 @base_main.py:49][0m Time elapsed for [Assign Weights] is 0.0001 mins
+[32m[0819 01:45:12 @base_main.py:51][0m 225000 total steps have happened
+[32m[0819 01:45:12 @base_main.py:56][0m [avg_reward]: -4.107
+[32m[0819 01:45:12 @base_main.py:56][0m [surr_loss_actor]: -0.025531379505991936
+[32m[0819 01:45:12 @base_main.py:56][0m [entropy_loss_actor]: -0.01695980690419674
+[32m[0819 01:45:12 @base_main.py:56][0m [vf_loss_actor]: 0.10256405174732208
+[32m[0819 01:45:12 @base_main.py:56][0m [loss_actor]: -0.042491186410188675
+[32m[0819 01:45:12 @base_main.py:56][0m [motivations_0]: 0.0
+[32m[0819 01:45:12 @base_main.py:56][0m [motivations_1]: 4.522954615895287e-05
+[32m[0819 01:45:38 @task_sampler.py:88][0m 5000 timesteps from 100 episodes collected
+[32m[0819 01:45:38 @base_trainer.py:168][0m Mean reward: -4.113999999999999
+[32m[0819 01:45:53 @base_main.py:42][0m --------------- Iteration 46 ---------------
+[32m[0819 01:45:53 @base_main.py:49][0m Time elapsed for [** Program Total Time **] is 48.5672 mins
+[32m[0819 01:45:53 @base_main.py:49][0m Time elapsed for [Generate Rollout] is 0.4358 mins
+[32m[0819 01:45:53 @base_main.py:49][0m Time elapsed for [Train Weights] is 0.2495 mins
+[32m[0819 01:45:53 @base_main.py:49][0m Time elapsed for [Assign Weights] is 0.0001 mins
+[32m[0819 01:45:53 @base_main.py:51][0m 230000 total steps have happened
+[32m[0819 01:45:53 @base_main.py:56][0m [avg_reward]: -4.113999999999999
+[32m[0819 01:45:53 @base_main.py:56][0m [surr_loss_manager]: 0.019767511636018753
+[32m[0819 01:45:53 @base_main.py:56][0m [entropy_loss_manager]: -0.0024237800389528275
+[32m[0819 01:45:53 @base_main.py:56][0m [vf_loss_manager]: 0.03878822922706604
+[32m[0819 01:45:53 @base_main.py:56][0m [loss_manager]: 0.017343727871775627
+[32m[0819 01:45:53 @base_main.py:56][0m [motivations_0]: 0.0
+[32m[0819 01:45:53 @base_main.py:56][0m [motivations_1]: 0.003819810690534359
+[32m[0819 01:46:21 @task_sampler.py:88][0m 5000 timesteps from 100 episodes collected
+[32m[0819 01:46:21 @base_trainer.py:168][0m Mean reward: -4.165
+[32m[0819 01:46:35 @base_main.py:42][0m --------------- Iteration 47 ---------------
+[32m[0819 01:46:35 @base_main.py:49][0m Time elapsed for [** Program Total Time **] is 49.2526 mins
+[32m[0819 01:46:35 @base_main.py:49][0m Time elapsed for [Generate Rollout] is 0.4653 mins
+[32m[0819 01:46:35 @base_main.py:49][0m Time elapsed for [Train Weights] is 0.2437 mins
+[32m[0819 01:46:35 @base_main.py:49][0m Time elapsed for [Assign Weights] is 0.0001 mins
+[32m[0819 01:46:35 @base_main.py:51][0m 235000 total steps have happened
+[32m[0819 01:46:35 @base_main.py:56][0m [avg_reward]: -4.165
+[32m[0819 01:46:35 @base_main.py:56][0m [surr_loss_actor]: -0.019628075882792473
+[32m[0819 01:46:35 @base_main.py:56][0m [entropy_loss_actor]: -0.016679560765624046
+[32m[0819 01:46:35 @base_main.py:56][0m [vf_loss_actor]: 0.08892000466585159
+[32m[0819 01:46:35 @base_main.py:56][0m [loss_actor]: -0.03630763664841652
+[32m[0819 01:46:35 @base_main.py:56][0m [motivations_0]: 0.0
+[32m[0819 01:46:35 @base_main.py:56][0m [motivations_1]: -0.0004280446296939772
+[32m[0819 01:47:10 @task_sampler.py:88][0m 5000 timesteps from 100 episodes collected
+[32m[0819 01:47:10 @base_trainer.py:168][0m Mean reward: -3.9640000000000004
+[32m[0819 01:47:28 @base_main.py:42][0m --------------- Iteration 48 ---------------
+[32m[0819 01:47:28 @base_main.py:49][0m Time elapsed for [** Program Total Time **] is 49.9618 mins
+[32m[0819 01:47:28 @base_main.py:49][0m Time elapsed for [Generate Rollout] is 0.5748 mins
+[32m[0819 01:47:28 @base_main.py:49][0m Time elapsed for [Train Weights] is 0.3063 mins
+[32m[0819 01:47:28 @base_main.py:49][0m Time elapsed for [Assign Weights] is 0.0002 mins
+[32m[0819 01:47:28 @base_main.py:51][0m 240000 total steps have happened
+[32m[0819 01:47:28 @base_main.py:56][0m [avg_reward]: -3.9640000000000004
+[32m[0819 01:47:28 @base_main.py:56][0m [surr_loss_manager]: -0.016302231699228287
+[32m[0819 01:47:28 @base_main.py:56][0m [entropy_loss_manager]: -0.002390101086348295
+[32m[0819 01:47:28 @base_main.py:56][0m [vf_loss_manager]: 0.0470113568007946
+[32m[0819 01:47:28 @base_main.py:56][0m [loss_manager]: -0.01869233511388302
+[32m[0819 01:47:28 @base_main.py:56][0m [motivations_0]: 0.0
+[32m[0819 01:47:28 @base_main.py:56][0m [motivations_1]: -0.00503767987618412
+[32m[0819 01:47:58 @task_sampler.py:88][0m 5000 timesteps from 100 episodes collected
+[32m[0819 01:47:58 @base_trainer.py:168][0m Mean reward: -4.0089999999999995
+[32m[0819 01:48:13 @base_main.py:42][0m --------------- Iteration 49 ---------------
+[32m[0819 01:48:13 @base_main.py:49][0m Time elapsed for [** Program Total Time **] is 50.8432 mins
+[32m[0819 01:48:13 @base_main.py:49][0m Time elapsed for [Generate Rollout] is 0.5015 mins
+[32m[0819 01:48:13 @base_main.py:49][0m Time elapsed for [Train Weights] is 0.2539 mins
+[32m[0819 01:48:13 @base_main.py:49][0m Time elapsed for [Assign Weights] is 0.0002 mins
+[32m[0819 01:48:13 @base_main.py:51][0m 245000 total steps have happened
+[32m[0819 01:48:13 @base_main.py:56][0m [avg_reward]: -4.0089999999999995
+[32m[0819 01:48:13 @base_main.py:56][0m [surr_loss_actor]: -0.03521097078919411
+[32m[0819 01:48:13 @base_main.py:56][0m [entropy_loss_actor]: -0.016430838033556938
+[32m[0819 01:48:13 @base_main.py:56][0m [vf_loss_actor]: 0.2881332337856293
+[32m[0819 01:48:13 @base_main.py:56][0m [loss_actor]: -0.051641806960105896
+[32m[0819 01:48:13 @base_main.py:56][0m [motivations_0]: 0.0
+[32m[0819 01:48:13 @base_main.py:56][0m [motivations_1]: -0.0007963167181852441
+[32m[0819 01:48:51 @task_sampler.py:88][0m 5000 timesteps from 100 episodes collected
+[32m[0819 01:48:51 @base_trainer.py:168][0m Mean reward: -4.086
+[32m[0819 01:49:10 @base_main.py:42][0m --------------- Iteration 50 ---------------
+[32m[0819 01:49:10 @base_main.py:49][0m Time elapsed for [** Program Total Time **] is 51.5989 mins
+[32m[0819 01:49:10 @base_main.py:49][0m Time elapsed for [Generate Rollout] is 0.6199 mins
+[32m[0819 01:49:10 @base_main.py:49][0m Time elapsed for [Train Weights] is 0.3301 mins
+[32m[0819 01:49:10 @base_main.py:49][0m Time elapsed for [Assign Weights] is 0.0002 mins
+[32m[0819 01:49:10 @base_main.py:51][0m 250000 total steps have happened
+[32m[0819 01:49:10 @base_main.py:56][0m [avg_reward]: -4.086
+[32m[0819 01:49:10 @base_main.py:56][0m [surr_loss_manager]: 0.011853348463773727
+[32m[0819 01:49:10 @base_main.py:56][0m [entropy_loss_manager]: -0.002356270793825388
+[32m[0819 01:49:10 @base_main.py:56][0m [vf_loss_manager]: 0.03712378442287445
+[32m[0819 01:49:10 @base_main.py:56][0m [loss_manager]: 0.009497078135609627
+[32m[0819 01:49:10 @base_main.py:56][0m [motivations_0]: 0.0
+[32m[0819 01:49:10 @base_main.py:56][0m [motivations_1]: -0.0006687989655838465
+[32m[0819 01:49:48 @task_sampler.py:88][0m 5000 timesteps from 100 episodes collected
+[32m[0819 01:49:48 @base_trainer.py:168][0m Mean reward: -3.9419999999999993
+[32m[0819 01:50:07 @base_main.py:42][0m --------------- Iteration 51 ---------------
+[32m[0819 01:50:07 @base_main.py:49][0m Time elapsed for [** Program Total Time **] is 52.5491 mins
+[32m[0819 01:50:07 @base_main.py:49][0m Time elapsed for [Generate Rollout] is 0.6305 mins
+[32m[0819 01:50:07 @base_main.py:49][0m Time elapsed for [Train Weights] is 0.3202 mins
+[32m[0819 01:50:07 @base_main.py:49][0m Time elapsed for [Assign Weights] is 0.0001 mins
+[32m[0819 01:50:07 @base_main.py:51][0m 255000 total steps have happened
+[32m[0819 01:50:07 @base_main.py:56][0m [avg_reward]: -3.9419999999999993
+[32m[0819 01:50:07 @base_main.py:56][0m [surr_loss_actor]: 0.007491924799978733
+[32m[0819 01:50:07 @base_main.py:56][0m [entropy_loss_actor]: -0.016171470284461975
+[32m[0819 01:50:07 @base_main.py:56][0m [vf_loss_actor]: 0.11122927069664001
+[32m[0819 01:50:07 @base_main.py:56][0m [loss_actor]: -0.008679544553160667
+[32m[0819 01:50:07 @base_main.py:56][0m [motivations_0]: 0.0
+[32m[0819 01:50:07 @base_main.py:56][0m [motivations_1]: -0.0024711591835884974
+[32m[0819 01:50:41 @task_sampler.py:88][0m 5000 timesteps from 100 episodes collected
+[32m[0819 01:50:41 @base_trainer.py:168][0m Mean reward: -4.254
+[32m[0819 01:50:56 @base_main.py:42][0m --------------- Iteration 52 ---------------
+[32m[0819 01:50:56 @base_main.py:49][0m Time elapsed for [** Program Total Time **] is 53.5000 mins
+[32m[0819 01:50:56 @base_main.py:49][0m Time elapsed for [Generate Rollout] is 0.5510 mins
+[32m[0819 01:50:56 @base_main.py:49][0m Time elapsed for [Train Weights] is 0.2650 mins
+[32m[0819 01:50:56 @base_main.py:49][0m Time elapsed for [Assign Weights] is 0.0001 mins
+[32m[0819 01:50:56 @base_main.py:51][0m 260000 total steps have happened
+[32m[0819 01:50:56 @base_main.py:56][0m [avg_reward]: -4.254
+[32m[0819 01:50:56 @base_main.py:56][0m [surr_loss_manager]: -0.009320104494690895
+[32m[0819 01:50:56 @base_main.py:56][0m [entropy_loss_manager]: -0.0023209850769490004
+[32m[0819 01:50:56 @base_main.py:56][0m [vf_loss_manager]: 0.02909485064446926
+[32m[0819 01:50:56 @base_main.py:56][0m [loss_manager]: -0.011641088873147964
+[32m[0819 01:50:56 @base_main.py:56][0m [motivations_0]: 0.0
+[32m[0819 01:50:56 @base_main.py:56][0m [motivations_1]: -0.00023607220306708782
+[32m[0819 01:51:37 @task_sampler.py:88][0m 5000 timesteps from 100 episodes collected
+[32m[0819 01:51:37 @base_trainer.py:168][0m Mean reward: 4.037999999999995
+[32m[0819 01:51:53 @base_main.py:42][0m --------------- Iteration 53 ---------------
+[32m[0819 01:51:53 @base_main.py:49][0m Time elapsed for [** Program Total Time **] is 54.3161 mins
+[32m[0819 01:51:53 @base_main.py:49][0m Time elapsed for [Generate Rollout] is 0.6799 mins
+[32m[0819 01:51:53 @base_main.py:49][0m Time elapsed for [Train Weights] is 0.2679 mins
+[32m[0819 01:51:53 @base_main.py:49][0m Time elapsed for [Assign Weights] is 0.0001 mins
+[32m[0819 01:51:53 @base_main.py:51][0m 265000 total steps have happened
+[32m[0819 01:51:53 @base_main.py:56][0m [avg_reward]: 4.037999999999995
+[32m[0819 01:51:53 @base_main.py:56][0m [surr_loss_actor]: 0.021839842200279236
+[32m[0819 01:51:53 @base_main.py:56][0m [entropy_loss_actor]: -0.015873387455940247
+[32m[0819 01:51:53 @base_main.py:56][0m [vf_loss_actor]: 0.0393863283097744
+[32m[0819 01:51:53 @base_main.py:56][0m [loss_actor]: 0.005966454744338989
+[32m[0819 01:51:53 @base_main.py:56][0m [motivations_0]: 0.0
+[32m[0819 01:51:53 @base_main.py:56][0m [motivations_1]: -0.006441088073637911
+[32m[0819 01:52:34 @task_sampler.py:88][0m 5000 timesteps from 100 episodes collected
+[32m[0819 01:52:34 @base_trainer.py:168][0m Mean reward: -4.1
+[32m[0819 01:52:49 @base_main.py:42][0m --------------- Iteration 54 ---------------
+[32m[0819 01:52:49 @base_main.py:49][0m Time elapsed for [** Program Total Time **] is 55.2641 mins
+[32m[0819 01:52:49 @base_main.py:49][0m Time elapsed for [Generate Rollout] is 0.6739 mins
+[32m[0819 01:52:49 @base_main.py:49][0m Time elapsed for [Train Weights] is 0.2621 mins
+[32m[0819 01:52:49 @base_main.py:49][0m Time elapsed for [Assign Weights] is 0.0002 mins
+[32m[0819 01:52:49 @base_main.py:51][0m 270000 total steps have happened
+[32m[0819 01:52:49 @base_main.py:56][0m [avg_reward]: -4.1
+[32m[0819 01:52:49 @base_main.py:56][0m [surr_loss_manager]: 0.04240667447447777
+[32m[0819 01:52:49 @base_main.py:56][0m [entropy_loss_manager]: -0.002284707734361291
+[32m[0819 01:52:49 @base_main.py:56][0m [vf_loss_manager]: 0.031416285783052444
+[32m[0819 01:52:49 @base_main.py:56][0m [loss_manager]: 0.04012196138501167
+[32m[0819 01:52:49 @base_main.py:56][0m [motivations_0]: 0.0
+[32m[0819 01:52:49 @base_main.py:56][0m [motivations_1]: 0.00011465325791405122
+[32m[0819 01:53:23 @task_sampler.py:88][0m 5000 timesteps from 100 episodes collected
+[32m[0819 01:53:23 @base_trainer.py:168][0m Mean reward: -4.045999999999999
+[32m[0819 01:53:41 @base_main.py:42][0m --------------- Iteration 55 ---------------
+[32m[0819 01:53:41 @base_main.py:49][0m Time elapsed for [** Program Total Time **] is 56.2004 mins
+[32m[0819 01:53:41 @base_main.py:49][0m Time elapsed for [Generate Rollout] is 0.5510 mins
+[32m[0819 01:53:41 @base_main.py:49][0m Time elapsed for [Train Weights] is 0.3040 mins
+[32m[0819 01:53:41 @base_main.py:49][0m Time elapsed for [Assign Weights] is 0.0002 mins
+[32m[0819 01:53:41 @base_main.py:51][0m 275000 total steps have happened
+[32m[0819 01:53:41 @base_main.py:56][0m [avg_reward]: -4.045999999999999
+[32m[0819 01:53:41 @base_main.py:56][0m [surr_loss_actor]: 0.019204048439860344
+[32m[0819 01:53:41 @base_main.py:56][0m [entropy_loss_actor]: -0.015616550110280514
+[32m[0819 01:53:41 @base_main.py:56][0m [vf_loss_actor]: 0.05906641110777855
+[32m[0819 01:53:41 @base_main.py:56][0m [loss_actor]: 0.003587495069950819
+[32m[0819 01:53:41 @base_main.py:56][0m [motivations_0]: 0.0
+[32m[0819 01:53:41 @base_main.py:56][0m [motivations_1]: 0.0017417934034870996
+[32m[0819 01:54:20 @task_sampler.py:88][0m 5000 timesteps from 100 episodes collected
+[32m[0819 01:54:20 @base_trainer.py:168][0m Mean reward: -4.162999999999999
+[32m[0819 01:54:34 @base_main.py:42][0m --------------- Iteration 56 ---------------
+[32m[0819 01:54:34 @base_main.py:49][0m Time elapsed for [** Program Total Time **] is 57.0556 mins
+[32m[0819 01:54:34 @base_main.py:49][0m Time elapsed for [Generate Rollout] is 0.6592 mins
+[32m[0819 01:54:34 @base_main.py:49][0m Time elapsed for [Train Weights] is 0.2331 mins
+[32m[0819 01:54:34 @base_main.py:49][0m Time elapsed for [Assign Weights] is 0.0001 mins
+[32m[0819 01:54:34 @base_main.py:51][0m 280000 total steps have happened
+[32m[0819 01:54:34 @base_main.py:56][0m [avg_reward]: -4.162999999999999
+[32m[0819 01:54:34 @base_main.py:56][0m [surr_loss_manager]: 0.021308522671461105
+[32m[0819 01:54:34 @base_main.py:56][0m [entropy_loss_manager]: -0.0022475034929811954
+[32m[0819 01:54:34 @base_main.py:56][0m [vf_loss_manager]: 0.04005448892712593
+[32m[0819 01:54:34 @base_main.py:56][0m [loss_manager]: 0.019061019644141197
+[32m[0819 01:54:34 @base_main.py:56][0m [motivations_0]: 0.0
+[32m[0819 01:54:34 @base_main.py:56][0m [motivations_1]: -0.005888650333162786
+[32m[0819 01:55:14 @task_sampler.py:88][0m 5000 timesteps from 100 episodes collected
+[32m[0819 01:55:14 @base_trainer.py:168][0m Mean reward: -2.844
+[32m[0819 01:55:35 @base_main.py:42][0m --------------- Iteration 57 ---------------
+[32m[0819 01:55:35 @base_main.py:49][0m Time elapsed for [** Program Total Time **] is 57.9480 mins
+[32m[0819 01:55:35 @base_main.py:49][0m Time elapsed for [Generate Rollout] is 0.6639 mins
+[32m[0819 01:55:35 @base_main.py:49][0m Time elapsed for [Train Weights] is 0.3404 mins
+[32m[0819 01:55:35 @base_main.py:49][0m Time elapsed for [Assign Weights] is 0.0001 mins
+[32m[0819 01:55:35 @base_main.py:51][0m 285000 total steps have happened
+[32m[0819 01:55:35 @base_main.py:56][0m [avg_reward]: -2.844
+[32m[0819 01:55:35 @base_main.py:56][0m [surr_loss_actor]: -0.026823244988918304
+[32m[0819 01:55:35 @base_main.py:56][0m [entropy_loss_actor]: -0.015352028422057629
+[32m[0819 01:55:35 @base_main.py:56][0m [vf_loss_actor]: 0.062257375568151474
+[32m[0819 01:55:35 @base_main.py:56][0m [loss_actor]: -0.04217527061700821
+[32m[0819 01:55:35 @base_main.py:56][0m [motivations_0]: 0.0
+[32m[0819 01:55:35 @base_main.py:56][0m [motivations_1]: 0.0015625892315021702
+[32m[0819 01:56:15 @task_sampler.py:88][0m 5000 timesteps from 100 episodes collected
+[32m[0819 01:56:15 @base_trainer.py:168][0m Mean reward: 19.892999999999986
+[32m[0819 01:56:30 @base_main.py:42][0m --------------- Iteration 58 ---------------
+[32m[0819 01:56:30 @base_main.py:49][0m Time elapsed for [** Program Total Time **] is 58.9526 mins
+[32m[0819 01:56:30 @base_main.py:49][0m Time elapsed for [Generate Rollout] is 0.6676 mins
+[32m[0819 01:56:30 @base_main.py:49][0m Time elapsed for [Train Weights] is 0.2562 mins
+[32m[0819 01:56:30 @base_main.py:49][0m Time elapsed for [Assign Weights] is 0.0002 mins
+[32m[0819 01:56:30 @base_main.py:51][0m 290000 total steps have happened
+[32m[0819 01:56:30 @base_main.py:56][0m [avg_reward]: 19.892999999999986
+[32m[0819 01:56:30 @base_main.py:56][0m [surr_loss_manager]: -0.013528033159673214
+[32m[0819 01:56:30 @base_main.py:56][0m [entropy_loss_manager]: -0.0022092938888818026
+[32m[0819 01:56:30 @base_main.py:56][0m [vf_loss_manager]: 10.14600944519043
+[32m[0819 01:56:30 @base_main.py:56][0m [loss_manager]: -0.015737326815724373
+[32m[0819 01:56:30 @base_main.py:56][0m [motivations_0]: 0.0
+[32m[0819 01:56:30 @base_main.py:56][0m [motivations_1]: -0.0016091696876894275
+[32m[0819 01:57:19 @task_sampler.py:88][0m 5000 timesteps from 100 episodes collected
+[32m[0819 01:57:19 @base_trainer.py:168][0m Mean reward: -1.4829999999999999
+[32m[0819 01:57:35 @base_main.py:42][0m --------------- Iteration 59 ---------------
+[32m[0819 01:57:35 @base_main.py:49][0m Time elapsed for [** Program Total Time **] is 59.8767 mins
+[32m[0819 01:57:35 @base_main.py:49][0m Time elapsed for [Generate Rollout] is 0.8110 mins
+[32m[0819 01:57:35 @base_main.py:49][0m Time elapsed for [Train Weights] is 0.2630 mins
+[32m[0819 01:57:35 @base_main.py:49][0m Time elapsed for [Assign Weights] is 0.0002 mins
+[32m[0819 01:57:35 @base_main.py:51][0m 295000 total steps have happened
+[32m[0819 01:57:35 @base_main.py:56][0m [avg_reward]: -1.4829999999999999
+[32m[0819 01:57:35 @base_main.py:56][0m [surr_loss_actor]: 0.01053373422473669
+[32m[0819 01:57:35 @base_main.py:56][0m [entropy_loss_actor]: -0.015048711560666561
+[32m[0819 01:57:35 @base_main.py:56][0m [vf_loss_actor]: 0.08336731046438217
+[32m[0819 01:57:35 @base_main.py:56][0m [loss_actor]: -0.004514976404607296
+[32m[0819 01:57:35 @base_main.py:56][0m [motivations_0]: 0.0
+[32m[0819 01:57:35 @base_main.py:56][0m [motivations_1]: -0.005189113916238057
+[32m[0819 10:00:50 @task_sampler.py:88][0m 5000 timesteps from 100 episodes collected
+[32m[0819 10:00:50 @base_trainer.py:168][0m Mean reward: -3.533
+[32m[0819 10:01:06 @base_main.py:42][0m --------------- Iteration 60 ---------------
+[32m[0819 10:01:06 @base_main.py:49][0m Time elapsed for [** Program Total Time **] is 60.9509 mins
+[32m[0819 10:01:06 @base_main.py:49][0m Time elapsed for [Generate Rollout] is 483.2590 mins
+[32m[0819 10:01:06 @base_main.py:49][0m Time elapsed for [Train Weights] is 0.2674 mins
+[32m[0819 10:01:06 @base_main.py:49][0m Time elapsed for [Assign Weights] is 0.0002 mins
+[32m[0819 10:01:06 @base_main.py:51][0m 300000 total steps have happened
+[32m[0819 10:01:06 @base_main.py:56][0m [avg_reward]: -3.533
+[32m[0819 10:01:06 @base_main.py:56][0m [surr_loss_manager]: 0.024488210678100586
+[32m[0819 10:01:06 @base_main.py:56][0m [entropy_loss_manager]: -0.0021706779953092337
+[32m[0819 10:01:06 @base_main.py:56][0m [vf_loss_manager]: 0.06460210680961609
+[32m[0819 10:01:06 @base_main.py:56][0m [loss_manager]: 0.02231752872467041
+[32m[0819 10:01:06 @base_main.py:56][0m [motivations_0]: 0.0
+[32m[0819 10:01:06 @base_main.py:56][0m [motivations_1]: -0.005463534673330833
+[32m[0819 10:01:32 @task_sampler.py:88][0m 5000 timesteps from 100 episodes collected
+[32m[0819 10:01:33 @base_trainer.py:168][0m Mean reward: -4.144999999999999
+[32m[0819 10:01:47 @base_main.py:42][0m --------------- Iteration 61 ---------------
+[32m[0819 10:01:47 @base_main.py:49][0m Time elapsed for [** Program Total Time **] is 544.4776 mins
+[32m[0819 10:01:47 @base_main.py:49][0m Time elapsed for [Generate Rollout] is 0.4393 mins
+[32m[0819 10:01:47 @base_main.py:49][0m Time elapsed for [Train Weights] is 0.2441 mins
+[32m[0819 10:01:47 @base_main.py:49][0m Time elapsed for [Assign Weights] is 0.0001 mins
+[32m[0819 10:01:47 @base_main.py:51][0m 305000 total steps have happened
+[32m[0819 10:01:47 @base_main.py:56][0m [avg_reward]: -4.144999999999999
+[32m[0819 10:01:47 @base_main.py:56][0m [surr_loss_actor]: -0.029015498235821724
+[32m[0819 10:01:47 @base_main.py:56][0m [entropy_loss_actor]: -0.014736010693013668
+[32m[0819 10:01:47 @base_main.py:56][0m [vf_loss_actor]: 0.1322440654039383
+[32m[0819 10:01:47 @base_main.py:56][0m [loss_actor]: -0.043751511722803116
+[32m[0819 10:01:47 @base_main.py:56][0m [motivations_0]: 0.0
+[32m[0819 10:01:47 @base_main.py:56][0m [motivations_1]: -0.00030457562270421476
+[32m[0819 10:02:20 @task_sampler.py:88][0m 5000 timesteps from 100 episodes collected
+[32m[0819 10:02:20 @base_trainer.py:168][0m Mean reward: 6.174999999999996
+[32m[0819 10:02:35 @base_main.py:42][0m --------------- Iteration 62 ---------------
+[32m[0819 10:02:35 @base_main.py:49][0m Time elapsed for [** Program Total Time **] is 545.1611 mins
+[32m[0819 10:02:35 @base_main.py:49][0m Time elapsed for [Generate Rollout] is 0.5497 mins
+[32m[0819 10:02:35 @base_main.py:49][0m Time elapsed for [Train Weights] is 0.2548 mins
+[32m[0819 10:02:35 @base_main.py:49][0m Time elapsed for [Assign Weights] is 0.0001 mins
+[32m[0819 10:02:35 @base_main.py:51][0m 310000 total steps have happened
+[32m[0819 10:02:35 @base_main.py:56][0m [avg_reward]: 6.174999999999996
+[32m[0819 10:02:35 @base_main.py:56][0m [surr_loss_manager]: 0.05357535183429718
+[32m[0819 10:02:35 @base_main.py:56][0m [entropy_loss_manager]: -0.002131456509232521
+[32m[0819 10:02:35 @base_main.py:56][0m [vf_loss_manager]: 1.0751324892044067
+[32m[0819 10:02:35 @base_main.py:56][0m [loss_manager]: 0.05144390091300011
+[32m[0819 10:02:35 @base_main.py:56][0m [motivations_0]: 0.0
+[32m[0819 10:02:35 @base_main.py:56][0m [motivations_1]: -0.0003238069325998367
+[32m[0819 10:03:13 @task_sampler.py:88][0m 5000 timesteps from 100 episodes collected
+[32m[0819 10:03:13 @base_trainer.py:168][0m Mean reward: -3.249999999999998
+[32m[0819 10:03:34 @base_main.py:42][0m --------------- Iteration 63 ---------------
+[32m[0819 10:03:34 @base_main.py:49][0m Time elapsed for [** Program Total Time **] is 545.9658 mins
+[32m[0819 10:03:34 @base_main.py:49][0m Time elapsed for [Generate Rollout] is 0.6247 mins
+[32m[0819 10:03:34 @base_main.py:49][0m Time elapsed for [Train Weights] is 0.3534 mins
+[32m[0819 10:03:34 @base_main.py:49][0m Time elapsed for [Assign Weights] is 0.0002 mins
+[32m[0819 10:03:34 @base_main.py:51][0m 315000 total steps have happened
+[32m[0819 10:03:34 @base_main.py:56][0m [avg_reward]: -3.249999999999998
+[32m[0819 10:03:34 @base_main.py:56][0m [surr_loss_actor]: 0.018189163878560066
+[32m[0819 10:03:34 @base_main.py:56][0m [entropy_loss_actor]: -0.014463348314166069
+[32m[0819 10:03:34 @base_main.py:56][0m [vf_loss_actor]: 0.12941183149814606
+[32m[0819 10:03:34 @base_main.py:56][0m [loss_actor]: 0.003725815797224641
+[32m[0819 10:03:34 @base_main.py:56][0m [motivations_0]: 0.0
+[32m[0819 10:03:34 @base_main.py:56][0m [motivations_1]: -0.0048922150550145945

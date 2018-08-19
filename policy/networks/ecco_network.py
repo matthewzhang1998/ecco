@@ -181,11 +181,13 @@ class network(base_network.base_network):
             tf.constant([self._input_state_size])], axis=0)
         )
             
-        self._tensor['goal_input'] = tf.reshape(
-            self._input_tensor['goal_input'][:,:self._input_goal_size],
-            tf.concat([tf.constant([-1], dtype=tf.int32),
-            [self._batch_dimension],
-            tf.constant([self._input_goal_size])], axis=0)
+        self._tensor['goal_input'] = tf.stop_gradient(
+            tf.reshape(
+                self._input_tensor['goal_input'][:,:self._input_goal_size],
+                tf.concat([tf.constant([-1], dtype=tf.int32),
+                [self._batch_dimension],
+                tf.constant([self._input_goal_size])], axis=0)
+            )
         )
             
         if self._is_manager:
