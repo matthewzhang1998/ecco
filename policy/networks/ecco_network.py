@@ -47,14 +47,18 @@ class network(base_network.base_network):
         
         # Build goal embedding layer
         if self.args.embed_goal_type == 'linear':
+            self._embed_goal_size = self._embed_state_size
+            
             goal_embedding_size = \
                 [self._input_goal_size] + \
                 [self._embed_state_size]
         
         elif self.args.embed_goal_type == 'matrix':
+            self._embed_goal_size = self.args.embed_goal_size
+            
             goal_embedding_size = \
                 [self._input_goal_size] + \
-                [self._embed_state_size *
+                [self._embed_goal_size *
                  self._embed_state_size]
                 
         else:
@@ -73,7 +77,7 @@ class network(base_network.base_network):
             train=True, init_data = init_data
         )
         
-        joint_embedding_size = [self._embed_state_size] + \
+        joint_embedding_size = [self._embed_goal_size] + \
             [self.args.joint_embed_dimension]
         
         act_type = [self.args.joint_embed_act_type]
@@ -227,11 +231,12 @@ class network(base_network.base_network):
                 tf.reshape(self._tensor['embed_goal'],
                    tf.concat([tf.constant([-1], dtype=tf.int32),
                    [self._batch_dimension],
-                   tf.constant([self._embed_state_size,
-                                self._embed_state_size])]), axis=0)
+                   tf.constant([self._embed_goal_size,
+                        self._embed_state_size])], axis=0)
+                )
             
             self._tensor['mixture_joint'] = \
-                tf.einsum('ijkl,ijk->ijl', self._tensor['embed_goal'],
+                tf.einsum('ijkl,ijl->ijk', self._tensor['embed_goal'],
                           self._tensor['embed_state'])
                 
         if self.args.use_recurrent:

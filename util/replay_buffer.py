@@ -122,7 +122,7 @@ class prioritized_replay_buffer(replay_buffer):
         num_new_data = len(new_data['start_state'])
         
         new_data['priority'] = np.mean(
-            np.abs(new_data['advantage']) * \
+            np.abs(new_data['rewards']) * \
             np.exp(-new_data['log_oldp_n'][:,:-1]),
             axis=-1
         )

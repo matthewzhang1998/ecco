@@ -27,22 +27,22 @@ def get_base_config():
     parser.add_argument("--batch_size", type=int, default=1000,
                         help='number of steps in the rollout')
     parser.add_argument("--max_timesteps", type=int, default=1e7)
-    parser.add_argument("--num_minibatches", type=int, default=5)
+    parser.add_argument("--num_minibatches", type=int, default=10)
     parser.add_argument("--num_workers", type=int, default=1)
     
     parser.add_argument("--use_replay_buffer", type=int, default=1)
-    parser.add_argument("--replay_buffer_size", type=int, default=1000)
+    parser.add_argument("--replay_buffer_size", type=int, default=25000)
     parser.add_argument("--replay_buffer_type", type=str,
                         default='prioritized_by_episode')
     parser.add_argument("--buffer_priority_alpha", type=float,
                         default=1.0)
     parser.add_argument("--replay_batch_size", type=float,
-                        default=1000)
+                        default=5000)
 
-    parser.add_argument("--policy_lr", type=float, default=3e-4)
-    parser.add_argument("--policy_epochs", type=int, default=5)
+    parser.add_argument("--policy_lr", type=float, default=1e-5)
+    parser.add_argument("--policy_epochs", type=int, default=10)
     parser.add_argument("--policy_network_shape", type=str, default='64,64')
-    parser.add_argument("--policy_activation_type", type=str, default='tanh')
+    parser.add_argument("--policy_activation_type", type=str, default='elu')
     parser.add_argument("--policy_normalizer_type", type=str, 
                         default='layer_norm')
    

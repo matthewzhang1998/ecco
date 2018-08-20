@@ -502,6 +502,14 @@ class model(object):
             self._update_operator['pol_loss_clipped'][:,-1])
         )
             
+        self._update_operator['entropy_manager'] = tf.reduce_mean(
+            self._tensor['output_entropy'][:-1]
+        )
+        
+        self._update_operator['entropy_actor'] = -tf.reduce_mean(
+            self._tensor['output_entropy'][-1]
+        )
+            
         self._update_operator['entropy_loss_manager'] = -tf.reduce_mean(
             self._input_ph['entropy_coefficients'][:-1] * \
             self._tensor['output_entropy'][:-1]
@@ -595,11 +603,15 @@ class model(object):
         return_dict = self._generate_advantages(return_dict)
         
         if replay_dict is not None:
-            if train_net is 'manager' or train_net is None:
+            if self.args.use_manager_replay_only and train_net is 'manager':
+                data_dict = replay_dict
+            
+            elif train_net is 'manager' or train_net is None:
                 for key in replay_dict:
                     data_dict[key] = np.concatenate(
                         (data_dict[key], replay_dict[key]), axis=0
                     )
+                    
         
         self._generate_prelim_outputs(data_dict)
         data_dict = self._generate_advantages(data_dict)

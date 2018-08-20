@@ -45,9 +45,16 @@ def train(trainer, sampler, worker, network_type, args=None):
         training_info = {}
         
         if args.decoupled_managers:
-            training_info['train_net'] = {
-                0: 'actor', 1:'manager'
-            }[current_iteration % 2]    
+            if (current_iteration % \
+                (args.manager_updates + args.actor_updates)) \
+                < args.manager_updates:
+                training_info['train_net'] = 'manager'
+            
+            else:
+                training_info['train_net'] = 'actor'
+                
+        else:
+            training_info['train_net'] = None
         
         trainer_tasks.put(
             (parallel_util.TRAIN_SIGNAL,

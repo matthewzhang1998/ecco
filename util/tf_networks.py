@@ -19,6 +19,8 @@ def get_activation_func(activation_type):
         activation_func = tf.nn.tanh
     elif activation_type == 'relu':
         activation_func = tf.nn.relu
+    elif activation_type == 'elu':
+        activation_func = tf.nn.elu
     else:
         raise ValueError(
             "Unsupported activation type: {}!".format(activation_type)

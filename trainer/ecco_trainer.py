@@ -43,4 +43,5 @@ class trainer(base_trainer):
         training_stats.update(stats_dictionary)
         
         self._replay_buffer.add_data(data_dictionary)
+        
         return training_stats

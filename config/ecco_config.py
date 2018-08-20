@@ -25,6 +25,11 @@ def get_ecco_config(parser):
     
     parser.add_argument("--decoupled_managers", type=int, default=1)
     
+    parser.add_argument("--manager_updates", type=int, default=5)
+    parser.add_argument("--actor_updates", type=int, default=5)
+    
+    parser.add_argument("--use_manager_replay_only", type=int, default=1)
+    
     parser.add_argument("--joint_embed_dimension", type=int, default=64)
     parser.add_argument("--joint_embed_act_type", type=str, default='tanh')
     parser.add_argument("--joint_embed_norm_type",type=str, default='none')
@@ -32,6 +37,7 @@ def get_ecco_config(parser):
                         default='gru')
     
     parser.add_argument("--embed_goal_type", type=str, default="linear")
+    parser.add_argument("--embed_goal_size", type=int, default=64)
     parser.add_argument("--state_embed_norm_type", type=str, default='none')
     parser.add_argument("--goal_embed_norm_type", type=str, default='none')
     
@@ -44,7 +50,7 @@ def get_ecco_config(parser):
     parser.add_argument('--actor_entropy_coefficient', 
                         type=float, default=1e-2)
     
-    parser.add_argument('--goals_dim_min', type=int, default=10)
+    parser.add_argument('--goals_dim_min', type=int, default=64)
     parser.add_argument('--goals_dim_increment', type=int, default=2)
     
     parser.add_argument('--gamma_increment', type=float, default=0.5)
