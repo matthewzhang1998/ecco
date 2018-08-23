@@ -196,12 +196,10 @@ class prioritized_recurrent_replay_buffer(prioritized_replay_buffer):
         self._buffer_episodes = int(self._buffer_size / episode_len)
         
         for key in self._data:
-            print(self._data[key].shape)
             self._data[key] = np.reshape(self._data[key],
                 (self._buffer_episodes, episode_len,
                 *self._data[key].shape[1:])
             )
-            print(self._data[key].shape)
         
         # overwrite priorities to be per episode
         self._data['priority'] = np.zeros((self._buffer_episodes,),

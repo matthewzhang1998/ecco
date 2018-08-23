@@ -14,7 +14,7 @@ def get_ecco_config(parser):
     parser.add_argument("--use_recurrent", type=int, default=1)
     
     parser.add_argument("--use_state_preprocessing", type=int, default=0)
-    parser.add_argument("--state_preprocessing_network_shape",
+    parser.add_argument("--preprocess_network_shape",
                         type=str, default='64,64')
     parser.add_argument("--preprocess_activation_type",
                         type=str, default='tanh')
@@ -22,6 +22,8 @@ def get_ecco_config(parser):
                         type=str, default='layer_norm')
     
     parser.add_argument("--use_dilatory_network", type=int, default=1)
+    
+    parser.add_argument("--debug_end_to_end", type=int, default=0)
     
     parser.add_argument("--decoupled_managers", type=int, default=1)
     
@@ -35,6 +37,17 @@ def get_ecco_config(parser):
     parser.add_argument("--joint_embed_norm_type",type=str, default='none')
     parser.add_argument("--recurrent_cell_type", type=str, 
                         default='gru')
+    
+    
+    parser.add_argument("--decoder_network_shape", type=str, default='64,64')
+    parser.add_argument("--decoder_act_type", type=str, default='tanh')
+    parser.add_argument("--decoder_norm_type",type=str, default='layer_norm')
+    
+    parser.add_argument("--vae_lr", type=float, default=3e-4)
+    parser.add_argument("--vae_epochs", type=int, default=5)
+    parser.add_argument("--vae_num_samples", type=int, default=10)
+    parser.add_argument("--pretrain_vae", type=int, default=1)
+    parser.add_argument("--pretrain_iterations", type=int, default=100)
     
     parser.add_argument("--embed_goal_type", type=str, default="linear")
     parser.add_argument("--embed_goal_size", type=int, default=64)
@@ -54,6 +67,14 @@ def get_ecco_config(parser):
     parser.add_argument('--goals_dim_increment', type=int, default=2)
     
     parser.add_argument('--gamma_increment', type=float, default=0.5)
+    
+    parser.add_argument("--lr_schedule", type=str, default='adaptive')
+    # adaptive, linear, constant
+    parser.add_argument("--target_kl_high", type=float, default=2)
+    parser.add_argument("--target_kl_low", type=float, default=.5)
+    parser.add_argument("--target_kl_ppo", type=float, default=0.01)
+    parser.add_argument("--kl_alpha", type=float, default=1.5)
+    parser.add_argument("--lr_alpha", type=int, default=2)
     
     parser.add_argument('--lookahead_increment', type=int, default=20)
     

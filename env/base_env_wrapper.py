@@ -30,6 +30,11 @@ class base_env(object):
 
     def reset(self):
         raise NotImplementedError
+        
+    def reset_soft(self):
+        
+        # returns first ob without true reset
+        return self._old_ob, 0, False, {}
 
     def _build_env(self):
         raise NotImplementedError

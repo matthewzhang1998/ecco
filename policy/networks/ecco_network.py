@@ -42,7 +42,8 @@ class network(base_network.base_network):
             dims = state_embedding_size, 
             scope = 'state_embedding_0',
             normalizer_type = norm_type,
-            train=True, init_data = init_data
+            train=True, init_data = init_data,
+            reuse=tf.AUTO_REUSE
         )
         
         # Build goal embedding layer
@@ -120,9 +121,10 @@ class network(base_network.base_network):
             )
         
         # Build policy and value output networks
-        self._build_policy_and_value_networks()
+        self._build_policy_networks()
+        self._build_value_networks()
         
-    def _build_policy_and_value_networks(self):
+    def _build_policy_networks(self):
         if self._distribution == 'continuous':
             self._proto_distribution = tf_distributions.gaussian
             
@@ -139,10 +141,12 @@ class network(base_network.base_network):
             [self.args.policy_activation_type] * (num_layer - 1) + [None]
         norm_type = \
             [self.args.policy_normalizer_type] * (num_layer - 1) + [None]
-        init_data = [
-            {'w_init_method': 'normc', 'w_init_para': {'stddev': 1.0},
-             'b_init_method': 'constant', 'b_init_para': {'val': 0.0}}
-        ] * num_layer
+        init_data = []
+        for _ in range(num_layer):
+            init_data.append(
+                {'w_init_method': 'normc', 'w_init_para': {'stddev': 1.0},
+                'b_init_method': 'constant', 'b_init_para': {'val': 0.0}}
+            )
         
         init_data[-1]['w_init_para']['stddev'] = 0.01  # the output layer std
         
@@ -152,6 +156,7 @@ class network(base_network.base_network):
             train=True, init_data=init_data
         )
         
+    def _build_value_networks(self):
         value_network_shape = [self._embed_state_size] + \
             self.args.value_network_shape + [1]
         num_layer = len(value_network_shape) - 1
@@ -159,11 +164,13 @@ class network(base_network.base_network):
             [self.args.value_activation_type] * (num_layer - 1) + [None]
         norm_type = \
             [self.args.value_normalizer_type] * (num_layer - 1) + [None]
-        init_data = [
-            {'w_init_method': 'normc', 'w_init_para': {'stddev': 1.0},
-             'b_init_method': 'constant', 'b_init_para': {'val': 0.0}}
-        ] * num_layer
-        
+        init_data = []
+        for _ in range(num_layer):
+            init_data.append(
+                {'w_init_method': 'normc', 'w_init_para': {'stddev': 1.0},
+                'b_init_method': 'constant', 'b_init_para': {'val': 0.0}}
+            )
+       
         self._value_MLP = tf_networks.MLP(
             dims=value_network_shape, scope='value_mlp', train=True,
             activation_type=act_type, normalizer_type=norm_type,
@@ -185,14 +192,19 @@ class network(base_network.base_network):
             tf.constant([self._input_state_size])], axis=0)
         )
             
-        self._tensor['goal_input'] = tf.stop_gradient(
+        self._tensor['goal_input'] = \
             tf.reshape(
                 self._input_tensor['goal_input'][:,:self._input_goal_size],
                 tf.concat([tf.constant([-1], dtype=tf.int32),
                 [self._batch_dimension],
                 tf.constant([self._input_goal_size])], axis=0)
             )
-        )
+                
+        if not self.args.debug_end_to_end:
+            self._tensor['goal_input'] = tf.stop_gradient(
+                self._tensor['goal_input']
+            )
+        
             
         if self._is_manager:
             self._tensor['old_goal_output'] = tf.reshape(
@@ -247,16 +259,10 @@ class network(base_network.base_network):
         else:
             self._tensor['embed_joint'] = \
                 self._joint_embedding_layer(self._tensor['mixture_joint'])
-                
-            if self.args.recurrent_cell_type in ['gru', 'basic']:
-                _number_hidden_units = self.args.joint_embed_dimension
-                
-            else:
-                _number_hidden_units = 2 * self.args.joint_embed_dimension    
-                
-            self.states[self.name] = tf.zeros([self._batch_size,
-                _number_hidden_units
-            ])
+            
+            self.states[self.name] = tf.zeros_like(
+                self._input_tensor['recurrent_input']
+            )
         
         if self._distribution == 'continuous':
             # mu from network

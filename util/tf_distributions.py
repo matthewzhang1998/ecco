@@ -21,6 +21,12 @@ def gauss_log_prob(mu, logstd, labels):
     # invert and return
     return -neg_log_p_n
     
+def gauss_kl(mu, logstd, original_mu=0.0, original_logstd=0.0):
+    return tf.reduce_sum(
+        original_logstd - logstd + \
+        (tf.square(tf.exp(logstd)) + tf.square(mu - original_mu))/ \
+        (2 * tf.square(tf.exp(original_logstd))) - 0.5
+    )
 
 def categorical_log_prob(logits, labels):
     # assume labels are not as one_hot

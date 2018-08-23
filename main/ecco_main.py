@@ -44,7 +44,10 @@ def train(trainer, sampler, worker, network_type, args=None):
         # step 2: train the weights for dynamics and policy network
         training_info = {}
         
-        if args.decoupled_managers:
+        if args.pretrain_vae and current_iteration < args.pretrain_iterations:
+            training_info['train_net'] = 'vae'
+        
+        elif args.decoupled_managers:
             if (current_iteration % \
                 (args.manager_updates + args.actor_updates)) \
                 < args.manager_updates:
@@ -52,9 +55,6 @@ def train(trainer, sampler, worker, network_type, args=None):
             
             else:
                 training_info['train_net'] = 'actor'
-                
-        else:
-            training_info['train_net'] = None
         
         trainer_tasks.put(
             (parallel_util.TRAIN_SIGNAL,
@@ -95,10 +95,10 @@ def main():
     from trainer import ecco_trainer
     from runners import task_sampler
     from runners.workers import worker
-    from policy import ecco_model
+    from policy import ecco_pretrain
 
     train(ecco_trainer.trainer, task_sampler, worker,
-          ecco_model.model, args)
+          ecco_pretrain.model, args)
     
 if __name__ == '__main__':
     main()

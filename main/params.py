@@ -16,13 +16,16 @@ def env_args():
     
     # Fixed parameters
     params["--task"] = ["gym_sokoban_small_tiny_world"]
-    params["--batch_size"] = [5000, 10000, 20000]
+    params["--batch_size"] = [5000, 10000, 2500]
     params["--episode_length"] = [50]
     params["--seed"] = [1]
-    params["--gamma_max"] = [1e-1, 1e-2, 1e-3]
-    params["--replay_buffer_size"] = [5000]
-    params["--actor_entropy_coefficient"] = [1e-1, 1e-2, 1e-3, 1e-4]
-    params["--clip_actor"] = [1e-1, 1e-2, 1e-3]
+    params["--gamma_max"] = [1e-1]
+    params["--replay_buffer_size"] = [20000]
+    params["--goals_dim_min"] = [64, 128]
+    params["--decoupled_managers"] = [0,1]
+    params["--use_replay_buffer"] = [1]
+    params["--actor_entropy_coefficient"] = [1e-2]
+    params["--clip_actor"] = [5e-2]
     
     # Tuned Parameters
     return params

@@ -13,8 +13,9 @@ def get_base_config():
     parser = argparse.ArgumentParser(description='Model_based_rl.')
 
     # the experiment settings
-    parser.add_argument("--task", type=str, default='gym_sokoban_tiny_world',
-                        help='the mujoco environment to test')
+    parser.add_argument("--task", type=str, 
+                        default='gym_sokoban_small_tiny_world',
+                        help='the environment to test')
     parser.add_argument("--exp_id", type=str, default=init_path.get_time(),
                         help='the special id of the experiment')
     parser.add_argument("--episode_length", type=int, default=100,
@@ -27,7 +28,7 @@ def get_base_config():
     parser.add_argument("--batch_size", type=int, default=1000,
                         help='number of steps in the rollout')
     parser.add_argument("--max_timesteps", type=int, default=1e7)
-    parser.add_argument("--num_minibatches", type=int, default=10)
+    parser.add_argument("--num_minibatches", type=int, default=100)
     parser.add_argument("--num_workers", type=int, default=1)
     
     parser.add_argument("--use_replay_buffer", type=int, default=1)
@@ -38,11 +39,14 @@ def get_base_config():
                         default=1.0)
     parser.add_argument("--replay_batch_size", type=float,
                         default=5000)
+    
+    parser.add_argument("--cache_environments", type=int, default=1)
+    parser.add_argument("--num_cache", type=int, default=10)
 
-    parser.add_argument("--policy_lr", type=float, default=1e-5)
-    parser.add_argument("--policy_epochs", type=int, default=10)
+    parser.add_argument("--policy_lr", type=float, default=3e-4)
+    parser.add_argument("--policy_epochs", type=int, default=5)
     parser.add_argument("--policy_network_shape", type=str, default='64,64')
-    parser.add_argument("--policy_activation_type", type=str, default='elu')
+    parser.add_argument("--policy_activation_type", type=str, default='tanh')
     parser.add_argument("--policy_normalizer_type", type=str, 
                         default='layer_norm')
    

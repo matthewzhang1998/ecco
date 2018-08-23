@@ -21,6 +21,8 @@ def get_activation_func(activation_type):
         activation_func = tf.nn.relu
     elif activation_type == 'elu':
         activation_func = tf.nn.elu
+    elif activation_type == 'none':
+        activation_func = tf.identity
     else:
         raise ValueError(
             "Unsupported activation type: {}!".format(activation_type)
@@ -141,20 +143,21 @@ class Linear(object):
     """
     def __init__(self, dims, scope, train,
                  normalizer_type, init_data,
-                 dtype=tf.float32):
+                 dtype=tf.float32, reuse=None):
 
         self._scope = scope
         self._num_layer = len(dims) - 1  # the last one is the input dim
         self._w = [None] * self._num_layer
         self._b = [None] * self._num_layer
         self._train = train
+        self._reuse = reuse
 
         self._normalizer_type = normalizer_type
         self._init_data = init_data
         self._last_dim = dims[-1]
 
         # initialize variables
-        with tf.variable_scope(scope):
+        with tf.variable_scope(scope, reuse=self._reuse):
             for ii in range(self._num_layer):
                 with tf.variable_scope("layer_{}".format(ii)):
                     dim_in, dim_out = dims[ii], dims[ii + 1]
@@ -168,8 +171,8 @@ class Linear(object):
 
                     self._b[ii] = weight_variable(
                         shape=[dim_out], name='b',
-                        init_method=self._init_data[ii]['w_init_method'],
-                        init_para=self._init_data[ii]['w_init_para'],
+                        init_method=self._init_data[ii]['b_init_method'],
+                        init_para=self._init_data[ii]['b_init_para'],
                         dtype=dtype, trainable=self._train
                     )
 
@@ -181,7 +184,7 @@ class Linear(object):
             tf.concat([[-1], [output_shape[-1]]], axis=0)
         )
 
-        with tf.variable_scope(self._scope):
+        with tf.variable_scope(self._scope, reuse=self._reuse):
             for ii in range(self._num_layer):
                 with tf.variable_scope("layer_{}".format(ii)):
                     if ii == 0:
@@ -209,18 +212,19 @@ class Recurrent_Network(object):
     """
     def __init__(self, scope, activation_type, 
                  normalizer_type, recurrent_cell_type,
-                 train, hidden_size, dtype=tf.float32):
+                 train, hidden_size, dtype=tf.float32, reuse=None):
         self._scope = scope
         _cell_proto, _cell_kwargs = get_rnn_cell(recurrent_cell_type)
         self._activation_type = activation_type
         self._normalization_type = normalizer_type
         self._train = train
+        self._reuse = reuse
         self._hidden_size = hidden_size
         with tf.variable_scope(scope):
             self._cell = _cell_proto(hidden_size, **_cell_kwargs)
         
     def __call__(self, input_tensor, hidden_states):
-        with tf.variable_scope(self._scope):
+        with tf.variable_scope(self._scope, reuse=self._reuse):
             _rnn_outputs, _rnn_states = tf.nn.dynamic_rnn(
                 self._cell, input_tensor, initial_state = hidden_states
             )
@@ -244,7 +248,7 @@ class Dilated_Recurrent_Network(object):
     def __init__(self, scope, activation_type, 
                  normalizer_type, recurrent_cell_type,
                  train, hidden_size, dtype=tf.float32,
-                 dilation = 1):
+                 dilation = 1, reuse=None):
         self._scope = scope
         _cell_proto, _cell_kwargs = get_rnn_cell(recurrent_cell_type)
         self._activation_type = activation_type
@@ -252,6 +256,7 @@ class Dilated_Recurrent_Network(object):
         self._train = train
         self._dilation = dilation
         self._hidden_size = hidden_size
+        self._reuse = reuse
         with tf.variable_scope(scope):
             self._cell = _cell_proto(hidden_size, **_cell_kwargs)
         
@@ -266,10 +271,11 @@ class Dilated_Recurrent_Network(object):
             [_batch_size, 1, self._hidden_size]
         )
         
-        with tf.variable_scope(self._scope):
+        with tf.variable_scope(self._scope, reuse=self._reuse):
             # construct dilated rnn
             def _dilated_rnn(_input, _state, _output_tensor, _i):
-                _output, _next_state = self._cell(_input[:, _i], _state[:, _i])
+                _output, _next_state = self._cell(_input[:, _i], 
+                    _state[:, _i % self._dilation])
                 
                 _state = tf.concat(
                     [_state, tf.expand_dims(_next_state, 1)], axis=1
@@ -328,7 +334,7 @@ class MLP(object):
 
     def __init__(self, dims, scope, train,
                  activation_type, normalizer_type, init_data,
-                 dtype=tf.float32):
+                 dtype=tf.float32, reuse=None):
 
         self._scope = scope
         self._num_layer = len(dims) - 1  # the last one is the input dim
@@ -336,13 +342,14 @@ class MLP(object):
         self._b = [None] * self._num_layer
         self._train = train
         self._last_dim = dims[-1]
+        self._reuse = reuse
 
         self._activation_type = activation_type
         self._normalizer_type = normalizer_type
         self._init_data = init_data
 
         # initialize variables
-        with tf.variable_scope(scope):
+        with tf.variable_scope(scope, reuse=reuse):
             for ii in range(self._num_layer):
                 with tf.variable_scope("layer_{}".format(ii)):
                     dim_in, dim_out = dims[ii], dims[ii + 1]
@@ -356,8 +363,8 @@ class MLP(object):
 
                     self._b[ii] = weight_variable(
                         shape=[dim_out], name='b',
-                        init_method=self._init_data[ii]['w_init_method'],
-                        init_para=self._init_data[ii]['w_init_para'],
+                        init_method=self._init_data[ii]['b_init_method'],
+                        init_para=self._init_data[ii]['b_init_para'],
                         dtype=dtype, trainable=self._train
                     )
 
@@ -369,7 +376,7 @@ class MLP(object):
             tf.concat([[-1], [output_shape[-1]]], axis=0)
         )
         
-        with tf.variable_scope(self._scope):
+        with tf.variable_scope(self._scope, reuse=self._reuse):
             for ii in range(self._num_layer):
                 with tf.variable_scope("layer_{}".format(ii), 
                     reuse=tf.AUTO_REUSE):

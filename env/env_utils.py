@@ -19,7 +19,11 @@ def play_episode_with_env(envs, policy,
     
     # start the env (reset the environment)
     for env in envs:
-        ob, _, _, _ = env.reset()
+        if ('use_cached_environments' in control_info and \
+            control_info['use_cached_environments']):
+            ob, _, _, _ = env.reset_soft()
+        else:
+            ob, _, _, _ = env.reset()
         feed_infos['start_state'].append(ob)
     
     return_infos['start_state'].append(
