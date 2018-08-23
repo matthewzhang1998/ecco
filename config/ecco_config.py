@@ -45,6 +45,7 @@ def get_ecco_config(parser):
     
     parser.add_argument("--vae_lr", type=float, default=3e-4)
     parser.add_argument("--vae_epochs", type=int, default=5)
+    parser.add_argument("--kl_beta", type=float, default=0.1)
     parser.add_argument("--vae_num_samples", type=int, default=10)
     parser.add_argument("--pretrain_vae", type=int, default=1)
     parser.add_argument("--pretrain_iterations", type=int, default=100)

@@ -88,7 +88,7 @@ class model(ecco_ppo.model):
         
         self._update_operator['vae_loss'] = \
             self._update_operator['vae_kl_loss'] + \
-            self._update_operator['vae_cross_entropy_loss']
+            self.args.kl_beta * self._update_operator['vae_cross_entropy_loss']
         
         if self.args.clip_gradients:
             self._tensor['update_op_proto_vae'] = \

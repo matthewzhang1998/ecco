@@ -17,14 +17,17 @@ def env_args():
     # Fixed parameters
     params["--task"] = ["gym_sokoban_small_tiny_world"]
     params["--batch_size"] = [5000, 10000, 2500]
-    params["--episode_length"] = [50]
+    params["--episode_length"] = [100]
     params["--seed"] = [1]
+    params["--num_cache"] = [20]
     params["--gamma_max"] = [1e-1]
+    params["--vae_lr"] = [1e-6]
+    params["--pretrain_iterations"] = [100, 500, 1000]
     params["--replay_buffer_size"] = [20000]
-    params["--goals_dim_min"] = [64, 128]
+    params["--goals_dim_min"] = [128]
     params["--decoupled_managers"] = [0,1]
-    params["--use_replay_buffer"] = [1]
-    params["--actor_entropy_coefficient"] = [1e-2]
+    params["--use_replay_buffer"] = [0,1]
+    params["--actor_entropy_coefficient"] = [1e-1]
     params["--clip_actor"] = [5e-2]
     
     # Tuned Parameters
@@ -55,6 +58,11 @@ if __name__ == "__main__":
         for key in instance:
             args += key + " " + str(instance[key]) + " "
             
+        args += "--num_minibatches {} ".format(
+            instance['--batch_size']//instance['--episode_length']
+        )
+        
+        args += "--replay_batch_size {} ".format(instance['--batch_size'])
         args += "--output_dir log/{}".format(iterator)
         
         with open(output_dir, "a") as f:
