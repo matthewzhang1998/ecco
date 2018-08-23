@@ -22,7 +22,7 @@ def env_args():
     params["--num_cache"] = [20]
     params["--gamma_max"] = [1e-1]
     params["--vae_lr"] = [1e-6]
-    params["--pretrain_iterations"] = [100, 500, 1000]
+    params["--pretrain_iterations"] = [50, 100, 200]
     params["--replay_buffer_size"] = [20000]
     params["--goals_dim_min"] = [128]
     params["--decoupled_managers"] = [0,1]
