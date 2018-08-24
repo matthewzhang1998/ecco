@@ -49,17 +49,17 @@ class network(autoencoder.base_network):
                 self._input_tensor['raw_inputs']
             ), axis=-1
         )
-            
+        
         self._tensor['norm_inputs'] = self._input_tensor['raw_inputs'] / \
             tf.reduce_sum(self._input_tensor['raw_inputs'],
-                axis=-1, keepdims=True)
+                axis=-1, keepdims=True
+            )
             
-        
         for i in range(self.args.vae_num_samples):
             self.output_tensor['cross_entropy_loss'] += \
                 tf.reduce_sum(
                     tf.nn.softmax_cross_entropy_with_logits(
                         logits = self._tensor['decoded_outputs'][:,i],
-                        labels = self._tensor['norm_inputs']
+                        labels = self._tensor['norm_inputs'], dim=-1
                     ), axis=-1
                 )
