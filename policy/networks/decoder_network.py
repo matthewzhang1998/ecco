@@ -50,8 +50,12 @@ class network(autoencoder.base_network):
             ), axis=-1
         )
         
-        self._tensor['norm_inputs'] = self._input_tensor['raw_inputs'] / \
-            tf.reduce_sum(self._input_tensor['raw_inputs'],
+        self._tensor['positive_inputs'] = self._input_tensor['raw_inputs'] - \
+            tf.reduce_min(self._input_tensor['raw_inputs'],
+            axis=-1, keepdims=True)
+            
+        self._tensor['norm_inputs'] = self._input_tensor['positive_inputs'] / \
+            tf.reduce_sum(self._input_tensor['positive_inputs'],
                 axis=-1, keepdims=True
             )
             

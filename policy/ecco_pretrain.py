@@ -129,8 +129,7 @@ class model(ecco_ppo.model):
     def train(self, data_dict, replay_buffer, train_net = None):
         return_stats = defaultdict(list)
         _temp_stats = defaultdict(list)
-        data_dict['start_state'] = np.abs(data_dict['start_state'])
-        
+       
         if train_net == 'vae':
             for epoch in range(self.args.vae_epochs):
                 total_batch_len = len(data_dict['start_state'])
