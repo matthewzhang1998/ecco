@@ -66,3 +66,4 @@ class network(autoencoder.base_network):
                         labels = self._tensor['norm_inputs'], dim=-1
                     ), axis=-1
                 )
+                    

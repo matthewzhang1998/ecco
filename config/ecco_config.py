@@ -43,12 +43,12 @@ def get_ecco_config(parser):
     parser.add_argument("--decoder_act_type", type=str, default='tanh')
     parser.add_argument("--decoder_norm_type",type=str, default='layer_norm')
     
-    parser.add_argument("--vae_lr", type=float, default=3e-4)
+    parser.add_argument("--vae_lr", type=float, default=1e-5)
     parser.add_argument("--vae_epochs", type=int, default=5)
-    parser.add_argument("--kl_beta", type=float, default=0.1)
+    parser.add_argument("--kl_beta", type=float, default=0.001)
     parser.add_argument("--vae_num_samples", type=int, default=10)
     parser.add_argument("--pretrain_vae", type=int, default=1)
-    parser.add_argument("--pretrain_iterations", type=int, default=100)
+    parser.add_argument("--pretrain_iterations", type=int, default=50)
     
     parser.add_argument("--embed_goal_type", type=str, default="linear")
     parser.add_argument("--embed_goal_size", type=int, default=64)
