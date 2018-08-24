@@ -142,7 +142,7 @@ class model(ecco_ppo.model):
                         self._input_ph['start_state']: \
                             data_dict['start_state'][batch_inds]      
                     }
-                    
+                   
                     _update_keys = [key for key in self._update_operator if
                             train_net in key]
                     
