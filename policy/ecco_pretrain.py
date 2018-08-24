@@ -71,10 +71,7 @@ class model(ecco_ppo.model):
         self._tensor['kl_loss'] = tf.transpose(tf.stack(
             _return_tensor['kl_loss']))
         self._tensor['cross_entropy_loss'] = tf.transpose(tf.stack(
-            _return_tensor['cross_entropy_loss'])) / self.args.vae_num_samples
-        
-        self._tensor['debug'] = tf.Print(self._tensor['cross_entropy_loss'], [self._tensor['cross_entropy_loss']])
-                
+            _return_tensor['cross_entropy_loss'])) / self.args.vae_num_samples        
                 
     def _build_loss(self):
         super(model, self)._build_loss()
@@ -82,7 +79,7 @@ class model(ecco_ppo.model):
         self._build_autoencoder_networks()
         
         self._update_operator['vae_cross_entropy_loss'] = tf.reduce_mean(
-            self._tensor['debug']        
+            self._tensor['cross_entropy_loss']       
         )
         
         self._update_operator['vae_kl_loss'] = tf.reduce_mean(

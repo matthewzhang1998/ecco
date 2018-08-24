@@ -21,8 +21,7 @@ class network(autoencoder.base_network):
     def _build_network(self):
         decoder_network_shape = [self._latent_size] + \
             self._network_shape + [self._input_size]
-                
-        print(decoder_network_shape)    
+                    
         
         num_layer = len(decoder_network_shape) - 1
         act_type = [self._network_act] * num_layer
@@ -54,8 +53,8 @@ class network(autoencoder.base_network):
             tf.reduce_min(self._input_tensor['raw_inputs'],
             axis=-1, keepdims=True)
             
-        self._tensor['norm_inputs'] = self._input_tensor['positive_inputs'] / \
-            tf.reduce_sum(self._input_tensor['positive_inputs'],
+        self._tensor['norm_inputs'] = self._tensor['positive_inputs'] / \
+            tf.reduce_sum(self._tensor['positive_inputs'],
                 axis=-1, keepdims=True
             )
             
