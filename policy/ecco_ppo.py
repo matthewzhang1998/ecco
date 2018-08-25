@@ -78,21 +78,21 @@ class model(ecco_base.base_model):
         
         self._update_operator['pol_loss_unclipped'] = \
             -self._tensor['ratio'] * \
-            tf.clip_by_value(self._input_ph['advantage'],
-                -self.args.adv_clip,
-                +self.args.adv_clip
-            )
+            self._input_ph['advantage']
         
         self._update_operator['pol_loss_clipped'] = \
             -self._tensor['clipped_ratio'] * \
-            tf.clip_by_value(self._input_ph['advantage'],
-                -self.args.adv_clip,
-                +self.args.adv_clip
-            )
+            self._input_ph['advantage']
+            
+        self._update_operator['pol_loss'] = tf.clip_by_value(
+            tf.maximum(
+                self._update_operator['pol_loss_unclipped'],
+                self._update_operator['pol_loss_clipped']
+            ), -self.args.pol_loss_clip, +self.args.pol_loss_clip
+        )
         
         self._update_operator['surr_loss'] = tf.reduce_mean(
-            tf.maximum(self._update_operator['pol_loss_unclipped'],
-            self._update_operator['pol_loss_clipped'])
+            self._update_operator['pol_loss']
         )
             
         self._update_operator['entropy_loss'] = -tf.reduce_mean(
@@ -185,13 +185,11 @@ class model(ecco_base.base_model):
     def _build_decoupled_loss(self):
         
         self._update_operator['surr_loss_manager'] = tf.reduce_mean(
-            tf.maximum(self._update_operator['pol_loss_unclipped'][:,:-1],
-            self._update_operator['pol_loss_clipped'][:,:-1])
+            self._update_operator['pol_loss'][:,:-1]
         )
             
         self._update_operator['surr_loss_actor'] = tf.reduce_mean(
-            tf.maximum(self._update_operator['pol_loss_unclipped'][:,-1],
-            self._update_operator['pol_loss_clipped'][:,-1])
+            self._update_operator['pol_loss'][:,-1]
         )
             
         self._update_operator['entropy_manager'] = tf.reduce_mean(
