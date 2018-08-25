@@ -85,6 +85,8 @@ def get_ecco_config(parser):
     parser.add_argument('--clip_manager', type=float, default=0.05)
     parser.add_argument('--clip_actor', type=float, default=0.05)
     
+    parser.add_argument('--adv_clip', type=float, default=5.)
+    
     parser.add_argument('--value_clip_manager', type=float, default=0.1)
     parser.add_argument('--value_clip_actor', type=float, default=0.1)
 
