@@ -78,11 +78,17 @@ class model(ecco_base.base_model):
         
         self._update_operator['pol_loss_unclipped'] = \
             -self._tensor['ratio'] * \
-            self._input_ph['advantage']
+            tf.clip_by_value(self._input_ph['advantage'],
+                -self.args.adv_clip,
+                +self.args.adv_clip
+            )
         
         self._update_operator['pol_loss_clipped'] = \
             -self._tensor['clipped_ratio'] * \
-            self._input_ph['advantage']
+            tf.clip_by_value(self._input_ph['advantage'],
+                -self.args.adv_clip,
+                +self.args.adv_clip
+            )
         
         self._update_operator['surr_loss'] = tf.reduce_mean(
             tf.maximum(self._update_operator['pol_loss_unclipped'],
