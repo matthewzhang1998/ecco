@@ -274,6 +274,11 @@ class base_model(object):
     def _build_networks(self):
         proto_distribution = 'continuous'
         
+        old_goal_input = tf.concat(
+            [tf.expand_dims(self._input_ph['initial_goals'], 1), 
+             self._input_ph['goal']], axis = 1
+        )
+        
         # list for storing hierarchy variables before concatenation
         list_tensor = defaultdict(list)
         
@@ -289,7 +294,8 @@ class base_model(object):
                 'lookahead_input':self._tensor['net_lookahead'][:, i],
                 'goal_input': list_tensor['output_goal'][i],
                 'recurrent_input': self._input_ph['net_states'][name],
-                'old_goal_output': self._input_ph['goal'][:, i]
+                'old_goal_output': self._input_ph['goal'][:, i],
+                'old_goal_input': old_goal_input[:, i]
             }
             
             # building manager instance
@@ -341,7 +347,8 @@ class base_model(object):
             'lookahead_input': tf.identity(self._tensor['net_input']),
             'action_input': self._input_ph['actions'],
             'goal_input': list_tensor['output_goal'][-1],
-            'recurrent_input': self._input_ph['net_states'][name]
+            'recurrent_input': self._input_ph['net_states'][name],
+            'old_goal_input': old_goal_input[:, -1]
         }
         
         agent = self._actor_net_proto(

@@ -31,14 +31,14 @@ def get_ecco_config(parser):
     parser.add_argument("--actor_updates", type=int, default=5)
     
     parser.add_argument("--use_manager_replay_only", type=int, default=1)
+    parser.add_argument("--use_hindsight_replay", type=int, default=1)
     
     parser.add_argument("--joint_embed_dimension", type=int, default=64)
     parser.add_argument("--joint_embed_act_type", type=str, default='tanh')
     parser.add_argument("--joint_embed_norm_type",type=str, default='none')
     parser.add_argument("--recurrent_cell_type", type=str, 
                         default='gru')
-    
-    
+
     parser.add_argument("--decoder_network_shape", type=str, default='64,64')
     parser.add_argument("--decoder_act_type", type=str, default='tanh')
     parser.add_argument("--decoder_norm_type",type=str, default='layer_norm')

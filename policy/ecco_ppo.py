@@ -296,17 +296,32 @@ class model(ecco_base.base_model):
         self._generate_prelim_outputs(return_dict)
         return_dict = self._generate_advantages(return_dict)
         
+        _num_minibatches = self.args.num_minibatches
+        
         if replay_dict is not None:
             if self.args.use_manager_replay_only and train_net is 'manager':
                 data_dict = replay_dict
             
             elif train_net is 'manager' or train_net is None:
                 for key in replay_dict:
+                    _num_minibatches *= \
+                        len(replay_dict['start_state'])/ \
+                        len(data_dict['start_state']) + 1
+                        
+                    # safety cast
+                    _num_minibatches = int(_num_minibatches)
                     data_dict[key] = np.concatenate(
                         (data_dict[key], replay_dict[key]), axis=0
-                    )        
+                    )       
+                    
+        update_hindsight = False
         
-        self._generate_prelim_outputs(data_dict)
+        if self.args.use_hindsight_replay and train_net in ['actor', None]:
+            update_hindsight = True
+            _num_minibatches *= 2 
+            
+        self._generate_prelim_outputs(data_dict, update_hindsight)
+        
         data_dict = self._generate_advantages(data_dict)
         self._timesteps_so_far += self.args.batch_size
         
@@ -324,20 +339,21 @@ class model(ecco_base.base_model):
             total_batch_inds = np.arange(total_batch_len)
             if self.args.use_recurrent:
                 # ensure we can factorize into episodes
-                assert total_batch_len/self.args.num_minibatches \
+                assert total_batch_len/_num_minibatches \
                     % self.args.episode_length == 0
             else:
                 self._npr.shuffle(total_batch_inds)
-            minibatch_size = total_batch_len//self.args.num_minibatches
+            minibatch_size = total_batch_len//_num_minibatches
             
-            for start in range(self.args.num_minibatches):
+            for start in range(_num_minibatches):
                 start = start * minibatch_size
                 end = min(start + minibatch_size, total_batch_len)
                 batch_inds = total_batch_inds[start:end]
                 feed_dict = {
                         self._input_ph[key]: data_dict[key][batch_inds] \
                         for key in ['start_state', 'actions', 'advantage',
-                         'log_oldp_n', 'lookahead_state', 'initial_goals']
+                         'goal', 'log_oldp_n', 'lookahead_state',
+                         'initial_goals']
                 }
                 
                 num_episodes = int((end - start) / self.args.episode_length)
@@ -451,7 +467,7 @@ class model(ecco_base.base_model):
             self.args.max_timesteps
             )
     
-    def _generate_prelim_outputs(self, data_dict):
+    def _generate_prelim_outputs(self, data_dict, update_hindsight=False):
         '''
         obtains key statistics, such as motivations and baseline values
         '''
@@ -497,6 +513,20 @@ class model(ecco_base.base_model):
             )
         )
             
+        if update_hindsight:
+           self._update_hindsight_transitions(data_dict)
+           
+           # TODO: use np.tile instead of remaking these variables
+           num_episodes = int(len(data_dict['start_state']) / \
+                (self.args.episode_length + 1))
+        
+           states_dict = {
+                self._input_ph['net_states'][layer['name']]:
+                np.reshape(np.tile(self._dummy_states[layer['name']],
+                [num_episodes]), [num_episodes, -1])
+                for layer in self._recurrent_layers
+            }
+            
         # cannot compute logp for last state (no action exists)
         data_dict = self._discard_final_states(data_dict)
         
@@ -510,7 +540,7 @@ class model(ecco_base.base_model):
         }
         
         feed_dict = {**feed_dict, **states_dict}
-        
+
         data_dict.update(
             self._session.run(
                 {'log_oldp_n': self._tensor['output_log_p_n']},
@@ -518,4 +548,55 @@ class model(ecco_base.base_model):
             )        
         )
             
+    def _update_hindsight_transitions(self, data_dict):
+        feed_dict = {
+            self._input_ph['start_state']: data_dict['start_state'],
+            self._input_ph['initial_goals']: data_dict['initial_goals'],
+            self._input_ph['lookahead_state']: data_dict['lookahead_state'],
+            self._input_ph['episode_length']: self.args.episode_length+1,
+        }
         
+        num_episodes = int(len(data_dict['start_state']) / \
+            (self.args.episode_length))
+        
+        states_dict = {
+            self._input_ph['net_states'][layer['name']]:
+            np.reshape(np.tile(self._dummy_states[layer['name']],
+            [num_episodes]), [num_episodes, -1])
+            for layer in self._recurrent_layers
+        }
+    
+        feed_dict = {**feed_dict, **states_dict}
+
+        _hindsight_goal = \
+            self._session.run(
+                self._tensor['hindsight_goal'],
+                feed_dict
+            )
+        
+        
+        feed_dict[self._input_ph['goal']] = _hindsight_goal
+        
+        _hindsight_motivations = \
+            self._session.run(
+                self._tensor['output_motivations'],
+                feed_dict
+            )
+        
+        data_dict['goal'] = np.concatenate(
+            [data_dict['goal'], _hindsight_goal],
+            axis=0
+        )
+        
+        data_dict['motivations'] = np.concatenate(
+            [data_dict['motivations'], _hindsight_motivations],
+            axis=0
+        )
+        
+        _duplicate_keys = ['start_state', 'actions', 'lookahead_state',
+                           'initial_goals', 'value']
+        
+        for key in _duplicate_keys:
+                data_dict[key] = np.tile(data_dict[key],
+                    [2] + [1]*(data_dict[key].ndim-1)
+                ) 

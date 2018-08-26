@@ -205,7 +205,6 @@ class network(base_network.base_network):
                 self._tensor['goal_input']
             )
         
-            
         if self._is_manager:
             self._tensor['old_goal_output'] = tf.reshape(
                 self._input_tensor['old_goal_output'][:,:self._output_size],
@@ -213,6 +212,18 @@ class network(base_network.base_network):
                 [self._batch_dimension],
                 tf.constant([self._output_size])], axis=0)
             )
+            
+        self._tensor['old_goal_input'] = \
+            tf.reshape(
+                self._input_tensor['old_goal_input'][:,:self._input_goal_size],
+                tf.concat([tf.constant([-1], dtype=tf.int32),
+                [self._batch_dimension],
+                tf.constant([self._input_goal_size])], axis=0)
+            )
+                
+        self._tensor['embed_old_goal'] = self._goal_embedding_layer(
+            self._tensor['old_goal_input']
+        )
         
         self._tensor['embed_state'] = \
             self._state_embedding_layer(self._input_tensor['net_input'])
@@ -237,6 +248,10 @@ class network(base_network.base_network):
         if self.args.embed_goal_type == 'linear':
             self._tensor['mixture_joint'] = \
                 self._tensor['embed_state'] * self._tensor['embed_goal']
+                
+            self._tensor['old_mixture_joint'] = \
+                self._tensor['embed_state'] * \
+                self._tensor['embed_old_goal']
             
         elif self.args.embed_goal_type == 'matrix':
             self._tensor['embed_goal'] = \
@@ -251,14 +266,35 @@ class network(base_network.base_network):
                 tf.einsum('ijkl,ijl->ijk', self._tensor['embed_goal'],
                           self._tensor['embed_state'])
                 
+            self._tensor['embed_old_goal'] = \
+                tf.reshape(self._tensor['embed_old_goal'],
+                   tf.concat([tf.constant([-1], dtype=tf.int32),
+                   [self._batch_dimension],
+                   tf.constant([self._embed_goal_size,
+                        self._embed_state_size])], axis=0)
+                )
+            
+            self._tensor['old_mixture_joint'] = \
+                tf.einsum('ijkl,ijl->ijk', self._tensor['embed_old_goal'],
+                          self._tensor['embed_state'])
+                
         if self.args.use_recurrent:
             self._tensor['embed_joint'], self.states[self.name] = \
                 self._joint_embedding_layer(self._tensor['mixture_joint'],
                     hidden_states = self._input_tensor['recurrent_input'])
                 
+            self._tensor['embed_old_joint'], _ = \
+                self._joint_embedding_layer(
+                    self._tensor['old_mixture_joint'],
+                    hidden_states = self._input_tensor['recurrent_input']
+                )
+                
         else:
             self._tensor['embed_joint'] = \
                 self._joint_embedding_layer(self._tensor['mixture_joint'])
+            
+            self._tensor['embed_old_joint'] = \
+                self._joint_embedding_layer(self._tensor['old_mixture_joint'])
             
             self.states[self.name] = tf.zeros_like(
                 self._input_tensor['recurrent_input']
@@ -268,6 +304,9 @@ class network(base_network.base_network):
             # mu from network
             self._tensor['action_dist_mu'] = \
                 self._policy_MLP(self._tensor['embed_joint'])
+                
+            self._tensor['action_dist_mu_old_goal'] = \
+                self._policy_MLP(self._tensor['embed_old_joint'])
             
             # logstd cheaply estimated
             self._tensor['action_logstd'] = tf.Variable(
@@ -286,15 +325,27 @@ class network(base_network.base_network):
                     [self._batch_dimension], [-1]], axis=-1
                 )
             )
+                
+            self._tensor['action_dist_logstd_old_goal'] = tf.reshape(
+                tf.tile(
+                    self._tensor['action_logstd'],
+                    [1, tf.shape(self._tensor['action_dist_mu_old_goal'])[0] \
+                    * self._batch_dimension]
+                ),
+                tf.concat(
+                    [[tf.shape(self._tensor['action_dist_mu_old_goal'])[0]],
+                    [self._batch_dimension], [-1]], axis=-1
+                )
+            )
         
             self._policy_distribution = \
                 self._proto_distribution(mu = self._tensor['action_dist_mu'],
                                 logsigma = self._tensor['action_dist_logstd'])
-                            
+                
             self.outputs['output_log_p_n'] = self._reshape_batch(
                 tf_distributions.gauss_log_prob(
-                    self._tensor['action_dist_mu'],
-                    self._tensor['action_dist_logstd'],
+                    self._tensor['action_dist_mu_old_goal'],
+                    self._tensor['action_dist_logstd_old_goal'],
                     self._tensor['label_action']
                 )
             )
@@ -303,12 +354,15 @@ class network(base_network.base_network):
             self._tensor['logits'] = \
                 self._policy_MLP(self._tensor['embed_joint'])
                 
+            self._tensor['logits_old_goal'] = \
+                self._policy_MLP(self._tensor['embed_old_joint'])
+                
             self._policy_distribution = \
                 self._proto_distribution(logits = self._tensor['logits'])
                 
             self.outputs['output_log_p_n'] = self._reshape_batch(
                 tf_distributions.categorical_log_prob(
-                    self._tensor['logits'],
+                    self._tensor['logits_old_goal'],
                     self._tensor['label_action']
                 )
             )
@@ -414,6 +468,10 @@ class network(base_network.base_network):
             self._tensor['norm_order'] * self._tensor['norm_delta'], [-2, -1]
             )[:,1:] / self._lookahead_range
         )
+            
+        if self.args.use_hindsight_replay and self._is_manager:
+            self.outputs['hindsight_goal'] = \
+                self._reshape_batch(self._tensor['label_action'])
         
     def _reshape_batch(self, tensor):
         return tf.reshape(tensor, tf.concat(
