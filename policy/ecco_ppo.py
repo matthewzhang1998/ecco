@@ -421,7 +421,7 @@ class model(ecco_base.base_model):
                     
                     if train_net is not None:
                         _update_value_keys = \
-                            [key for key in _value_keys and
+                            [key for key in _value_keys if
                              (train_net in key)]
                         
                     else:
