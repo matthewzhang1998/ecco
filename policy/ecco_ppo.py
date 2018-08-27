@@ -388,17 +388,25 @@ class model(ecco_base.base_model):
                         data_dict['value_target'][batch_inds]
                         
                 _value_keys = ['vf_loss', 'vf_update_op']
+                _sub_nets = ['actor', 'manager', 'vae']
                 if epoch < self.args.policy_epochs:
                     if self.args.joint_value_update:
-                        _update_keys = [key for key in self._update_operator]
+                        _prelim_update_keys = \
+                            [key for key in self._update_operator]
                     else:
-                        _update_keys = [key for key in self._update_operator
-                            if key not in _value_keys]
+                        _prelim_update_keys = [key for key in
+                            self._update_operator if key not in _value_keys]
                         
                     if train_net is not None:
-                        _update_keys = [key for key in _update_keys if
+                        _update_keys = [key for key in _prelim_update_keys if
                             train_net in key]
                         
+                    else:
+                        _update_keys = []
+                        for key in _prelim_update_keys:
+                            if not any([net in key for net in _sub_nets]):
+                                _update_keys.append(key)
+                                
                     temp_stats_dict = self._session.run(
                         {key: self._update_operator[key]
                         for key in _update_keys},
@@ -413,11 +421,14 @@ class model(ecco_base.base_model):
                     
                     if train_net is not None:
                         _update_value_keys = \
-                            [key for key in self._update_operator
-                             if (key in _value_keys) and (train_net in key)]
+                            [key for key in _value_keys and
+                             (train_net in key)]
                         
                     else:
-                        _update_value_keys = _value_keys
+                        _update_value_keys = []
+                        for key in _value_keys:
+                            if not any([net in key for net in _sub_nets]):
+                                _update_value_keys.append(key)
                         
                     temp_stats_dict.update(self._session.run(
                         {key: self._update_operator[key] 
@@ -453,12 +464,14 @@ class model(ecco_base.base_model):
             if mean_kl < self.args.target_kl_low * self.args.target_kl_ppo:
                 self._learning_rate *= self.args.kl_alpha
 
-            self._learning_rate = max(self._learning_rate, 3e-10)
-            self._learning_rate = min(self._learning_rate, 3e-4)
+            self._learning_rate = max(self._learning_rate, 
+                                      self.args.adaptive_lr_min)
+            self._learning_rate = min(self._learning_rate, 
+                                      self.args.adaptive_lr_max)
         
         else:
             self._learning_rate = self.args.policy_lr * max(
-                1.0 - float(self.timesteps_so_far) / self.args.max_timesteps,
+                1.0 - float(self._timesteps_so_far) / self.args.max_timesteps,
                 0.0
             )  
         self._entropy_coefficients = \

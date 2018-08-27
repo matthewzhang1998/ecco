@@ -70,6 +70,9 @@ def get_ecco_config(parser):
     parser.add_argument('--gamma_increment', type=float, default=0.5)
     
     parser.add_argument("--lr_schedule", type=str, default='adaptive')
+    
+    parser.add_argument("--adaptive_lr_max", type=float, default=1e-6)
+    parser.add_argument("--adaptive_lr_min", type=float, default=1e-10)
     # adaptive, linear, constant
     parser.add_argument("--target_kl_high", type=float, default=2)
     parser.add_argument("--target_kl_low", type=float, default=.5)
