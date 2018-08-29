@@ -8,7 +8,7 @@ Created on Tue Aug 28 17:16:12 2018
 import init_path
 
 def get_dqn_transfer_config(parser):
-    parser.add_argument("--base_policy", type=str, default='a2c'),
+    parser.add_argument("--base_policy", type=str, default='dqn'),
     # dqn, a2c
                 
     parser.add_argument("--a2c_network_type", type=str, default='mlp')
@@ -40,8 +40,8 @@ def get_dqn_transfer_config(parser):
     # 'conv_only', 'mlp', 'lstm'
     
     # mlp args
-    parser.add_argument("--dqn_num_mlp_layers", type=int, default=2)
-    parser.add_argument("--dqn_num_mlp_hidden", type=int, default=64)
+    parser.add_argument("--dqn_num_mlp_layers", type=int, default=3)
+    parser.add_argument("--dqn_num_mlp_hidden", type=int, default=128)
     parser.add_argument("--dqn_mlp_activation", type=str, default='relu')
     
     # conv
@@ -50,7 +50,7 @@ def get_dqn_transfer_config(parser):
     
     parser.add_argument("--dqn_buffer_size", type=int, default=20000)
     parser.add_argument("--dqn_batch_size", type=int, default=32)
-    parser.add_argument("--dqn_update_epochs", type=int, default=50)
+    parser.add_argument("--dqn_update_epochs", type=int, default=100)
     
     parser.add_argument("--use_dqn_prioritized_replay", type=int, default=0)
     parser.add_argument("--dqn_prioritized_alpha", type=float, default=0.6)
@@ -63,8 +63,8 @@ def get_dqn_transfer_config(parser):
     parser.add_argument("--dqn_min_epsilon", type=float, default=0.02)
     
     parser.add_argument("--train_dqn_iterations", type=int, default=1000)
-    parser.add_argument("--dqn_update_target_steps", type=int, default=4000)
-    parser.add_argument("--dqn_lr", type=float, default=1e-4)
+    parser.add_argument("--dqn_update_target_steps", type=int, default=20000)
+    parser.add_argument("--dqn_lr", type=float, default=1e-5)
     
     parser.add_argument("--dqn_gamma", type=float, default=1.0)
     parser.add_argument("--use_dqn_param_noise", type=int, default=0)
