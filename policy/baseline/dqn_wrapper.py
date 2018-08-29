@@ -124,7 +124,7 @@ def act_wrapper(env, action_function,
         kwargs['update_param_noise_threshold'] = update_param_noise_threshold
         kwargs['update_param_noise_scale'] = True
     action = action_function(
-        np.array(obs[:5])[None], update_eps=update_eps, **kwargs
+        np.array(obs)[None], update_eps=update_eps, **kwargs
     )[0]
     
     return action
