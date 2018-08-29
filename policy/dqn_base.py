@@ -47,11 +47,12 @@ class model(baseline_model):
                 exploration_fraction = self.args.dqn_epsilon * \
                     self.args.train_dqn_iterations / \
                     (self.args.train_dqn_iterations +
-                     self.args.transfer_iterations),
+                     self.args.train_transfer_iterations),
                 exploration_final_eps = self.args.dqn_min_epsilon,
                 total_timesteps = \
                     (self.args.train_dqn_iterations +
-                     self.args.transfer_iterations) * self.args.batch_size,
+                     self.args.train_transfer_iterations) * \
+                     self.args.batch_size,
                 **_network_kwargs
             )
             self._set_var_list()
