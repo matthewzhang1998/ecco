@@ -62,10 +62,10 @@ class model(baseline_model):
         
         for i in range(len(data_dict['start_state'])):
             self.baseline_dqn_dict['replay_buffer'].add(
-                np.array(data_dict['start_state'][i,:5]),
+                np.array(data_dict['start_state'][i]),
                 np.array(data_dict['actions'][i]),
                 np.array(data_dict['rewards'][i]),
-                np.array(data_dict['end_state'][i,:5]),
+                np.array(data_dict['end_state'][i]),
                 np.array(dones[i], dtype=np.float32)
             )
         
