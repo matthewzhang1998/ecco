@@ -5,10 +5,36 @@ Created on Tue Aug 28 17:16:12 2018
 
 @author: matthewszhang
 """
-
 import init_path
 
 def get_dqn_transfer_config(parser):
+    parser.add_argument("--base_policy", type=str, default='a2c'),
+    # dqn, a2c
+                
+    parser.add_argument("--a2c_network_type", type=str, default='mlp')
+    
+    parser.add_argument("--a2c_entropy_coefficient", type=float, default=0.01)
+    parser.add_argument("--a2c_vf_coefficient", type=float, default=0.5)
+    parser.add_argument("--a2c_gradient_max", type=float, default=0.5)
+    
+    parser.add_argument("--a2c_lr", type=float, default=1e-4)
+    parser.add_argument("--a2c_lr_schedule", type=str, default="linear")
+    
+    parser.add_argument("--a2c_gamma", type=float, default=0.99)
+    # linear, constant
+    parser.add_argument("--a2c_rms_decay", type=float, default=0.99)
+    parser.add_argument("--a2c_rms_epsilon", type=float, default=1e-5)
+    parser.add_argument("--a2c_iterations", type=int, default=1000)
+    
+    # mlp args
+    parser.add_argument("--a2c_num_mlp_layers", type=int, default=2)
+    parser.add_argument("--a2c_num_mlp_hidden", type=int, default=64)
+    parser.add_argument("--a2c_mlp_activation", type=str, default='relu')
+    
+    # conv
+    parser.add_argument("--a2c_convolution_network_shape", type=str,
+                        default='32,8,4,64,4,2,64,3,1')
+    
     # dqn args
     parser.add_argument("--dqn_network_type", type=str, default='mlp')
     # 'conv_only', 'mlp', 'lstm'
@@ -26,7 +52,7 @@ def get_dqn_transfer_config(parser):
     parser.add_argument("--dqn_batch_size", type=int, default=32)
     parser.add_argument("--dqn_update_epochs", type=int, default=50)
     
-    parser.add_argument("--use_dqn_prioritized_replay", type=int, default=1)
+    parser.add_argument("--use_dqn_prioritized_replay", type=int, default=0)
     parser.add_argument("--dqn_prioritized_alpha", type=float, default=0.6)
     parser.add_argument("--dqn_beta_iters", type=int, default=None)
     parser.add_argument("--dqn_prioritized_beta", type=float, default=0.4)
@@ -41,7 +67,7 @@ def get_dqn_transfer_config(parser):
     parser.add_argument("--dqn_lr", type=float, default=1e-4)
     
     parser.add_argument("--dqn_gamma", type=float, default=1.0)
-    parser.add_argument("--use_dqn_param_noise", type=int, default=1)
+    parser.add_argument("--use_dqn_param_noise", type=int, default=0)
     
     parser.add_argument("--train_transfer_iterations", type=int, 
                         default=1000)

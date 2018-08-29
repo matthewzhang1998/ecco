@@ -23,6 +23,7 @@ class worker(base_worker.worker):
             if next_task[0] == parallel_util.WORKER_RUNNING:
                 
                 self._num_envs_required = int(next_task[1]['num_envs'])
+                print(self._num_envs_required)
                 _rollout_model = next_task[1]['rollout_model']
                     
                 # collect rollouts
@@ -93,7 +94,7 @@ class worker(base_worker.worker):
         self.control_info['rollout_model'] = _rollout_model
         
         traj_episode = play_episode_with_env(
-            self._envs, self._act,
+            self._envs[:self._num_envs_required], self._act,
             self.control_info
         )
         

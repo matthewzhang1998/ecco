@@ -124,11 +124,15 @@ def main():
     from runners import dqn_transfer_task_sampler
     from runners.workers import dqn_transfer_worker
     from policy import ecco_pretrain
-    from policy import dqn_base
+    from policy import dqn_base, a2c_base
     from policy import ecco_transfer
     
+    base_model = {
+        'dqn': dqn_base, 'a2c':a2c_base        
+    }[args.base_policy]
+    
     models = {'final': ecco_pretrain.model, 'transfer': ecco_transfer.model,
-           'base': dqn_base.model}
+           'base': base_model.model}
 
     train(dqn_transfer_trainer.trainer, dqn_transfer_task_sampler, 
           dqn_transfer_worker, models, args)

@@ -16,22 +16,11 @@ def env_args():
     
     # Fixed parameters
     params["--task"] = ["gym_sokoban_small_tiny_world"]
-    params["--batch_size"] = [5000, 10000, 2500]
+    params["--batch_size"] = [5000]
+    params["--num_cache"] = [5]
     params["--episode_length"] = [100]
-    params["--seed"] = [1]
-    params["--num_cache"] = [20]
-    params["--gamma_max"] = [1e-1]
-    params["--vae_lr"] = [1e-4]
-    params["--kl_beta"] = [1e-2]
-    params["--pretrain_iterations"] = [50]
-    params["--replay_buffer_size"] = [20000]
-    params["--goals_dim_min"] = [128]
-    params["--decoupled_managers"] = [0]
-    params["--use_state_preprocessing"] = [1]
-    params["--use_replay_buffer"] = [1]
-    params["--actor_entropy_coefficient"] = [1e-1]
-    params["--clip_actor"] = [5e-2]
-    params["--adaptive_lr_max"] = [1e-5, 1e-6, 1e-7, 1e-8]
+    params["--dqn_batch_size"] = [16, 32, 64]
+    params["--dqn_lr"] = [1e-3, 1e-4, 1e-5, 1e-6]
     
     # Tuned Parameters
     return params
@@ -53,10 +42,11 @@ if __name__ == "__main__":
     iterator = 0
     size = 0
     
+    file_name = "run_all.sh".format(iterator)
+    output_dir = osp.join(PATH, file_name)
+    
     for instance in grid_search_params:
-        file_name = "run-{}.sh".format(iterator)
         print(file_name)
-        output_dir = osp.join(PATH, file_name)
         args = " "
         for key in instance:
             args += key + " " + str(instance[key]) + " "
@@ -69,7 +59,7 @@ if __name__ == "__main__":
         args += "--output_dir log/{}".format(iterator)
         
         with open(output_dir, "a") as f:
-            f.write("python ecco_main.py" + args + ';\n')
+            f.write("python dqn_transfer_main.py" + args + '&\n')
         
         size += 1
         if size == length//N_JOBS:

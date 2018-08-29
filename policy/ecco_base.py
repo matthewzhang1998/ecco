@@ -540,7 +540,7 @@ class base_model(object):
                         - data_dict['value'][i_step]
                     data_dict['advantage'][i_step] = \
                         delta + self._gamma_list * self.args.gae_lam \
-                        * data_dict['advantage'][i_step]
+                        * data_dict['advantage'][i_step+1]
                         
                 else:
                     delta = data_dict['joint_reward'][i_step] \

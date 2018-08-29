@@ -11,14 +11,15 @@ distributed and merged with the ECCO algorithm
 import numpy as np
 import tensorflow as tf
 
-from policy.dqn.baseline_wrapper import init_wrapper, \
+from policy.baseline.dqn_wrapper import init_wrapper, \
      act_wrapper, train_wrapper, load_wrapper, save_wrapper
      
 from env.env_register import reverse_gym_wrapper
 from util import tf_utils
 from util.baseline_utils import get_dqn_network_kwargs_from_namespace
+from .baseline_base import baseline_model
 
-class model(object):
+class model(baseline_model):
     def __init__(self, parse_args, session, name_scope, *args, **kwargs):
         self.args = parse_args
         
@@ -69,8 +70,8 @@ class model(object):
         
         stats = {'mean_rewards': np.mean(data_dict['rewards'])}
         
-        _target_update = self.timesteps_so_far % \
-            self.args.dqn_update_target_steps
+        _target_update = (self.timesteps_so_far % \
+            self.args.dqn_update_target_steps) == 0
         
         for _ in range(self.args.dqn_update_epochs):
             train_wrapper(
@@ -110,67 +111,3 @@ class model(object):
             )
         
         return {'actions': np.array(actions)}
-    
-    def get_weights(self):
-        return self._get_network_weights()
-    
-    def set_weights(self, weights):
-        self._set_network_weights(weights)
-
-    def _set_var_list(self):
-        # collect the tf variable and the trainable tf variable
-        self._trainable_var_list = [var for var in tf.trainable_variables()
-                                    if self._name_scope in var.name]
-
-        self._all_var_list = [var for var in tf.global_variables()
-                              if self._name_scope in var.name]
-
-        # the weights that actually matter
-        self._network_var_list = \
-            self._trainable_var_list # + self._whitening_variable
-
-        self._set_network_weights = tf_utils.set_network_weights(
-            self._session, self._network_var_list, self._name_scope
-        )
-
-        self._get_network_weights = tf_utils.get_network_weights(
-            self._session, self._network_var_list, self._name_scope
-        )
-
-    def load_checkpoint(self, ckpt_path):
-        load_wrapper(ckpt_path)
-
-    def save_checkpoint(self, ckpt_path):
-        save_wrapper(ckpt_path)
-        
-    
-    # null methods covered by __init__
-    def build_model(self):
-        return
-
-    def get_input_placeholder(self):
-        return {}
-    
-    def _discard_final_states(self, data_dict):
-        # remove terminated states from dictionary
-        for key in data_dict:
-            _temp_item = np.array(data_dict[key])
-            
-            if _temp_item.ndim != 0:
-                # if the shape divides by the episode length + 1
-                if (_temp_item.shape[0] \
-                    % (self.args.episode_length + 1)) == 0:
-                    
-                    _temp_data = np.reshape(_temp_item,
-                        [-1, self.args.episode_length + 1,
-                        *_temp_item.shape[1:]])
-                        
-                    if key in ['motivations']:
-                        _temp_data = _temp_data[:,1:]
-                    else:
-                        _temp_data = _temp_data[:,:-1]
-                    data_dict[key] = np.reshape(_temp_data, 
-                        [-1, *_temp_item.shape[1:]]
-                    )
-                    
-        return data_dict

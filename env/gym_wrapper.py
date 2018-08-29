@@ -9,8 +9,7 @@ import init_path
 from gym import spaces
 
 class gym_wrapper(object):
-    def __init__(self, _, obs_size, act_size, act_distribution):
-        print(obs_size, act_size, act_distribution)
+    def __init__(self, _, obs_size, act_size, act_distribution, num_envs=1):
         self.observation_space = spaces.Box(0, 1, (obs_size,))
         
         if act_distribution == 'discrete':
@@ -18,3 +17,5 @@ class gym_wrapper(object):
             
         elif act_distribution == 'continuous':
             self.action_space = spaces.Box(0, 1, (act_size,))
+            
+        self.num_envs = num_envs

@@ -17,6 +17,8 @@ def play_episode_with_env(envs, policy,
     feed_infos = defaultdict(list)
     control_info['step_index'] = 0
     
+    print(len(envs))
+    
     # start the env (reset the environment)
     for env in envs:
         if ('use_cached_environments' in control_info and \

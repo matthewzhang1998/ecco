@@ -69,8 +69,8 @@ def gym_make_dqn_env(task_name_gym):
     
     return gym.make(task_name_gym)
 
-def reverse_gym_wrapper(task_name):
+def reverse_gym_wrapper(task_name, num_envs=1):
     _infos = list(_ENV_INFO[task_name].values())
-    return gym_wrapper(*_infos)
+    return gym_wrapper(*_infos, num_envs=num_envs)
     
     
