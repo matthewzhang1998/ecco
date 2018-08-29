@@ -12,7 +12,7 @@ import os.path as osp
 import env.env_register
 from util import logger
 
-RENDER_EPISODE = 100
+RENDER_EPISODE = 1
 
 class render_wrapper(object):
     def __init__(self, env_name, *args, **kwargs):
@@ -32,15 +32,16 @@ class render_wrapper(object):
                     'start_state':self.env._old_ob.tolist(),
                     'action':action.tolist()
                     })
-        return self.env.step(action, *args, **kwargs)
+        return_tup = self.env.step(action, *args, **kwargs)
+        
+        if return_tup[2]:
+            self.dump_render()
+        return return_tup
 
     def reset(self, *args, **kwargs):
         self.episode_number += 1
         if self.obs_buffer:
-            file_name = osp.join(self.path, 'ep_{}.p'.format(self.episode_number))
-            with open(file_name, 'wb') as pickle_file:
-                pickle.dump(self.obs_buffer, pickle_file, protocol=pickle.HIGHEST_PROTOCOL)
-            self.obs_buffer = []
+            self.dump_render()
         
         return self.env.reset(*args, **kwargs)
 
@@ -49,6 +50,25 @@ class render_wrapper(object):
 
     def reward(self, *args, **kwargs):
         return self.env.reward(*args, **kwargs)
+    
+    def reset_soft(self, *args, **kwargs):
+        self.episode_number += 1
+        if self.obs_buffer:
+            self.dump_render()
+        
+        return self.env.reset_soft(*args, **kwargs)
+    
+    def dump_render(self):
+        if (self.episode_number % RENDER_EPISODE) == 0:
+            file_name = osp.join(
+                self.path, 'ep_{}.p'.format(self.episode_number)
+            )
+            with open(file_name, 'wb') as pickle_file:
+                pickle.dump(
+                    self.obs_buffer, pickle_file,
+                    protocol=pickle.HIGHEST_PROTOCOL
+                )
+        self.obs_buffer = []
 
     def reward_derivative(self, *args, **kwargs):
         return self.env.reward_derivative(*args, **kwargs)

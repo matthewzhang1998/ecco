@@ -1,6 +1,14 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
+Created on Mon Aug 27 22:54:47 2018
+
+@author: matthewszhang
+"""
+
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
 Created on Sun Aug 12 23:36:56 2018
 
 @author: matthewszhang
@@ -12,6 +20,7 @@ import init_path
 
 from config import base_config
 from config import ecco_config
+from config import dqn_transfer_config
 from main.base_main import make_sampler, make_trainer, log_results
 from util import logger
 from util import parallel_util
@@ -19,13 +28,15 @@ import time
 from collections import OrderedDict
 
 
-def train(trainer, sampler, worker, network_type, args=None):
+def train(trainer, sampler, worker, models,
+          args=None):
     logger.info('Training starts at {}'.format(init_path.get_abs_base_dir()))
     
     # make the trainer and sampler
-    sampler_agent = make_sampler(sampler, worker, network_type, args)
+    sampler_agent = make_sampler(sampler, worker, models, args)
     trainer_tasks, trainer_results, trainer_agent, init_weights = \
-        make_trainer(trainer, network_type, args)
+        make_trainer(trainer, models, args)
+        
     sampler_agent.set_weights(init_weights)
 
     timer_dict = OrderedDict()
@@ -35,27 +46,43 @@ def train(trainer, sampler, worker, network_type, args=None):
     while True:
         timer_dict['** Program Total Time **'] = time.time()
 
-        # step 1: collect rollout data
+        training_info = {}
+        rollout_info = {}
+        
+        if current_iteration < args.train_dqn_iterations:
+            training_info['train_model'] = 'base'
+            rollout_info['rollout_model'] = 'base'
+            
+            
+        elif current_iteration < \
+            args.train_dqn_iterations + args.train_transfer_iterations:
+            training_info['train_model'] = 'transfer'
+            rollout_info['rollout_model'] = 'base'
+        
+        else:
+            training_info['train_model'] = 'final'
+            rollout_info['rollout_model'] = 'final'
+            
+            if args.freeze_actor_final:
+                training_info['train_net'] = 'manager'
+            
+            elif args.decoupled_managers:
+                if (current_iteration % \
+                    (args.manager_updates + args.actor_updates)) \
+                    < args.manager_updates:
+                    training_info['train_net'] = 'manager'
+                
+                else:
+                    training_info['train_net'] = 'actor'
+                    
+            else:
+                training_info['train_net'] = None
+            
         rollout_data = \
-            sampler_agent._rollout_with_workers()
+            sampler_agent._rollout_with_workers(rollout_info)
 
         timer_dict['Generate Rollout'] = time.time()
 
-        # step 2: train the weights for dynamics and policy network
-        training_info = {}
-        
-        if args.pretrain_vae and current_iteration < args.pretrain_iterations:
-            training_info['train_net'] = 'vae'
-        
-        elif args.decoupled_managers:
-            if (current_iteration % \
-                (args.manager_updates + args.actor_updates)) \
-                < args.manager_updates:
-                training_info['train_net'] = 'manager'
-            
-            else:
-                training_info['train_net'] = 'actor'
-        
         trainer_tasks.put(
             (parallel_util.TRAIN_SIGNAL,
              {'data': rollout_data['data'], 'training_info': training_info})
@@ -84,6 +111,7 @@ def train(trainer, sampler, worker, network_type, args=None):
 def main():
     parser = base_config.get_base_config()
     parser = ecco_config.get_ecco_config(parser)
+    parser = dqn_transfer_config.get_dqn_transfer_config(parser)
     args = base_config.make_parser(parser)
 
     if args.write_log:
@@ -92,13 +120,18 @@ def main():
                                 time_str=args.exp_id)
 
     print('Training starts at {}'.format(init_path.get_abs_base_dir()))
-    from trainer import ecco_trainer
-    from runners import task_sampler
-    from runners.workers import base_worker
+    from trainer import dqn_transfer_trainer
+    from runners import dqn_transfer_task_sampler
+    from runners.workers import dqn_transfer_worker
     from policy import ecco_pretrain
+    from policy import dqn_base
+    from policy import ecco_transfer
+    
+    models = {'final': ecco_pretrain.model, 'transfer': ecco_transfer.model,
+           'base': dqn_base.model}
 
-    train(ecco_trainer.trainer, task_sampler, base_worker,
-          ecco_pretrain.model, args)
+    train(dqn_transfer_trainer.trainer, dqn_transfer_task_sampler, 
+          dqn_transfer_worker, models, args)
     
 if __name__ == '__main__':
     main()

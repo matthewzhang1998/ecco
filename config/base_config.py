@@ -32,6 +32,7 @@ def get_base_config():
     parser.add_argument("--num_workers", type=int, default=1)
     
     parser.add_argument("--use_replay_buffer", type=int, default=1)
+    parser.add_argument("--use_state_normalization", type=int, default=0)
     parser.add_argument("--replay_buffer_size", type=int, default=25000)
     parser.add_argument("--replay_buffer_type", type=str,
                         default='prioritized_by_episode')

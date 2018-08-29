@@ -9,7 +9,7 @@ Created on Sun Aug 12 19:53:57 2018
 import importlib
 import re
 from env.render_wrapper import render_wrapper
-
+from .gym_wrapper import gym_wrapper
 
 _ENV_INFO = {
     'gym_sokoban': {
@@ -27,6 +27,10 @@ _ENV_INFO = {
         'ob_size':245, 'action_size':8,
         'action_distribution': 'discrete'
     }
+}
+    
+_GYM_INFO = {
+    'gym_sokoban_small_tiny_world': 'TinyWorld-Sokoban-small-v1'    
 }
     
 def io_information(task_name):
@@ -55,3 +59,18 @@ def make_env(task_name, rand_seed, maximum_length, misc_info={}):
     env_file = importlib.import_module(_ENV_INFO[task_name]['path'])
     return env_file.env(task_name, rand_seed, maximum_length, misc_info), \
          _ENV_INFO[task_name]
+
+def get_gym_id(task_name):
+    return _GYM_INFO[task_name]
+
+def gym_make_dqn_env(task_name_gym):
+    import gym
+    import gym_sokoban
+    
+    return gym.make(task_name_gym)
+
+def reverse_gym_wrapper(task_name):
+    _infos = list(_ENV_INFO[task_name].values())
+    return gym_wrapper(*_infos)
+    
+    

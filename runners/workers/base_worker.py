@@ -51,7 +51,8 @@ class worker(multiprocessing.Process):
         self._build_env()
         self.control_info = \
             {'use_default_goal':True, 'use_default_states':True,
-             'use_cached_environments':self.args.cache_environments}
+             'use_cached_environments':self.args.cache_environments,
+             'rollout_model': 'final'}
 
     def run(self):
         self._build_model()

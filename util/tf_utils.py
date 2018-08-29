@@ -57,9 +57,10 @@ class set_network_weights(object):
         assert len(weight_dict) == len(self._var_list)
         feed_dict = {}
         for var in self._var_list:
-            var_name = var.name.replace(self._base_namescope, '')[1:]
+            var_name = var.name.replace(self._base_namescope, '')
             assert var_name in weight_dict
-            feed_dict[self._placeholders[var_name]] = weight_dict[var_name]
+            feed_dict[self._placeholders[var_name[1:]]] = \
+                weight_dict[var_name]
             # print(var.name, var_name, self._session.run(var))
 
         self._session.run(self._assigns, feed_dict)

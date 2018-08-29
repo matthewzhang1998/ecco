@@ -22,6 +22,7 @@ def get_ecco_config(parser):
                         type=str, default='layer_norm')
     
     parser.add_argument("--use_dilatory_network", type=int, default=1)
+    parser.add_argument("--use_delta_state", type=int, default=0)
     
     parser.add_argument("--debug_end_to_end", type=int, default=0)
     
@@ -50,6 +51,7 @@ def get_ecco_config(parser):
     parser.add_argument("--pretrain_vae", type=int, default=1)
     parser.add_argument("--pretrain_iterations", type=int, default=50)
     
+    parser.add_argument("--use_state_embedding", type=int, default=0)
     parser.add_argument("--embed_goal_type", type=str, default="linear")
     parser.add_argument("--embed_goal_size", type=int, default=64)
     parser.add_argument("--state_embed_norm_type", type=str, default='none')

@@ -570,7 +570,7 @@ class model(ecco_base.base_model):
         }
         
         num_episodes = int(len(data_dict['start_state']) / \
-            (self.args.episode_length))
+            (self.args.episode_length + 1))
         
         states_dict = {
             self._input_ph['net_states'][layer['name']]:
@@ -586,7 +586,6 @@ class model(ecco_base.base_model):
                 self._tensor['hindsight_goal'],
                 feed_dict
             )
-        
         
         feed_dict[self._input_ph['goal']] = _hindsight_goal
         

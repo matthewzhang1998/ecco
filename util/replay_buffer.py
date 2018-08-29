@@ -55,7 +55,8 @@ class replay_buffer(object):
                 [self._buffer_size, self._action_size], dtype=np.int16    
             )
         
-        self._data_key = [key for key in self._data if len(self._data[key]) > 0]
+        self._data_key = [key for key in self._data 
+                          if len(self._data[key]) > 0]
 
         self._current_id = 0
         self._occupied_size = 0

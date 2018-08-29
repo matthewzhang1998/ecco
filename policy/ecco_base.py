@@ -8,12 +8,11 @@ Created on Tue Jul  3 10:18:48 2018
 from collections import defaultdict
 
 import init_path
-import copy
 import tensorflow as tf
 import numpy as np
 from policy.networks import ecco_network, fixed_manager_network, \
     fixed_actor_network
-from util import tf_networks, tf_utils, logger, whitening_util
+from util import tf_networks, tf_utils, whitening_util
 
 class base_model(object):
     '''
@@ -45,7 +44,7 @@ class base_model(object):
         self._update_operator = {}
             
     def build_model(self):
-        with tf.variable_scope(self._name_scope):
+        with tf.variable_scope(self._name_scope, reuse=tf.AUTO_REUSE):
             self._build_proto()
             self._build_placeholders()
             self._build_preprocess()
@@ -118,6 +117,12 @@ class base_model(object):
         if self.args.use_fixed_manager:
             self._manager_net_proto = fixed_manager_network.network
             self._maximum_dim = self._observation_size
+            
+        elif not(self.args.use_state_embedding
+            or self.args.use_state_preprocessing):
+            self._manager_net_proto = ecco_network.network
+            self._maximum_dim = self._observation_size
+            
         else:
             self._manager_net_proto = ecco_network.network
             self._maximum_dim = self._goal_size_by_level(1)
@@ -164,18 +169,27 @@ class base_model(object):
             'state', self._observation_size
         )
         
-        self._tensor['normalized_start_state'] = (
-            self._input_ph['start_state'] -
-            self._whitening_operator['state_mean']
-        ) / self._whitening_operator['state_std']
+        if self.args.use_state_normalization:
+            self._tensor['normalized_start_state'] = (
+                self._input_ph['start_state'] -
+                self._whitening_operator['state_mean']
+            ) / self._whitening_operator['state_std']
+            
+            self._tensor['normalized_lookahead'] = (
+                self._input_ph['lookahead_state'] -
+                self._whitening_operator['state_mean']
+            ) / self._whitening_operator['state_std']
+            
+            self._tensor['net_input'] = \
+                self._tensor['normalized_start_state']
+            self._tensor['net_lookahead'] = \
+                self._tensor['normalized_lookahead']
         
-        self._tensor['normalized_lookahead'] = (
-            self._input_ph['lookahead_state'] -
-            self._whitening_operator['state_mean']
-        ) / self._whitening_operator['state_std']
-        
-        self._tensor['net_input'] = self._tensor['normalized_start_state']
-        self._tensor['net_lookahead'] = self._tensor['normalized_lookahead']
+        else:
+            self._tensor['net_input'] = self._input_ph['start_state']
+            self._tensor['normalized_start_state'] = \
+                self._input_ph['start_state']
+            self._tensor['net_lookahead'] = self._input_ph['lookahead_state']
         
         self._network_input_size = self._observation_size
         
@@ -514,6 +528,7 @@ class base_model(object):
         
         # assume that the states are arranged as a flatten vector of episodes,
         # each of fixed length
+        
         for episode in range(int(_batch_size/self.args.episode_length)):
             episode_start = episode * self.args.episode_length
             episode_end = episode_start + self.args.episode_length
@@ -551,9 +566,9 @@ class base_model(object):
     def get_weights(self):
         return self._get_network_weights()
     
-    def set_weights(self, weight_dict):
-        return self._set_network_weights(weight_dict)
-
+    def set_weights(self, weights):
+        self._set_network_weights(weights)
+        
     def _set_var_list(self):
         # collect the tf variable and the trainable tf variable
         self._trainable_var_list = [var for var in tf.trainable_variables()

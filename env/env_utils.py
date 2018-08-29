@@ -51,6 +51,7 @@ def play_episode_with_env(envs, policy,
             feed_infos[key] = np.array(action_signal[key])
 
         # take the action
+        
         for i in range(len(envs)):
             ob, reward, done, _ = envs[i].step(action_signal['actions'][i])
             feed_infos['start_state'].append(ob)
@@ -61,12 +62,13 @@ def play_episode_with_env(envs, policy,
             return_infos[key].append(np.array(feed_infos[key]))
 
         if done:  # simultaneous termination
-            for i in range(len(envs)):
-                feed_infos['goal'] = policy(
-                        feed_infos, {'get_dummy_goals':True}
-                )['goal']
-                
-            return_infos['goal'].append(np.array(feed_infos['goal']))
+            if control_info['rollout_model'] is 'final':
+                for i in range(len(envs)):
+                    feed_infos['goal'] = policy(
+                            feed_infos, {'get_dummy_goals':True}
+                    )['goal']
+                    
+                return_infos['goal'].append(np.array(feed_infos['goal']))
             
             break
     
