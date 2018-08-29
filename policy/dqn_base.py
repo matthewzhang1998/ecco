@@ -96,7 +96,7 @@ class model(baseline_model):
                 )
             )
                 
-        stats['td_errors'] = np.mean(td_errors**2)
+        stats['td_errors'] = np.mean(np.array(td_errors)**2)
         
         return stats, data_dict
         
