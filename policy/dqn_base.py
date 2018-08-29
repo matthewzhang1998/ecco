@@ -79,18 +79,24 @@ class model(baseline_model):
         _target_update = (self.timesteps_so_far % \
             self.args.dqn_update_target_steps) == 0
         
+        td_errors = []
+                          
         for _ in range(self.args.dqn_update_epochs):
-            train_wrapper(
-                self.baseline_dqn_dict['replay_buffer'],
-                self.baseline_dqn_dict['beta_schedule'],
-                self.args.use_dqn_prioritized_replay,
-                self.args.dqn_prioritized_replay_eps,
-                self.timesteps_so_far,
-                self.baseline_dqn_dict['update_target_function'],
-                self.args.dqn_batch_size,
-                self.baseline_dqn_dict['train_function'],
-                target_update = _target_update
+            td_errors.append(
+                train_wrapper(
+                    self.baseline_dqn_dict['replay_buffer'],
+                    self.baseline_dqn_dict['beta_schedule'],
+                    self.args.use_dqn_prioritized_replay,
+                    self.args.dqn_prioritized_replay_eps,
+                    self.timesteps_so_far,
+                    self.baseline_dqn_dict['update_target_function'],
+                    self.args.dqn_batch_size,
+                    self.baseline_dqn_dict['train_function'],
+                    target_update = _target_update
+                )
             )
+                
+        stats['td_errors'] = np.mean(td_errors)
         
         return stats, data_dict
         

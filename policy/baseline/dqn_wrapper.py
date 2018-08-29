@@ -155,6 +155,8 @@ def train_wrapper(replay_buffer, beta_schedule, prioritized_replay,
         # Update target network periodically.
         update_target_function()
         
+    return td_errors
+        
     
 def save_wrapper(checkpoint_path=None):
     with tempfile.TemporaryDirectory() as td:
