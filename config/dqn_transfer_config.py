@@ -52,7 +52,7 @@ def get_dqn_transfer_config(parser):
     parser.add_argument("--dqn_batch_size", type=int, default=32)
     parser.add_argument("--dqn_update_epochs", type=int, default=100)
     
-    parser.add_argument("--use_dqn_prioritized_replay", type=int, default=0)
+    parser.add_argument("--use_dqn_prioritized_replay", type=int, default=1)
     parser.add_argument("--dqn_prioritized_alpha", type=float, default=0.6)
     parser.add_argument("--dqn_beta_iters", type=int, default=None)
     parser.add_argument("--dqn_prioritized_beta", type=float, default=0.4)
