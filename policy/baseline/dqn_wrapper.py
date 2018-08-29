@@ -124,7 +124,7 @@ def act_wrapper(env, action_function,
         kwargs['update_param_noise_threshold'] = update_param_noise_threshold
         kwargs['update_param_noise_scale'] = True
     action = action_function(
-        np.array(obs)[None], update_eps=update_eps, **kwargs
+        np.array(obs[:5])[None], update_eps=update_eps, **kwargs
     )[0]
     
     return action
@@ -145,6 +145,7 @@ def train_wrapper(replay_buffer, beta_schedule, prioritized_replay,
             obses_t, actions, rewards, obses_tp1, dones = \
                 replay_buffer.sample(batch_size)
             weights, batch_idxes = np.ones_like(rewards), None
+            
         td_errors = train(obses_t, actions, rewards, obses_tp1, dones, weights)
         if prioritized_replay:
             new_priorities = np.abs(td_errors) + prioritized_replay_eps

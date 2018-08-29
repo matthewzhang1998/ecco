@@ -10,7 +10,7 @@ from gym import spaces
 
 class gym_wrapper(object):
     def __init__(self, _, obs_size, act_size, act_distribution, num_envs=1):
-        self.observation_space = spaces.Box(0, 1, (obs_size,))
+        self.observation_space = spaces.Box(0, 1, (5,))
         
         if act_distribution == 'discrete':
             self.action_space = spaces.Discrete(act_size)

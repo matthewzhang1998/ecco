@@ -60,13 +60,14 @@ class model(baseline_model):
         
         data_dict = self._discard_final_states(data_dict)
         
-        self.baseline_dqn_dict['replay_buffer'].add(
-            np.array(data_dict['start_state']),
-            np.array(data_dict['actions']),
-            np.array(data_dict['rewards']),
-            np.array(data_dict['end_state']),
-            np.array(dones, dtype=np.float32)
-        )
+        for i in range(len(data_dict['start_state'])):
+            self.baseline_dqn_dict['replay_buffer'].add(
+                np.array(data_dict['start_state'][i,:5]),
+                np.array(data_dict['actions'][i]),
+                np.array(data_dict['rewards'][i]),
+                np.array(data_dict['end_state'][i,:5]),
+                np.array(dones[i], dtype=np.float32)
+            )
         
         stats = {'mean_rewards': np.mean(data_dict['rewards'])}
         
