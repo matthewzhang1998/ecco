@@ -44,10 +44,14 @@ class model(baseline_model):
                 prioritized_replay = self.args.use_dqn_prioritized_replay,
                 prioritized_replay_beta_iters = self.args.dqn_beta_iters,
                 prioritized_replay_beta = self.args.dqn_prioritized_beta,
-                exploration_fraction = self.args.dqn_epsilon,
+                exploration_fraction = self.args.dqn_epsilon * \
+                    self.args.train_dqn_iterations / \
+                    (self.args.train_dqn_iterations +
+                     self.args.transfer_iterations),
                 exploration_final_eps = self.args.dqn_min_epsilon,
                 total_timesteps = \
-                    self.args.train_dqn_iterations * self.args.batch_size,
+                    (self.args.train_dqn_iterations +
+                     self.args.transfer_iterations) * self.args.batch_size,
                 **_network_kwargs
             )
             self._set_var_list()
