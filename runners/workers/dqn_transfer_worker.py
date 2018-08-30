@@ -23,7 +23,6 @@ class worker(base_worker.worker):
             if next_task[0] == parallel_util.WORKER_RUNNING:
                 
                 self._num_envs_required = int(next_task[1]['num_envs'])
-                print(self._num_envs_required)
                 _rollout_model = next_task[1]['rollout_model']
                     
                 # collect rollouts
@@ -87,6 +86,11 @@ class worker(base_worker.worker):
             self._envs.extend(
                 copy.deepcopy(self._environments_cache[start:end])
             )
+            
+        for i in range(len(self._envs)):
+            self._episodes_so_far += 1
+            self._envs[i].episode_number = self._episodes_so_far
+            self._envs[i].render_name = self._name_scope
             
         self.control_info = \
             {'use_default_goal':True, 'use_default_states':True,

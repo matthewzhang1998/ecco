@@ -45,6 +45,7 @@ class worker(multiprocessing.Process):
         self._env_start_index = 0
         self._envs = []
         self._environments_cache = []
+        self._episodes_so_far = 0
 
         logger.info('Worker {} online'.format(self._worker_id))
         self._base_dir = init_path.get_base_dir()
@@ -152,6 +153,11 @@ class worker(multiprocessing.Process):
             self._envs.extend(
                 copy.deepcopy(self._environments_cache[start:end])
             )
+            
+        for i in range(len(self._envs)):
+            self._episodes_so_far += 1
+            self._envs[i].episode_number = self._episodes_so_far
+            self._envs[i].render_name = self._name_scope
         
         traj_episode = play_episode_with_env(
             self._envs, self._act,
