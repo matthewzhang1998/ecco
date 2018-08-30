@@ -42,7 +42,7 @@ def get_dqn_transfer_config(parser):
     # mlp args
     parser.add_argument("--dqn_num_mlp_layers", type=int, default=3)
     parser.add_argument("--dqn_num_mlp_hidden", type=int, default=128)
-    parser.add_argument("--dqn_mlp_activation", type=str, default='relu')
+    parser.add_argument("--dqn_mlp_activation", type=str, default='tanh')
     
     # conv
     parser.add_argument("--dqn_convolution_network_shape", type=str,
@@ -53,13 +53,13 @@ def get_dqn_transfer_config(parser):
     parser.add_argument("--dqn_update_epochs", type=int, default=100)
     
     parser.add_argument("--use_dqn_prioritized_replay", type=int, default=0)
-    parser.add_argument("--dqn_prioritized_alpha", type=float, default=0.6)
+    parser.add_argument("--dqn_prioritized_alpha", type=float, default=0.0)
     parser.add_argument("--dqn_beta_iters", type=int, default=None)
     parser.add_argument("--dqn_prioritized_beta", type=float, default=0.4)
     parser.add_argument("--dqn_prioritized_replay_eps",
                         type=float, default=1e-6)
     
-    parser.add_argument("--dqn_epsilon", type=float, default=0.5)
+    parser.add_argument("--dqn_epsilon", type=float, default=0.9)
     parser.add_argument("--dqn_min_epsilon", type=float, default=0.02)
     
     parser.add_argument("--train_dqn_iterations", type=int, default=1000)
