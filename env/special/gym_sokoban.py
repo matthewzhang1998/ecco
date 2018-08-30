@@ -33,6 +33,7 @@ class env(bew.base_env):
         ob = self._one_hot(self._env.env.room_state)
         
         reward = self._env.env.reward_last - reward_last
+        reward /= 10
     
         # flatten observation
         ob = np.reshape(ob, [-1])
@@ -43,7 +44,6 @@ class env(bew.base_env):
         else:
             done = False # will raise warnings -> set logger flag to ignore
         self._old_ob = np.array(ob)
-        reward /= 10
 
 	return ob, reward, done, {}
     
