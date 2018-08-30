@@ -7,7 +7,7 @@ Created on Sun Aug 12 22:16:51 2018
 """
 
 import init_path
-import math
+import time
 from env import base_env_wrapper as bew
 from env import env_register
 import numpy as np
@@ -103,4 +103,5 @@ class env(bew.base_env):
         ground_truth_state = np.argmax(geo_state_array, axis=-1)
         
         self._env.env.room_state = ground_truth_state
-        return self._env.step(action)[0]
+        
+        # no act, creates bugs

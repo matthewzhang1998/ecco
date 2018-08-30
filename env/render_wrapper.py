@@ -8,6 +8,8 @@ Created on Wed Aug  8 12:03:11 2018
 import re
 import pickle
 import os.path as osp
+import numpy as np
+import time
 
 import env.env_register
 from util import logger
@@ -38,6 +40,7 @@ class render_wrapper(object):
         
         if return_tup[2]:
             self.dump_render()
+            
         return return_tup
 
     def reset(self, *args, **kwargs):
@@ -77,5 +80,16 @@ class render_wrapper(object):
 
     def reward_derivative(self, *args, **kwargs):
         return self.env.reward_derivative(*args, **kwargs)
+    
+    def render(self, data_dict):
+        for transition in data_dict:
+            render_transition = {
+                'start_state':np.asarray(transition['start_state']),
+                'action':np.asarray(transition['action']),
+            }
+            
+            self.env.fdynamics(render_transition)
+            self.env._env.render()
+            time.sleep(1/20)
     
     
