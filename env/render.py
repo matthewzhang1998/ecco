@@ -20,7 +20,7 @@ class rendering(object):
     def render(self, transition):
         self.env.fdynamics(transition)
         self.env._env.render()
-        time.sleep(1)
+        time.sleep(1/20)
         
 def get_rendering_config():
     import argparse

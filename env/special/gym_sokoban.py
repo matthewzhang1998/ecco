@@ -16,7 +16,7 @@ from util import logger
 class env(bew.base_env):
     MC = ['gym_sokoban']
     
-    one_hot_depth = 8
+    n_boxes = 1
     
     def __init__(self, env_name, rand_seed, maximum_length, misc_info):
         super(env, self).__init__(
@@ -54,11 +54,16 @@ class env(bew.base_env):
         else:
             done = False # will raise warnings -> set logger flag to ignore
         self._old_ob = np.array(ob)
+        self._env.render()
+        time.sleep(1/30)
         
         return ob, reward, done, {}
     
     def reset(self):
         self._env.reset()
+        
+        self._keep_n_boxes(self.n_boxes)
+        
         ob = self._one_hot(self._env.env.room_state)
         ob = np.reshape(ob, [-1])
         
@@ -90,6 +95,18 @@ class env(bew.base_env):
     
     def get_supervised_goal():
         return None
+    
+    def _keep_n_boxes(self, num_boxes):
+        targets = np.where(self._env.env.room_fixed == 2)
+        boxes = np.where(
+            (self._env.env.room_state == 3)|(self._env.env.room_state == 4)
+        )
+        
+        for i in range(num_boxes, len(targets[0])):
+            self._env.env.room_fixed[targets[0][i], targets[1][i]] = 1
+            if self._env.env.room_state[targets[0][i], targets[1][i]] == 2:
+                self._env.env.room_state[targets[0][i], targets[1][i]] = 1
+            self._env.env.room_state[boxes[0][i], boxes[1][i]] = 1
      
     def fdynamics(self, data_dict):
         action = float(data_dict['action'])

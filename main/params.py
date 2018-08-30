@@ -15,7 +15,7 @@ def env_args():
     params = {}
     
     # Fixed parameters
-    params["--task"] = ["gym_sokoban_small_tiny_world"]
+    params["--task"] = ["gym_sokoban_small_tiny_world__render"]
     params["--batch_size"] = [5000]
     params["--num_cache"] = [5]
     params["--episode_length"] = [100]
