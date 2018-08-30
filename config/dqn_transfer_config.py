@@ -65,8 +65,9 @@ def get_dqn_transfer_config(parser):
     parser.add_argument("--train_dqn_iterations", type=int, default=1000)
     parser.add_argument("--dqn_update_target_steps", type=int, default=20000)
     
-    parser.add_argument("--dqn_lr", type=float, default=1e-4)    
-    parser.add_argument("--dqn_gamma", type=float, default=1.0)
+    parser.add_argument("--dqn_lr", type=float, default=1e-4)  
+    parser.add_argument("--dqn_gradient_max", type=float, default=0.1)      
+    parser.add_argument("--dqn_gamma", type=float, default=0.99)
     parser.add_argument("--use_dqn_param_noise", type=int, default=0)
     
     parser.add_argument("--train_transfer_iterations", type=int, 

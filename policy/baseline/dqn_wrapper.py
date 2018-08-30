@@ -36,6 +36,7 @@ def init_wrapper(env,
     prioritized_replay_beta_iters=None,
     prioritized_replay_beta=.4,
     exploration_fraction=.1,
+    grad_norm_clipping=10,
     total_timesteps=int(1e6),
     exploration_final_eps=0.02,
     **network_kwargs):
@@ -56,7 +57,7 @@ def init_wrapper(env,
         num_actions=env.action_space.n,
         optimizer=tf.train.AdamOptimizer(learning_rate=lr),
         gamma=gamma,
-        grad_norm_clipping=10,
+        grad_norm_clipping=grad_norm_clipping,
         param_noise=param_noise
     )
 

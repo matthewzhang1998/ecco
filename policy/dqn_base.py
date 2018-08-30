@@ -49,6 +49,7 @@ class model(baseline_model):
                     (self.args.train_dqn_iterations +
                      self.args.train_transfer_iterations),
                 exploration_final_eps = self.args.dqn_min_epsilon,
+                grad_norm_clipping = self.args.dqn_gradient_max,
                 total_timesteps = \
                     (self.args.train_dqn_iterations +
                      self.args.train_transfer_iterations) * \
