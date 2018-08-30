@@ -39,6 +39,16 @@ class env(bew.base_env):
     
         # flatten observation
         ob = np.reshape(ob, [-1])
+        
+        _room_dim_shape = self._env.env.dim_room
+        geo_state_array = np.reshape(
+            ob,
+            [*_room_dim_shape] + [-1]
+        )
+        
+        ground_truth_state = np.argmax(geo_state_array, axis=-1)
+        
+        print(ground_truth_state, '\n', np.array(self._env.env.room_state))
 
         self._current_step += 1
         if self._current_step >= self._maximum_length:

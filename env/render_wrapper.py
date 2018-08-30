@@ -12,7 +12,7 @@ import os.path as osp
 import env.env_register
 from util import logger
 
-RENDER_EPISODE = 100
+RENDER_EPISODE = 1
 
 class render_wrapper(object):
     def __init__(self, env_name, *args, **kwargs):
@@ -29,7 +29,7 @@ class render_wrapper(object):
         self.render_name = ''
 
     def step(self, action, *args, **kwargs):
-        if self.always_render or self.episode_number % RENDER_EPISODE == 1:
+        if self.always_render or self.episode_number % RENDER_EPISODE == 0:
             self.obs_buffer.append({
                     'start_state':self.env._old_ob.tolist(),
                     'action':action.tolist()
@@ -56,14 +56,14 @@ class render_wrapper(object):
     def reset_soft(self, *args, **kwargs):
         self.episode_number += 1
         if self.obs_buffer and (self.render or 
-            self.episode_number % RENDER_EPISODE == 1):
+            self.episode_number % RENDER_EPISODE == 0):
             self.dump_render()
         
         return self.env.reset_soft(*args, **kwargs)
     
     def dump_render(self):
         print(self.episode_number)
-        if (self.episode_number % RENDER_EPISODE) == 1:
+        if (self.episode_number % RENDER_EPISODE) == 0:
             file_name = osp.join(
                 self.path, 'ep_{}_{}.p'.format(
                     self.episode_number, self.render_name
