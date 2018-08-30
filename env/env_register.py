@@ -24,7 +24,7 @@ _ENV_INFO = {
     },
     'gym_sokoban_small_tiny_world': {
         'path': 'env.special.gym_sokoban',
-        'ob_size':245, 'action_size':8,
+        'ob_size':294, 'action_size':8,
         'action_distribution': 'discrete'
     }
 }
