@@ -97,6 +97,8 @@ class model(baseline_model):
             )
                 
         stats['td_errors'] = np.mean(np.array(td_errors)**2)
+        stats['epsilon'] = \
+            self.baseline_dqn_dict['exploration_scheme'](self.timesteps_so_far)
         
         return stats, data_dict
         
