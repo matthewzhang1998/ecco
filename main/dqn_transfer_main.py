@@ -97,6 +97,25 @@ def train(trainer, sampler, worker, models,
 
         # log and print the results
         log_results(training_return, timer_dict)
+        
+        if current_iteration == args.train_dqn_iterations:
+            trainer_tasks.put(
+                parallel_util.SAVE_SIGNAL,
+                {'net': 'base'}
+            )
+            
+        elif current_iteration == \
+            (args.train_dqn_iterations + args.train_transfer_iterations):
+            trainer_tasks.put(
+                parallel_util.SAVE_SIGNAL,
+                {'net': 'transfer'}
+            )
+
+        elif training_return['totalsteps'] > args.max_timesteps:
+            trainer_tasks.put(
+                parallel_util.SAVE_SIGNAL,
+                {'net': 'final'}
+            )
 
         #if totalsteps > args.max_timesteps:
         if training_return['totalsteps'] > args.max_timesteps:

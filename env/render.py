@@ -14,13 +14,13 @@ from env.env_register import make_env
 
 class rendering(object):
     def __init__(self, env_name):
-        self.env, _ = make_env(env_name, 1234)
+        self.env, _ = make_env(env_name, 0, 1234)
         self.env.reset()
         
     def render(self, transition):
         self.env.fdynamics(transition)
         self.env._env.render()
-        time.sleep(1/30)
+        time.sleep(1)
         
 def get_rendering_config():
     import argparse

@@ -10,11 +10,11 @@ import init_path
 
 def get_base_config():
     # get the parameters
-    parser = argparse.ArgumentParser(description='Model_based_rl.')
+    parser = argparse.ArgumentParser(description='hierarchical control')
 
     # the experiment settings
     parser.add_argument("--task", type=str, 
-                        default='gym_sokoban_small_tiny_world',
+                        default='gym_sokoban_small_tiny_world__render',
                         help='the environment to test')
     parser.add_argument("--exp_id", type=str, default=init_path.get_time(),
                         help='the special id of the experiment')

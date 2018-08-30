@@ -37,6 +37,14 @@ class env(bew.base_env):
     
         # flatten observation
         ob = np.reshape(ob, [-1])
+        
+        _room_dim_shape = self._env.env.dim_room
+        geo_state_array = np.reshape(
+            ob,
+            [*_room_dim_shape] + [-1]
+        )
+        
+        ground_truth_state = np.argmax(geo_state_array, axis=-1)
 
         self._current_step += 1
         if self._current_step >= self._maximum_length:
@@ -75,10 +83,23 @@ class env(bew.base_env):
     
     def _one_hot(self, ob):
         one_hot_ob = \
-            (np.arange(ob.max()) == ob[...,None]-1).astype(int)
+            (np.arange(ob.max()) == ob[...,None]).astype(int)
                 
         return one_hot_ob
     
     def get_supervised_goal():
         return None
      
+    def fdynamics(self, data_dict):
+        action = float(data_dict['action'])
+        
+        _room_dim_shape = self._env.env.dim_room
+        geo_state_array = np.reshape(
+            data_dict['start_state'],
+            [*_room_dim_shape] + [-1]
+        )
+        
+        ground_truth_state = np.argmax(geo_state_array, axis=-1)
+        
+        self._env.env.room_state = ground_truth_state
+        return self._env.step(action)[0]

@@ -12,6 +12,8 @@ from util import misc_utils
 from util import logger
 from util import replay_buffer
 
+import os.path as osp
+
 from .base_trainer import base_trainer
 
 class trainer(base_trainer):        
@@ -45,6 +47,10 @@ class trainer(base_trainer):
                 self._init_whitening_stats()
                 self._timesteps_so_far = 0
                 self._iteration = 0
+                
+            elif next_task[0] == parallel_util.SAVE_SIGNAL:
+                _save_extension = next_task[1]
+                _log_path = logger._get_path()
 
             else:
                 # training

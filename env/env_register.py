@@ -70,6 +70,9 @@ def gym_make_dqn_env(task_name_gym):
     return gym.make(task_name_gym)
 
 def reverse_gym_wrapper(task_name, num_envs=1):
+    render_flag = re.compile(r'__render$')
+    task_name = render_flag.sub('', task_name)
+    
     _infos = list(_ENV_INFO[task_name].values())
     return gym_wrapper(*_infos, num_envs=num_envs)
     
