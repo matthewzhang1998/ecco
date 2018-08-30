@@ -47,8 +47,6 @@ class env(bew.base_env):
         )
         
         ground_truth_state = np.argmax(geo_state_array, axis=-1)
-        
-        print(ground_truth_state, '\n', np.array(self._env.env.room_state))
 
         self._current_step += 1
         if self._current_step >= self._maximum_length:

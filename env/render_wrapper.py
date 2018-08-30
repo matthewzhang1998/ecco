@@ -62,7 +62,6 @@ class render_wrapper(object):
         return self.env.reset_soft(*args, **kwargs)
     
     def dump_render(self):
-        print(self.episode_number)
         if (self.episode_number % RENDER_EPISODE) == 0:
             file_name = osp.join(
                 self.path, 'ep_{}_{}.p'.format(
