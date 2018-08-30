@@ -44,8 +44,8 @@ class env(bew.base_env):
         else:
             done = False # will raise warnings -> set logger flag to ignore
         self._old_ob = np.array(ob)
-
-	return ob, reward, done, {}
+        
+        return ob, reward, done, {}
     
     def reset(self):
         self._env.reset()

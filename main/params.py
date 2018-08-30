@@ -21,7 +21,7 @@ def env_args():
     params["--episode_length"] = [100]
     params["--dqn_batch_size"] = [32, 64, 128]
     params["--dqn_update_epochs"] = [10, 25, 50, 100]
-    params["--dqn_lr"] = [1e-7]
+    params["--dqn_lr"] = [1e-5]
     
     # Tuned Parameters
     return params
