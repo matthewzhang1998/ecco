@@ -76,6 +76,10 @@ class model(baseline_model):
         
         stats = {'mean_rewards': np.mean(data_dict['rewards'])}
         
+        # this is necessary because the train and act networks are
+        # different class instances
+        self.timesteps_so_far += len(data_dict['start_state'])
+        
         _target_update = (self.timesteps_so_far % \
             self.args.dqn_update_target_steps) == 0
         
@@ -98,7 +102,9 @@ class model(baseline_model):
                 
         stats['td_errors'] = np.mean(np.array(td_errors)**2)
         stats['epsilon'] = \
-            self.baseline_dqn_dict['exploration_scheme'](self.timesteps_so_far)
+            self.baseline_dqn_dict['exploration_scheme'].value(
+                self.timesteps_so_far
+            )
         
         return stats, data_dict
         
