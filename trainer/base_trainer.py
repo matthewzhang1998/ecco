@@ -13,6 +13,7 @@ CREDIT TO TINGWU WANG FOR THIS CODE
 import numpy as np
 import multiprocessing
 import init_path
+import os.path as osp
 import tensorflow as tf
 from util import parallel_util
 from util import whitening_util
@@ -72,6 +73,18 @@ class base_trainer(multiprocessing.Process):
                 self._timesteps_so_far = 0
                 self._iteration = 0
 
+            elif next_task[0] == parallel_util.SAVE_SIGNAL:
+                _save_root = next_task[1]['net']
+                _log_path = logger._get_path()
+                
+                _save_extension = _save_root + \
+                    "_{}_{}.ckpt".format(
+                        self._name_scope, self._timesteps_so_far
+                    )
+                    
+                _save_dir = osp.join(_log_path, _save_extension)
+                self._saver(self._session, _save_dir)
+
             else:
                 # training
                 assert next_task[0] == parallel_util.TRAIN_SIGNAL
@@ -107,6 +120,7 @@ class base_trainer(multiprocessing.Process):
                     )
         self._network.build_model()
         self._session.run(tf.global_variables_initializer())
+        self._saver = tf.train.Saver()
 
     def _set_io_size(self):
         self._observation_size, self._action_size, \

@@ -49,8 +49,16 @@ class trainer(base_trainer):
                 self._iteration = 0
                 
             elif next_task[0] == parallel_util.SAVE_SIGNAL:
-                _save_extension = next_task[1]
+                _save_root = next_task[1]['net']
                 _log_path = logger._get_path()
+                
+                _save_extension = _save_root + \
+                    "_{}_{}.ckpt".format(
+                        self._name_scope, self._timesteps_so_far
+                    )
+                    
+                _save_dir = osp.join(_log_path, _save_extension)
+                self._saver(self._session, _save_dir)
 
             else:
                 # training
@@ -83,6 +91,7 @@ class trainer(base_trainer):
         for key in self._network:
             self._network[key].build_model()
         self._session.run(tf.global_variables_initializer())
+        self._saver = tf.train.Saver()
             
     def _init_replay_buffer(self):
         if self._action_distribution is 'discrete':
