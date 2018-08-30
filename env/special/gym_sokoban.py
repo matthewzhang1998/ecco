@@ -16,14 +16,13 @@ from util import logger
 class env(bew.base_env):
     MC = ['gym_sokoban']
     
-    n_boxes = 1
-    
     def __init__(self, env_name, rand_seed, maximum_length, misc_info):
         super(env, self).__init__(
             env_name, rand_seed, maximum_length, misc_info
         )
         self._base_path = init_path.get_abs_base_dir()
         self._env.env.penalty_for_step = 0.
+        self.n_boxes = 3
         
     def step(self, action):    
         action = int(action) # get int from action     
@@ -82,7 +81,11 @@ class env(bew.base_env):
             'gym_sokoban_huge':'Sokoban-huge-v0',
             'gym_sokoban_tiny_world': 'TinyWorld-Sokoban-v2',
             'gym_sokoban_small_tiny_world': 'TinyWorld-Sokoban-small-v1',
+            'gym_sokoban_small_tiny_world_easy': 'TinyWorld-Sokoban-small-v1',
         }
+        
+        if 'easy' in _env_name:
+            self.n_boxes = 1
         
         # make the environments
         self._env = gym.make(_env_name[self._env_name])

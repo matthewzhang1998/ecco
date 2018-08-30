@@ -26,11 +26,17 @@ _ENV_INFO = {
         'path': 'env.special.gym_sokoban',
         'ob_size':294, 'action_size':8,
         'action_distribution': 'discrete'
+    },
+    'gym_sokoban_small_tiny_world_easy': {
+        'path': 'env.special.gym_sokoban',
+        'ob_size':294, 'action_size':8,
+        'action_distribution': 'discrete'
     }
 }
     
 _GYM_INFO = {
-    'gym_sokoban_small_tiny_world': 'TinyWorld-Sokoban-small-v1'    
+    'gym_sokoban_small_tiny_world': 'TinyWorld-Sokoban-small-v1',
+    'gym_sokoban_small_tiny_world_easy': 'TinyWorld-Sokoban-small-v1'      
 }
     
 def io_information(task_name):
