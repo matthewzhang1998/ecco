@@ -42,7 +42,7 @@ def get_dqn_transfer_config(parser):
     # 'conv_only', 'mlp', 'lstm'
     
     # mlp args
-    parser.add_argument("--dqn_network_size", type=str, default='64,64,64')
+    parser.add_argument("--dqn_network_shape", type=str, default='64,64,64')
     parser.add_argument("--dqn_layer_norm", type=int, default=1)
     parser.add_argument("--dqn_dueling", type=int, default=1)
     

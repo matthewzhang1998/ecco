@@ -10,7 +10,7 @@ from .tf_networks import get_activation_func
 def get_dqn_network_kwargs_from_namespace(args):
     if args.dqn_network_type is 'mlp':
         kwargs = {
-            'hiddens':args.dqn_network_size,
+            'hiddens':args.dqn_network_shape,
         }
         
     elif args.dqn_network_type is 'conv_only':

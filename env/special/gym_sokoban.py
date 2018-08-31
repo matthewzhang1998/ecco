@@ -41,14 +41,6 @@ class env(bew.base_env):
     
         # flatten observation
         ob = np.reshape(ob, [-1])
-        
-        _room_dim_shape = self._env.env.dim_room
-        geo_state_array = np.reshape(
-            ob,
-            [*_room_dim_shape] + [-1]
-        )
-        
-        ground_truth_state = np.argmax(geo_state_array, axis=-1)
 
         self._current_step += 1
         if self._current_step >= self._maximum_length:
@@ -56,8 +48,6 @@ class env(bew.base_env):
         else:
             done = False # will raise warnings -> set logger flag to ignore
         self._old_ob = np.array(ob)
-        self._env.render()
-        time.sleep(1/30)
                
         return ob, reward, done, {}
     
@@ -100,7 +90,6 @@ class env(bew.base_env):
         return None
     
     def _keep_n_boxes(self, num_boxes):
-        print(num_boxes)
         targets = np.where(self._env.env.room_fixed == 2)
         boxes = np.where(
             (self._env.env.room_state == 3)|(self._env.env.room_state == 4)
