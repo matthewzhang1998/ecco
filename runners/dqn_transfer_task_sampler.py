@@ -15,7 +15,9 @@ class sampler(task_sampler.sampler):
         
         self._current_iteration += 1
         rollout_data = []
-        timesteps_needed = self.args.dqn_batch_size
+        
+        timesteps_needed = self.args.dqn_batch_size \
+            if _rollout_model == 'base' else self.args.batch_size
         num_timesteps_received = 0
         
         while True:
