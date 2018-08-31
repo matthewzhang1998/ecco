@@ -100,8 +100,8 @@ def train(trainer, sampler, worker, models,
         
         if current_iteration == args.train_dqn_iterations:
             trainer_tasks.put(
-                parallel_util.SAVE_SIGNAL,
-                {'net': 'base'}
+                (parallel_util.SAVE_SIGNAL,
+                {'net': 'base'})
             )
             
         elif current_iteration == \

@@ -160,7 +160,6 @@ class trainer(base_trainer):
                                       self.args.gamma_max)
 
         for key in self._network[model].required_keys:
-            print(model)
             training_data[key] = np.concatenate(
                 [i_episode[key][:] for i_episode in rollout_data]
             )

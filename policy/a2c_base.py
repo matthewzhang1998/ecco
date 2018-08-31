@@ -7,6 +7,7 @@ Created on Wed Aug 29 10:45:51 2018
 """
 import numpy as np
 import tensorflow as tf
+from collections import defaultdict
 
 from policy.baseline.a2c_wrapper import init_wrapper, \
      act_wrapper, train_wrapper, load_wrapper, save_wrapper
@@ -66,11 +67,18 @@ class model(baseline_model):
         if 'lstm' not in self.args.a2c_network_type:
             data_dict['hidden_states'] = None
         
-        stats_dictionary = train_wrapper(
-            self.baseline_a2c_dict['model'], data_dict, masks
-        )
+        stats_dictionary = defaultdict(list)
         
-        stats_dictionary['avg_reward'] = np.mean(data_dict['rewards'])
+        for _ in range(self.args.a2c_update_epochs):
+            temp_stats_dictionary = train_wrapper(
+                self.baseline_a2c_dict['model'], data_dict, masks
+            )
+            
+            for key in temp_stats_dictionary:
+                stats_dictionary[key].append(temp_stats_dictionary[key])
+        
+        stats_dictionary['avg_reward'] = np.mean(data_dict['rewards']) * \
+            self.args.episode_length
         
         return stats_dictionary, data_dict
         

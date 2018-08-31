@@ -13,18 +13,20 @@ def get_dqn_transfer_config(parser):
                 
     parser.add_argument("--a2c_network_type", type=str, default='mlp')
     
-    parser.add_argument("--a2c_entropy_coefficient", type=float, default=0.01)
+    parser.add_argument("--a2c_entropy_coefficient", type=float, default=0.00)
     parser.add_argument("--a2c_vf_coefficient", type=float, default=0.5)
     parser.add_argument("--a2c_gradient_max", type=float, default=0.5)
     
-    parser.add_argument("--a2c_lr", type=float, default=1e-4)
+    parser.add_argument("--a2c_lr", type=float, default=1e-5)
     parser.add_argument("--a2c_lr_schedule", type=str, default="linear")
+    
+    parser.add_argument("--a2c_update_epochs", type=int, default=10)
     
     parser.add_argument("--a2c_gamma", type=float, default=0.99)
     # linear, constant
     parser.add_argument("--a2c_rms_decay", type=float, default=0.99)
     parser.add_argument("--a2c_rms_epsilon", type=float, default=1e-5)
-    parser.add_argument("--a2c_iterations", type=int, default=1000)
+    parser.add_argument("--a2c_iterations", type=int, default=500)
     
     # mlp args
     parser.add_argument("--a2c_num_mlp_layers", type=int, default=3)

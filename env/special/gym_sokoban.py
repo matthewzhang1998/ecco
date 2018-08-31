@@ -24,6 +24,9 @@ class env(bew.base_env):
         self._env.env.penalty_for_step = 0.
         self.n_boxes = 3
         
+        if 'easy' in self._env_name:
+            self.n_boxes = 1
+        
     def step(self, action):    
         action = int(action) # get int from action     
         
@@ -53,6 +56,8 @@ class env(bew.base_env):
         else:
             done = False # will raise warnings -> set logger flag to ignore
         self._old_ob = np.array(ob)
+        self._env.render()
+        time.sleep(1/30)
                
         return ob, reward, done, {}
     
@@ -82,9 +87,6 @@ class env(bew.base_env):
             'gym_sokoban_small_tiny_world_easy': 'TinyWorld-Sokoban-small-v1',
         }
         
-        if 'easy' in self._env_name:
-            self.n_boxes = 1
-        
         # make the environments
         self._env = gym.make(_env_name[self._env_name])
         self._env_info = env_register.get_env_info(self._env_name)
@@ -98,6 +100,7 @@ class env(bew.base_env):
         return None
     
     def _keep_n_boxes(self, num_boxes):
+        print(num_boxes)
         targets = np.where(self._env.env.room_fixed == 2)
         boxes = np.where(
             (self._env.env.room_state == 3)|(self._env.env.room_state == 4)
