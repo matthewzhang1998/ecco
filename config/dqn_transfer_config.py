@@ -41,8 +41,12 @@ def get_dqn_transfer_config(parser):
     parser.add_argument("--dqn_network_type", type=str, default='mlp')
     # 'conv_only', 'mlp', 'lstm'
     
+    parser.add_argument("--dqn_num_mlp_hidden", type=int, default=64)
+    parser.add_argument("--dqn_num_mlp_layers", type=int, default=2)
+    parser.add_argument("--dqn_mlp_activation", type=str, default='relu')
+    
     # mlp args
-    parser.add_argument("--dqn_network_shape", type=str, default='64,64,64')
+    parser.add_argument("--dqn_network_shape", type=str, default='64,64')
     parser.add_argument("--dqn_layer_norm", type=int, default=1)
     parser.add_argument("--dqn_dueling", type=int, default=1)
     

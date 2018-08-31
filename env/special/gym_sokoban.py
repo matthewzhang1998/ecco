@@ -26,19 +26,31 @@ class env(bew.base_env):
         
         if 'easy' in self._env_name:
             self.n_boxes = 1
+            
+        self._last_reward = 0
         
     def step(self, action):    
         action = int(action) # get int from action     
         
-        reward_last = self._env.env.reward_last
-        self._env.env.reward_last = 0
+        # reward_last = self._env.env.reward_last
+        # self._env.env.reward_last = 0
         
         self._env.step(action)
-        ob = self._one_hot(self._env.env.room_state)
+        # ob = self._one_hot(self._env.env.room_state)
         
-        reward = self._env.env.reward_last - reward_last
-        reward /= 10
-    
+        # reward = self._env.env.reward_last - reward_last
+        # reward /= 10
+
+        targets = np.where(self._env.env.room_fixed == 2)
+        
+        reward = 0
+        for i in range(len(targets[0])):
+            if self._env.env.room_state[targets[0][i], targets[1][i]] == 2:
+                reward = 1
+                
+        reward -= self._last_reward
+        self._last_reward = reward
+
         # flatten observation
         ob = np.reshape(ob, [-1])
 
@@ -53,6 +65,8 @@ class env(bew.base_env):
     
     def reset(self):
         self._env.reset()
+        
+        self._last_reward = 0
         
         self._keep_n_boxes(self.n_boxes)
         

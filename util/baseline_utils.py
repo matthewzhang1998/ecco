@@ -10,7 +10,9 @@ from .tf_networks import get_activation_func
 def get_dqn_network_kwargs_from_namespace(args):
     if args.dqn_network_type is 'mlp':
         kwargs = {
-            'hiddens':args.dqn_network_shape,
+            'num_layers': args.dqn_num_mlp_layers,
+            'num_hidden': args.dqn_num_mlp_hidden,
+            'activation': get_activation_func(args.dqn_mlp_activation)
         }
         
     elif args.dqn_network_type is 'conv_only':
@@ -27,6 +29,7 @@ def get_dqn_network_kwargs_from_namespace(args):
     elif args.dqn_network_type is 'lstm':
         pass
     
+    kwargs['hiddens'] = args.dqn_network_shape
     kwargs['layer_norm'] = args.dqn_layer_norm
     kwargs['dueling'] = args.dqn_dueling
     
