@@ -22,9 +22,19 @@ from env import env_register
 import numpy as np
 from util import logger
 
+import os, sys
+
+def blockPrint():
+    sys.stdout = open(os.devnull, 'w')
+    
+def enablePrint():
+    sys.stdout = sys.__stdout__
+
 class env(bew.base_env):
     # acrobot has applied sin/cos obs
     CARTPOLE = ['gym_cartpole', 'gym_cartpole_continuous']
+
+    
 
     def __init__(self, env_name, rand_seed, maximum_length, misc_info):
         super(env, self).__init__(
@@ -33,7 +43,9 @@ class env(bew.base_env):
         self._base_path = init_path.get_abs_base_dir()
         
     def step(self, action):
+        blockPrint()
         ob, reward, _, info = self._env.step(action)
+        enablePrint()
 
         # get the end signal
         self._current_step += 1
