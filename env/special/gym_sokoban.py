@@ -45,7 +45,7 @@ class env(bew.base_env):
         
         reward = 0
         for i in range(len(targets[0])):
-            if self._env.env.room_state[targets[0][i], targets[1][i]] == 2:
+            if self._env.env.room_state[targets[0][i], targets[1][i]] == 5:
                 reward = 1
                 
         reward -= self._last_reward
