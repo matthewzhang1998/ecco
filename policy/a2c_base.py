@@ -78,7 +78,7 @@ class model(baseline_model):
                 stats_dictionary[key].append(temp_stats_dictionary[key])
         
         for key in stats_dictionary:
-            stats_dictionary[key] = np.mean(np.array(stats_dictionary))
+            stats_dictionary[key] = np.mean(np.array(stats_dictionary[key]))
         
         stats_dictionary['avg_reward'] = np.mean(data_dict['rewards']) * \
             self.args.episode_length
