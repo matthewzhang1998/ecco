@@ -20,6 +20,9 @@ class sampler(task_sampler.sampler):
             if _rollout_model == 'base' else self.args.batch_size
         num_timesteps_received = 0
         
+        if _rollout_model == 'transfer':
+            _rollout_model = 'base'
+        
         while True:
             num_estimated_episode = int(
                 timesteps_needed/self.args.episode_length

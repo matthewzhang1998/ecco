@@ -73,7 +73,7 @@ def train(trainer, sampler, worker, models,
         elif current_iteration < (args.train_dqn_iterations + \
             args.train_transfer_iterations):
             training_info['train_model'] = 'transfer'
-            rollout_info['rollout_model'] = 'base'
+            rollout_info['rollout_model'] = 'transfer'
         
         else:
             training_info['train_model'] = 'final'
