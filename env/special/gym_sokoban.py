@@ -51,6 +51,8 @@ class env(bew.base_env):
         reward -= self._last_reward
         self._last_reward = reward
 
+        ob = self._one_hot(self._env.env.room_state)
+
         # flatten observation
         ob = np.reshape(ob, [-1])
 
