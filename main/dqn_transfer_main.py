@@ -27,15 +27,32 @@ from util import parallel_util
 import time
 from collections import OrderedDict
 
+def make_joint_worker_trainer(worker_trainer_proto, models, args=None):
+    return worker_trainer_proto(models, args, scope='pretrain')
+
+def pretrain(worker_trainer, models, args=None):
+    logger.info('Pretraining starts at {}'.format(
+        init_path.get_abs_base_dir()))
+    
+    worker_trainer_agent = make_joint_worker_trainer(
+        worker_trainer.trainer, models, args
+    )
+    
+    weights = worker_trainer_agent.run()
+    
+    return weights
 
 def train(trainer, sampler, worker, models,
-          args=None):
+          args=None, pretrain_weights=None):
     logger.info('Training starts at {}'.format(init_path.get_abs_base_dir()))
     
     # make the trainer and sampler
     sampler_agent = make_sampler(sampler, worker, models, args)
     trainer_tasks, trainer_results, trainer_agent, init_weights = \
         make_trainer(trainer, models, args)
+        
+    init_weights = init_weights \
+        if pretrain_weights is None else pretrain_weights
         
     sampler_agent.set_weights(init_weights)
 
@@ -52,10 +69,9 @@ def train(trainer, sampler, worker, models,
         if current_iteration < args.train_dqn_iterations:
             training_info['train_model'] = 'base'
             rollout_info['rollout_model'] = 'base'
-            
-            
-        elif current_iteration < \
-            args.train_dqn_iterations + args.train_transfer_iterations:
+        
+        elif current_iteration < (args.train_dqn_iterations + \
+            args.train_transfer_iterations):
             training_info['train_model'] = 'transfer'
             rollout_info['rollout_model'] = 'base'
         
@@ -139,7 +155,7 @@ def main():
                                 time_str=args.exp_id)
 
     print('Training starts at {}'.format(init_path.get_abs_base_dir()))
-    from trainer import dqn_transfer_trainer
+    from trainer import dqn_transfer_trainer, dqn_transfer_jwt
     from runners import dqn_transfer_task_sampler
     from runners.workers import dqn_transfer_worker
     from policy import ecco_pretrain
@@ -153,8 +169,10 @@ def main():
     models = {'final': ecco_pretrain.model, 'transfer': ecco_transfer.model,
            'base': base_model.model}
 
+    pretrain_weights = None
+
     train(dqn_transfer_trainer.trainer, dqn_transfer_task_sampler, 
-          dqn_transfer_worker, models, args)
+          dqn_transfer_worker, models, args, pretrain_weights)
     
 if __name__ == '__main__':
     main()

@@ -68,8 +68,10 @@ def get_dqn_transfer_config(parser):
     parser.add_argument("--dqn_epsilon", type=float, default=0.9)
     parser.add_argument("--dqn_min_epsilon", type=float, default=0.02)
     
-    parser.add_argument("--train_dqn_iterations", type=int, default=500)
-    parser.add_argument("--dqn_update_target_steps", type=int, default=250000)
+    parser.add_argument("--train_dqn_iterations", type=int, default=200)
+    parser.add_argument("--dqn_update_target_steps", type=int, default=500)
+    parser.add_argument("--dqn_train_frequency", type=int, default=1)
+    parser.add_argument("--dqn_batch_size", type=int, default=100)
     
     parser.add_argument("--dqn_lr", type=float, default=1e-4)  
     parser.add_argument("--dqn_gradient_max", type=float, default=0.1)      

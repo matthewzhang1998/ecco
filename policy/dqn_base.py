@@ -25,11 +25,16 @@ class model(baseline_model):
         
         self._session = session
         self._name_scope = name_scope
+        self._not_actor_network = True
         
         self._dummy_environment = reverse_gym_wrapper(self.args.task)
         self.timesteps_so_far = 0
         
         _network_kwargs = get_dqn_network_kwargs_from_namespace(self.args)
+        
+        total_timesteps = self.args.train_dqn_iterations * \
+            self.args.dqn_batch_size + self.args.train_transfer_iterations * \
+            self.args.batch_size
         
         self.required_keys = ['start_state', 'actions', 'rewards', 'end_state']
         with tf.variable_scope(self._name_scope):
@@ -45,15 +50,12 @@ class model(baseline_model):
                 prioritized_replay_beta_iters = self.args.dqn_beta_iters,
                 prioritized_replay_beta = self.args.dqn_prioritized_beta,
                 exploration_fraction = self.args.dqn_epsilon * \
-                    self.args.train_dqn_iterations / \
-                    (self.args.train_dqn_iterations +
-                     self.args.train_transfer_iterations),
+                     self.args.train_dqn_iterations * \
+                     self.args.dqn_batch_size / \
+                     (total_timesteps),
                 exploration_final_eps = self.args.dqn_min_epsilon,
                 grad_norm_clipping = self.args.dqn_gradient_max,
-                total_timesteps = \
-                    (self.args.train_dqn_iterations +
-                     self.args.train_transfer_iterations) * \
-                     self.args.batch_size,
+                total_timesteps = total_timesteps,
                 **_network_kwargs
             )
             self._set_var_list()
@@ -79,7 +81,8 @@ class model(baseline_model):
         
         # this is necessary because the train and act networks are
         # different class instances
-        self.timesteps_so_far += len(data_dict['start_state'])
+        if self._not_actor_network:
+            self.timesteps_so_far += len(data_dict['start_state'])
         
         _target_update = (self.timesteps_so_far % \
             self.args.dqn_update_target_steps) == 0
