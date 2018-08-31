@@ -42,9 +42,9 @@ def get_dqn_transfer_config(parser):
     # 'conv_only', 'mlp', 'lstm'
     
     # mlp args
-    parser.add_argument("--dqn_num_mlp_layers", type=int, default=3)
-    parser.add_argument("--dqn_num_mlp_hidden", type=int, default=128)
-    parser.add_argument("--dqn_mlp_activation", type=str, default='relu')
+    parser.add_argument("--dqn_network_size", type=str, default='64,64,64')
+    parser.add_argument("--dqn_layer_norm", type=int, default=1)
+    parser.add_argument("--dqn_dueling", type=int, default=1)
     
     # conv
     parser.add_argument("--dqn_convolution_network_shape", type=str,

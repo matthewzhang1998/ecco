@@ -83,7 +83,7 @@ class base_trainer(multiprocessing.Process):
                     )
                     
                 _save_dir = osp.join(_log_path, _save_extension)
-                self._saver(self._session, _save_dir)
+                self._saver.save(self._session, _save_dir)
 
             else:
                 # training

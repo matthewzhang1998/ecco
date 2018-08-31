@@ -15,13 +15,15 @@ def env_args():
     params = {}
     
     # Fixed parameters
-    params["--task"] = ["gym_sokoban_small_tiny_world__render"]
+    params["--task"] = ["gym_sokoban_small_tiny_world_easy__render"]
     params["--batch_size"] = [5000]
-    params["--num_cache"] = [5]
+    params["--num_cache"] = [1]
     params["--episode_length"] = [100]
-    params["--dqn_batch_size"] = [32, 64, 128]
-    params["--dqn_update_epochs"] = [10, 25, 50, 100]
-    params["--dqn_lr"] = [1e-5]
+    params["--seed"] = [1]
+    params["--dqn_batch_size"] = [64]
+    params["--dqn_update_epochs"] = [50]
+    params["--dqn_lr"] = [1e-5, 1e-4, 1e-6, 1e-7]
+    params["--dqn_update_target_steps"] = [10000, 20000, 40000]
     
     # Tuned Parameters
     return params
