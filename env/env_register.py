@@ -31,6 +31,11 @@ _ENV_INFO = {
         'path': 'env.special.gym_sokoban',
         'ob_size':294, 'action_size':8,
         'action_distribution': 'discrete'
+    },
+    'gym_cartpole': {
+        'path': 'env.special.gym_cartpole',
+        'ob_size':4, 'action_size':2,
+        'action_distribution': 'discrete'
     }
 }
     
