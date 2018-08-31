@@ -53,9 +53,7 @@ class env(bew.base_env):
         else:
             done = False # will raise warnings -> set logger flag to ignore
         self._old_ob = np.array(ob)
-        self._env.render()
-        time.sleep(1/30)
-        
+               
         return ob, reward, done, {}
     
     def reset(self):
@@ -84,7 +82,7 @@ class env(bew.base_env):
             'gym_sokoban_small_tiny_world_easy': 'TinyWorld-Sokoban-small-v1',
         }
         
-        if 'easy' in _env_name:
+        if 'easy' in self._env_name:
             self.n_boxes = 1
         
         # make the environments
