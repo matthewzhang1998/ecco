@@ -27,20 +27,21 @@ from util import parallel_util
 import time
 from collections import OrderedDict
 
-def make_joint_worker_trainer(worker_trainer_proto, models, args=None):
+def make_single_threaded_agent(worker_trainer_proto, models, args=None):
     return worker_trainer_proto(models, args, scope='pretrain')
 
 def pretrain(worker_trainer, models, args=None):
     logger.info('Pretraining starts at {}'.format(
         init_path.get_abs_base_dir()))
-    
-    worker_trainer_agent = make_joint_worker_trainer(
+
+    single_threaded_agent = make_single_threaded_agent(
         worker_trainer.trainer, models, args
     )
     
-    weights = worker_trainer_agent.run()
+    weights = single_threaded_agent.run()
+    environments = single_threaded_agent._environments_cache
     
-    return weights
+    return weights, environments
 
 def train(trainer, sampler, worker, models,
           args=None, pretrain_dict = None):
