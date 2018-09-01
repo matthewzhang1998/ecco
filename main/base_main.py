@@ -25,8 +25,8 @@ def make_trainer(trainer, network_type, args, scope="trainer"):
                                     trainer_tasks, trainer_results,
                                     scope)
     trainer_agent.start()
+    # trainer_agent.run()
     trainer_tasks.put((parallel_util.START_SIGNAL, None))
-    print(trainer_tasks)
     
     trainer_tasks.join()
 

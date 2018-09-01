@@ -43,13 +43,22 @@ def pretrain(worker_trainer, models, args=None):
     return weights
 
 def train(trainer, sampler, worker, models,
-          args=None, pretrain_weights=None, environments_cache=None):
+          args=None, pretrain_dict = None):
     logger.info('Training starts at {}'.format(init_path.get_abs_base_dir()))
     
     # make the trainer and sampler
     sampler_agent = make_sampler(sampler, worker, models, args)
     trainer_tasks, trainer_results, trainer_agent, init_weights = \
         make_trainer(trainer, models, args)
+
+    if pretrain_dict is not None:
+        pretrain_weights, environments_cache = \
+            pretrain_dict['pretrain_fnc'](
+                pretrain_dict['pretrain_thread'], models, args
+            )
+
+    else:
+        pretrain_weights = environments_cache = None
         
     init_weights = init_weights \
         if pretrain_weights is None else pretrain_weights
@@ -165,13 +174,9 @@ def main():
     models = {'final': ecco_pretrain.model, 'transfer': ecco_transfer.model,
            'base': base_model.model}
 
-    #pretrain_weights, environments_cache = \
-    #    pretrain(dqn_transfer_jwt, models, args)
-    pretrain_weights = environments_cache = None
-
     train(dqn_transfer_trainer.trainer, dqn_transfer_task_sampler, 
-          dqn_transfer_worker, models, args, pretrain_weights,
-          environments_cache)
+          dqn_transfer_worker, models, args,
+          {'pretrain_fnc':pretrain, 'pretrain_thread': dqn_transfer_jwt})
     
 if __name__ == '__main__':
     main()
