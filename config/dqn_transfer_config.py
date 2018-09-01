@@ -84,7 +84,7 @@ def get_dqn_transfer_config(parser):
     parser.add_argument("--use_dqn_param_noise", type=int, default=0)
     
     parser.add_argument("--train_transfer_iterations", type=int, 
-                        default=1000)
+                        default=100)
 
     parser.add_argument("--hindsight_correct_eps", type=float, default=.5)
     
@@ -108,6 +108,6 @@ def get_dqn_transfer_config(parser):
     parser.add_argument("--transfer_value_lr", type=float,
                         default=1e-4)
     
-    parser.add_argument("--print_frequency", type=int, default=100)
+    parser.add_argument("--print_frequency", type=int, default=1000)
     
     return parser

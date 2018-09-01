@@ -38,9 +38,8 @@ def pretrain(worker_trainer, models, args=None):
         worker_trainer.trainer, models, args
     )
     
-    weights = single_threaded_agent.run()
-    environments = single_threaded_agent._environments_cache
-    
+    weights, environments = single_threaded_agent.run()
+
     return weights, environments
 
 def train(trainer, sampler, worker, models,
@@ -63,7 +62,8 @@ def train(trainer, sampler, worker, models,
         
     init_weights = init_weights \
         if pretrain_weights is None else pretrain_weights
-        
+
+    trainer_agent.set_weights(init_weights)
     sampler_agent.set_weights(init_weights)
     if environments_cache is not None:
         sampler_agent.set_environments(environments_cache)
