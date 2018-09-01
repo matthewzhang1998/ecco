@@ -77,6 +77,10 @@ class trainer(base_trainer):
                     'iteration': self._iteration
                 }
                 self._result_queue.put(return_data)
+
+    def set_weights(self, network_weights):
+        for key in network_weights:
+            self._network[key].set_weights(network_weights[key])
         
     def _build_models(self):
         self._build_session()

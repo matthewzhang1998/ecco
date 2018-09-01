@@ -140,10 +140,6 @@ class base_trainer(multiprocessing.Process):
             save_reward=True
         )
 
-    def set_weights(self, network_weights):
-        for key in network_weights:
-            self._network[key].set_weights(network_weights[key])
-
     def _init_whitening_stats(self):
         self._whitening_stats = \
             whitening_util.init_whitening_stats(['state', 'diff_state'])
