@@ -37,6 +37,9 @@ class trainer(base_trainer):
                 self._task_queue.task_done()
                 break
 
+            elif next_task[0] == parallel_util.TRAINER_SET_WEIGHTS:
+                self._set_weights(next_task[1])
+
             elif next_task[0] == parallel_util.START_SIGNAL:
                 # get network weights
                 self._task_queue.task_done()
@@ -78,7 +81,7 @@ class trainer(base_trainer):
                 }
                 self._result_queue.put(return_data)
 
-    def set_weights(self, network_weights):
+    def _set_weights(self, network_weights):
         for key in network_weights:
             self._network[key].set_weights(network_weights[key])
         

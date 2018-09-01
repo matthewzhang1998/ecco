@@ -29,6 +29,9 @@ AGENT_SET_WEIGHTS = 8
 # reset
 RESET_SIGNAL = 9
 
+# set trainer weights
+TRAINER_SET_WEIGHTS = 10
+
 # Initial training for mbmf policy netwrok.
 MBMF_INITIAL = 666
 
@@ -38,7 +41,6 @@ GET_POLICY_NETWORK = 6666
 # ask and set for policy network weight.
 GET_POLICY_WEIGHT = 66
 SET_POLICY_WEIGHT = 66666
-
 
 WORKER_RUNNING = 9
 WORKER_PLAYING = 10

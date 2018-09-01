@@ -63,7 +63,10 @@ def train(trainer, sampler, worker, models,
     init_weights = init_weights \
         if pretrain_weights is None else pretrain_weights
 
-    trainer_agent.set_weights(init_weights)
+    trainer_tasks.put(
+        parallel_util.TRAINER_SET_WEIGHTS,
+        init_weights
+    )
     sampler_agent.set_weights(init_weights)
     if environments_cache is not None:
         sampler_agent.set_environments(environments_cache)
