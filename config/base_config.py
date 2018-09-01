@@ -14,7 +14,7 @@ def get_base_config():
 
     # the experiment settings
     parser.add_argument("--task", type=str, 
-                        default='gym_sokoban_small_tiny_world__render',
+                        default='gym_sokoban_small_tiny_world_easy__render',
                         help='the environment to test')
     parser.add_argument("--exp_id", type=str, default=init_path.get_time(),
                         help='the special id of the experiment')
@@ -42,7 +42,7 @@ def get_base_config():
                         default=5000)
     
     parser.add_argument("--cache_environments", type=int, default=1)
-    parser.add_argument("--num_cache", type=int, default=10)
+    parser.add_argument("--num_cache", type=int, default=1)
 
     parser.add_argument("--policy_lr", type=float, default=3e-4)
     parser.add_argument("--policy_epochs", type=int, default=5)

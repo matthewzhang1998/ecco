@@ -56,6 +56,7 @@ class base_trainer(multiprocessing.Process):
         # the main training process
         while True:
             next_task = self._task_queue.get()
+            print(next_task)
 
             if next_task[0] is None or next_task[0] == parallel_util.END_SIGNAL:
                 # kill the learner

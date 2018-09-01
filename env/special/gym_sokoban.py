@@ -32,25 +32,15 @@ class env(bew.base_env):
     def step(self, action):    
         action = int(action) # get int from action     
         
-        # reward_last = self._env.env.reward_last
-        # self._env.env.reward_last = 0
+        reward_last = self._env.env.reward_last
+        self._env.env.reward_last = 0
         
         self._env.step(action)
-        # ob = self._one_hot(self._env.env.room_state)
+        ob = self._one_hot(self._env.env.room_state)
         
-        # reward = self._env.env.reward_last - reward_last
-        # reward /= 10
-
-        targets = np.where(self._env.env.room_fixed == 2)
-        
-        reward = 0
-        for i in range(len(targets[0])):
-            if self._env.env.room_state[targets[0][i], targets[1][i]] == 5:
-                reward = 1    
-                
-        return_reward = reward - self._last_reward
-        self._last_reward = reward
-
+        reward = self._env.env.reward_last - reward_last
+        reward /= 10
+           
         ob = self._one_hot(self._env.env.room_state)
 
         # flatten observation
@@ -63,7 +53,7 @@ class env(bew.base_env):
             done = False # will raise warnings -> set logger flag to ignore
         self._old_ob = np.array(ob)
                
-        return ob, return_reward, done, {}
+        return ob, reward, done, {}
     
     def reset(self):
         self._env.reset()

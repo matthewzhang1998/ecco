@@ -155,7 +155,7 @@ def main():
                                 time_str=args.exp_id)
 
     print('Training starts at {}'.format(init_path.get_abs_base_dir()))
-    from trainer import dqn_transfer_trainer, dqn_transfer_jwt
+    from trainer import dqn_transfer_trainer
     from runners import dqn_transfer_task_sampler
     from runners.workers import dqn_transfer_worker
     from policy import ecco_pretrain

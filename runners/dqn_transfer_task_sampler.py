@@ -54,3 +54,7 @@ class sampler(task_sampler.sampler):
                 break
             
         return {'data': rollout_data}
+    
+    def set_environments(self, environments_cache):
+        for worker in self._workers:
+            worker._set_environments(environments_cache)

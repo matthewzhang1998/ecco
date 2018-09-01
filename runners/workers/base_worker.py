@@ -176,3 +176,6 @@ class worker(multiprocessing.Process):
    
     def _set_weights(self, network_weights):
         self._network.set_weights(network_weights)
+        
+    def _set_environments(self, environments_cache):
+        self._environments_cache = environments_cache

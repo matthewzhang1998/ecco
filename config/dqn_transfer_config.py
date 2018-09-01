@@ -8,6 +8,8 @@ Created on Tue Aug 28 17:16:12 2018
 import init_path
 
 def get_dqn_transfer_config(parser):
+    parser.add_argument("--dqn_task", type=str,
+                        default='gym_sokoban_small_tiny_world_easy')
     parser.add_argument("--base_policy", type=str, default='dqn'),
     # dqn, a2c
                 
@@ -55,23 +57,26 @@ def get_dqn_transfer_config(parser):
                         default='32,8,4,64,4,2,64,3,1')
     
     parser.add_argument("--dqn_buffer_size", type=int, default=50000)
-    parser.add_argument("--dqn_batch_size", type=int, default=32)
-    parser.add_argument("--dqn_update_epochs", type=int, default=100)
+    parser.add_argument("--dqn_batch_size", type=int, default=100)
+    parser.add_argument("--dqn_update_epochs", type=int, default=1)
     
-    parser.add_argument("--use_dqn_prioritized_replay", type=int, default=1)
+    parser.add_argument("--use_dqn_prioritized_replay", type=int, default=0)
     parser.add_argument("--dqn_prioritized_alpha", type=float, default=0.6)
     parser.add_argument("--dqn_beta_iters", type=int, default=None)
     parser.add_argument("--dqn_prioritized_beta", type=float, default=0.4)
     parser.add_argument("--dqn_prioritized_replay_eps",
                         type=float, default=1e-6)
     
-    parser.add_argument("--dqn_epsilon", type=float, default=0.9)
+    parser.add_argument("--dqn_epsilon", type=float, default=0.5)
+    parser.add_argument("--dqn_training_start", type=int, default=1000)
+    
     parser.add_argument("--dqn_min_epsilon", type=float, default=0.02)
     
     parser.add_argument("--train_dqn_iterations", type=int, default=200)
+    parser.add_argument("--train_dqn_steps", type=int, default=20000)
     parser.add_argument("--dqn_update_target_steps", type=int, default=500)
     parser.add_argument("--dqn_train_frequency", type=int, default=1)
-    parser.add_argument("--dqn_batch_size", type=int, default=100)
+    parser.add_argument("--dqn_replay_batch_size", type=int, default=32)
     
     parser.add_argument("--dqn_lr", type=float, default=1e-4)  
     parser.add_argument("--dqn_gradient_max", type=float, default=0.1)      
@@ -103,7 +108,6 @@ def get_dqn_transfer_config(parser):
     parser.add_argument("--transfer_value_lr", type=float,
                         default=1e-4)
     
-    
-    
+    parser.add_argument("--print_frequency", type=int, default=100)
     
     return parser

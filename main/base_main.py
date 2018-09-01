@@ -26,6 +26,8 @@ def make_trainer(trainer, network_type, args, scope="trainer"):
                                     scope)
     trainer_agent.start()
     trainer_tasks.put((parallel_util.START_SIGNAL, None))
+    print(trainer_tasks)
+    
     trainer_tasks.join()
 
     # init_weights: {'policy': list of weights, 'dynamics': ..., 'reward': ...}

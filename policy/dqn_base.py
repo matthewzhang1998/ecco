@@ -32,8 +32,8 @@ class model(baseline_model):
         
         _network_kwargs = get_dqn_network_kwargs_from_namespace(self.args)
         
-        total_timesteps = self.args.train_dqn_iterations * \
-            self.args.dqn_batch_size + self.args.train_transfer_iterations * \
+        total_timesteps = self.args.train_dqn_steps + \
+            self.args.train_transfer_iterations * \
             self.args.batch_size
         
         self.required_keys = ['start_state', 'actions', 'rewards', 'end_state']
@@ -50,8 +50,7 @@ class model(baseline_model):
                 prioritized_replay_beta_iters = self.args.dqn_beta_iters,
                 prioritized_replay_beta = self.args.dqn_prioritized_beta,
                 exploration_fraction = self.args.dqn_epsilon * \
-                     self.args.train_dqn_iterations * \
-                     self.args.dqn_batch_size / \
+                     self.args.train_dqn_steps / \
                      (total_timesteps),
                 exploration_final_eps = self.args.dqn_min_epsilon,
                 grad_norm_clipping = self.args.dqn_gradient_max,
@@ -61,11 +60,14 @@ class model(baseline_model):
             self._set_var_list()
     
     def train(self, data_dict, replay_buffer, training_info={}):
-        dones = np.tile(
-            np.array([0] * (self.args.episode_length - 1) + [1]),
-            [len(data_dict['start_state']) // self.args.episode_length]
-        )
-        
+        if 'dones' not in data_dict:
+            dones = np.tile(
+                np.array([0] * (self.args.episode_length - 1) + [1]),
+                [len(data_dict['start_state']) // self.args.episode_length]
+            )
+        else:
+            dones = data_dict['dones']
+            
         data_dict = self._discard_final_states(data_dict)
         
         for i in range(len(data_dict['start_state'])):
@@ -77,7 +79,7 @@ class model(baseline_model):
                 np.array(dones[i], dtype=np.float32)
             )
         
-        stats = {'mean_rewards': np.mean(data_dict['rewards'])}
+        stats = {'mean_rewards': np.sum(data_dict['rewards'])}
         
         # this is necessary because the train and act networks are
         # different class instances
@@ -98,7 +100,7 @@ class model(baseline_model):
                     self.args.dqn_prioritized_replay_eps,
                     self.timesteps_so_far,
                     self.baseline_dqn_dict['update_target_function'],
-                    self.args.dqn_batch_size,
+                    self.args.dqn_replay_batch_size,
                     self.baseline_dqn_dict['train_function'],
                     target_update = _target_update
                 )
