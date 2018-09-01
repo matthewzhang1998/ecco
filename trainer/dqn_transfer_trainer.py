@@ -39,10 +39,10 @@ class trainer(base_trainer):
 
             elif next_task[0] == parallel_util.TRAINER_SET_WEIGHTS:
                 self._set_weights(next_task[1])
+                self._task_queue.task_done()
 
             elif next_task[0] == parallel_util.START_SIGNAL:
                 # get network weights
-                self._task_queue.task_done()
                 self._result_queue.put(self._get_weights())
 
             elif next_task[0] == parallel_util.RESET_SIGNAL:
