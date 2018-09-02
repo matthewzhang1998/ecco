@@ -16,6 +16,7 @@ def play_episode_with_env(envs, policy,
     # 1 timestep copy
     feed_infos = defaultdict(list)
     control_info['step_index'] = 0
+    control_info['reset'] = True
     
     print(len(envs))
     
@@ -40,7 +41,8 @@ def play_episode_with_env(envs, policy,
     while True:
         # generate the policy
         action_signal = policy(feed_infos, control_info)
-        control_info['step_index'] += 0
+        control_info['step_index'] += 1
+        control_info['reset'] = False
         
         # only use initial state on first state
         control_info['use_default_states'] = False

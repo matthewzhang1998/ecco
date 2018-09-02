@@ -44,6 +44,7 @@ class trainer(object):
         self.env = None
         self._current_env_idx = 0
         self._is_done = 0
+        self._reset_flag = 0
         self.data_dict = {}
         self._environments_cache = []
     
@@ -163,10 +164,12 @@ class trainer(object):
             else:
                 obs, reward, self._is_done, _ = self.env.reset()
             self._last_obs = obs
+
+        control_infos = {'reset': self._reset_flag}
           
         feed_dict = {'start_state': [self._last_obs]}
         
-        act_dict = self._network['base'].act(feed_dict, {})
+        act_dict = self._network['base'].act(feed_dict, control_infos)
         action = act_dict['actions']
         
         obs, reward, done, _ = self.env.step(action)
@@ -175,6 +178,8 @@ class trainer(object):
                      'actions': [action],
                      'end_state': [obs],
                      'dones': np.array([done])}
+
+        self._reset_flag = 0
         
         if done:
             if self.args.cache_environments:
@@ -187,6 +192,7 @@ class trainer(object):
                 obs, _, _, _ = self.env.reset_soft()
             else:
                 obs, _, _, _ = self.env.reset()
+            self._reset_flag = 1
                 
         self._last_obs = obs
         

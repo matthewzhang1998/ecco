@@ -118,8 +118,7 @@ class model(baseline_model):
         actions = []
         for i in range(len(data_dict['start_state'])):
             _dqn_feed_obs = np.array(data_dict['start_state'][i])
-                
-            _reset = (_dqn_feed_obs.shape[0] == 1) # first observation
+            _reset = (control_infos['reset']) # first observation
             
             self.timesteps_so_far += 1
             

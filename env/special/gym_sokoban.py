@@ -47,6 +47,7 @@ class env(bew.base_env):
         ob = np.reshape(ob, [-1])
 
         self._current_step += 1
+
         if self._current_step >= self._maximum_length:
             done = True
         else:
