@@ -44,6 +44,7 @@ class trainer(base_trainer):
             elif next_task[0] == parallel_util.START_SIGNAL:
                 # get network weights
                 self._result_queue.put(self._get_weights())
+                self._task_queue.task_done()
 
             elif next_task[0] == parallel_util.RESET_SIGNAL:
                 self._task_queue.task_done()

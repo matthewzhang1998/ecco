@@ -30,7 +30,7 @@ AGENT_SET_WEIGHTS = 8
 RESET_SIGNAL = 9
 
 # set trainer weights
-TRAINER_SET_WEIGHTS = 10
+TRAINER_SET_WEIGHTS = 12
 
 # Initial training for mbmf policy netwrok.
 MBMF_INITIAL = 666
