@@ -45,6 +45,7 @@ class trainer(object):
         self._current_env_idx = 0
         self._is_done = 0
         self._reset_flag = 0
+        self._episodes = 0
         self.data_dict = {}
         self._environments_cache = []
     
@@ -186,6 +187,7 @@ class trainer(object):
         
         if done:
             if self.args.cache_environments:
+                self._episodes += 1
                 self._current_env_idx += 1
                 if self._current_env_idx >= self.args.num_cache:
                     self._current_env_idx = 0
@@ -193,6 +195,7 @@ class trainer(object):
                     self._environments_cache[self._current_env_idx]
                 )
                 obs, _, _, _ = self.env.reset_soft()
+                self.env.episode_number = self._episodes
             else:
                 obs, _, _, _ = self.env.reset()
             self._reset_flag = 1
