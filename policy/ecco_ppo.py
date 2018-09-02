@@ -492,13 +492,19 @@ class model(ecco_base.base_model):
 
         data_dict['goal'] = np.reshape(
             data_dict['goal'],
-            (num_episodes, self.args.episode_length + 1, -1)
+            (num_episodes, self.args.episode_length,
+             self.args.maximum_hierarchy_depth - 1, -1)
         )
-
-        data_dict['goal'] = np.append(data_dict['goal'][:,-1], axis=1)
+        data_dict['goal'] = np.append(
+            data_dict['goal'],
+            data_dict['goal'][:,-1][:,np.newaxis],
+            axis=1
+        )
         data_dict['goal'] = np.reshape(
             data_dict['goal'],
-            (batch_size, -1)
+            (batch_size,
+             self.args.maximum_hierarchy_depth - 1,
+             -1)
         )
 
         feed_dict = {

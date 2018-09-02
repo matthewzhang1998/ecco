@@ -130,7 +130,8 @@ def train(trainer, sampler, worker, models,
         # step 4: update the weights
         weights = training_return['network_weights']
         for key in weights['base']:
-            assert np.array_equal(weights['base'][key], init_weights['base'][key])
+            assert np.array_equal(weights['base'][key],
+                init_weights['base'][key])
         sampler_agent.set_weights(weights)
         timer_dict['Assign Weights'] = time.time()
 

@@ -74,7 +74,6 @@ def get_base_config():
 
     return parser
 
-
 def make_parser(parser):
     return post_process(parser.parse_args())
 
