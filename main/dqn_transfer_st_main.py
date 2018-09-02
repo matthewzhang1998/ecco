@@ -26,6 +26,7 @@ from util import logger
 from util import parallel_util
 import time
 from collections import OrderedDict
+import numpy as np
 
 def make_single_threaded_agent(worker_trainer_proto, models, args=None):
     return worker_trainer_proto(models, args, scope='pretrain')
@@ -120,7 +121,10 @@ def train(trainer, sampler, worker, models,
         timer_dict['Train Weights'] = time.time()
 
         # step 4: update the weights
-        sampler_agent.set_weights(training_return['network_weights'])
+        weights = training_return['network_weights']
+        for key in weights['base']:
+            assert np.array_equal(weights['base'][key], init_weights['base'][key])
+        sampler_agent.set_weights(weights)
         timer_dict['Assign Weights'] = time.time()
 
         # log and print the results

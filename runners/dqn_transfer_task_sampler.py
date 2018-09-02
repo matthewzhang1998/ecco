@@ -19,8 +19,10 @@ class sampler(task_sampler.sampler):
         timesteps_needed = self.args.dqn_batch_size \
             if _rollout_model == 'base' else self.args.batch_size
         num_timesteps_received = 0
-        
+
+        _epsilon = None
         if _rollout_model == 'transfer':
+            _epsilon = 0
             _rollout_model = 'base'
         
         while True:
@@ -32,7 +34,8 @@ class sampler(task_sampler.sampler):
                 num_estimated_episode / self.args.num_workers
                 
             worker_infos = {'num_envs': num_envs_per_worker,
-                           'rollout_model': _rollout_model}
+                           'rollout_model': _rollout_model,
+                           'epsilon': _epsilon}
             
             for _ in range(self.args.num_workers):
                 self._task_queue.put((parallel_util.WORKER_RUNNING,
@@ -56,5 +59,8 @@ class sampler(task_sampler.sampler):
         return {'data': rollout_data}
     
     def set_environments(self, environments_cache):
-        for worker in self._workers:
-            worker._set_environments(environments_cache)
+        for _ in range(self.args.num_workers):
+            self._task_queue.put((parallel_util.WORKER_SET_ENVIRONMENTS,
+                environments_cache))
+
+        self._task_queue.join()

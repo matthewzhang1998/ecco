@@ -38,6 +38,10 @@ class worker(base_worker.worker):
                 time.sleep(0.001)  # yield the process
                 self._task_queue.task_done()
 
+            elif next_task[0] == parallel_util.WORKER_SET_ENVIRONMENTS:
+                self._environments_cache = next_task[1]
+                self._task_queue.task_done()
+
             elif next_task[0] == parallel_util.END_ROLLOUT_SIGNAL or \
                     next_task[0] == parallel_util.END_SIGNAL:
                 # kill all the thread
