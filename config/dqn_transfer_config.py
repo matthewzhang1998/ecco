@@ -107,6 +107,9 @@ def get_dqn_transfer_config(parser):
                         default=1e-4)
     parser.add_argument("--transfer_value_lr", type=float,
                         default=1e-4)
+
+    parser.add_argument("--freeze_actor_final", type=int,
+                        default=1)
     
     parser.add_argument("--print_frequency", type=int, default=1000)
     
