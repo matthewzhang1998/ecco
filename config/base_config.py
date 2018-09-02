@@ -25,10 +25,10 @@ def get_base_config():
     parser.add_argument("--seed", type=int, default=1234)
 
     # training configuration
-    parser.add_argument("--batch_size", type=int, default=1000,
+    parser.add_argument("--batch_size", type=int, default=5000,
                         help='number of steps in the rollout')
     parser.add_argument("--max_timesteps", type=int, default=1e7)
-    parser.add_argument("--num_minibatches", type=int, default=100)
+    parser.add_argument("--num_minibatches", type=int, default=50)
     parser.add_argument("--num_workers", type=int, default=1)
     
     parser.add_argument("--use_replay_buffer", type=int, default=1)

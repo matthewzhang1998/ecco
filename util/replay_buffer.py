@@ -343,7 +343,11 @@ def build_replay_buffer(args, observation_size, action_size,
     hierarchy_depth = args.maximum_hierarchy_depth
     if args.use_fixed_manager:
         maximum_dim = observation_size
-        
+
+    elif not (args.use_state_embedding
+              or args.use_state_preprocessing):
+        maximum_dim = observation_size
+
     else:
         maximum_dim = args.goals_dim_min * (
             args.goals_dim_increment ** (
