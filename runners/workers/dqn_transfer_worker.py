@@ -30,7 +30,6 @@ class worker(base_worker.worker):
                 self._task_queue.task_done()
                 for episode in traj_episode:
                     self._result_queue.put(episode)
-                    
 
             elif next_task[0] == parallel_util.AGENT_SET_WEIGHTS:
                 # set parameters of the actor policy
@@ -66,6 +65,9 @@ class worker(base_worker.worker):
                 self._action_distribution
             ) for key in self._network_type
         }
+
+        self._network['base'].timesteps_so_far = \
+            self.args.train_dqn_steps
 
         for key in self._network:
             self._network[key].build_model()

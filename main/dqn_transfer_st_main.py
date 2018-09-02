@@ -60,6 +60,13 @@ def train(trainer, sampler, worker, models,
 
     else:
         pretrain_weights = environments_cache = None
+
+    for key in pretrain_weights['base']:
+        try:
+            assert not np.array_equal(pretrain_weights['base'][key],
+                                      init_weights['base'][key])
+        except:
+            print(key, pretrain_weights['base'][key], init_weights['base'][key])
         
     init_weights = init_weights \
         if pretrain_weights is None else pretrain_weights

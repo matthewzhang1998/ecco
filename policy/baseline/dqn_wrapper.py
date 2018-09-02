@@ -132,8 +132,8 @@ def act_wrapper(env, action_function,
     
 def train_wrapper(replay_buffer, beta_schedule, prioritized_replay,
     prioritized_replay_eps, timestep, update_target_function,
-    batch_size, train=True, target_update=False):
-    if train:
+    batch_size, train, train_flag=True, target_update=False):
+    if train_flag:
         # Minimize the error in Bellman's equation on a batch 
         # sampled from replay buffer.
         if prioritized_replay:
@@ -146,7 +146,7 @@ def train_wrapper(replay_buffer, beta_schedule, prioritized_replay,
             obses_t, actions, rewards, obses_tp1, dones = \
                 replay_buffer.sample(batch_size)
             weights, batch_idxes = np.ones_like(rewards), None
-            
+
         td_errors = train(obses_t, actions, rewards, obses_tp1, dones, weights)
         if prioritized_replay:
             new_priorities = np.abs(td_errors) + prioritized_replay_eps

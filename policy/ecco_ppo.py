@@ -485,13 +485,27 @@ class model(ecco_base.base_model):
         obtains key statistics, such as motivations and baseline values
         '''
         
-        # TODO: generate dummy goal for final state to prevent errors
+        batch_size = data_dict['start_state'].shape[0]
+
+        num_episodes = int(len(data_dict['start_state']) / \
+                           (self.args.episode_length + 1))
+
+        data_dict['goal'] = np.reshape(
+            data_dict['goal'],
+            (num_episodes, self.args.episode_length + 1, -1)
+        )
+
+        data_dict['goal'] = np.append(data_dict['goal'][:,-1], axis=1)
+        data_dict['goal'] = np.reshape(
+            data_dict['goal'],
+            (batch_size, -1)
+        )
+
         feed_dict = {
             self._input_ph['start_state']: data_dict['start_state'],
             self._input_ph['goal']: data_dict['goal'],
         }
-        
-        batch_size = data_dict['start_state'].shape[0]
+
         
         # TODO: replace this with dynamic initial goals
         _dummy_goals = np.reshape(np.tile(
@@ -503,9 +517,6 @@ class model(ecco_base.base_model):
         
         feed_dict[self._input_ph['episode_length']] = \
             self.args.episode_length + 1
-        
-        num_episodes = int(len(data_dict['start_state']) / \
-            (self.args.episode_length + 1))
         
         states_dict = {
             self._input_ph['net_states'][layer['name']]:

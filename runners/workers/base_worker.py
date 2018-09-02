@@ -56,43 +56,44 @@ class worker(multiprocessing.Process):
              'rollout_model': 'final'}
 
     def run(self):
-        self._build_model()
+        self._build_session()
 
-        while True:
-            next_task = self._task_queue.get(block=True)
-            
-            if next_task[0] == parallel_util.WORKER_RUNNING:
-                
-                self._num_envs_required = int(next_task[1])
-                    
-                # collect rollouts
-                traj_episode = self._play()
-                self._task_queue.task_done()
-                for episode in traj_episode:
-                    self._result_queue.put(episode)
-                    
+        with self._session as sess:
+            self._build_model()
+            while True:
+                next_task = self._task_queue.get(block=True)
 
-            elif next_task[0] == parallel_util.AGENT_SET_WEIGHTS:
-                # set parameters of the actor policy
-                self._set_weights(next_task[1])
-                time.sleep(0.001)  # yield the process
-                self._task_queue.task_done()
+                if next_task[0] == parallel_util.WORKER_RUNNING:
 
-            elif next_task[0] == parallel_util.END_ROLLOUT_SIGNAL or \
-                    next_task[0] == parallel_util.END_SIGNAL:
-                # kill all the thread
-                #logger.info("kill message for worker {}".format(self._actor_id))
-                logger.info("kill message for worker")
-                self._task_queue.task_done()
-                break
-            else:
-                logger.error('Invalid task type {}'.format(next_task[0]))
-        return
+                    self._num_envs_required = int(next_task[1])
+
+                    # collect rollouts
+                    traj_episode = self._play()
+                    self._task_queue.task_done()
+                    for episode in traj_episode:
+                        self._result_queue.put(episode)
+
+
+                elif next_task[0] == parallel_util.AGENT_SET_WEIGHTS:
+                    # set parameters of the actor policy
+                    self._set_weights(next_task[1])
+                    time.sleep(0.001)  # yield the process
+                    self._task_queue.task_done()
+
+                elif next_task[0] == parallel_util.END_ROLLOUT_SIGNAL or \
+                        next_task[0] == parallel_util.END_SIGNAL:
+                    # kill all the thread
+                    #logger.info("kill message for worker {}".format(self._actor_id))
+                    logger.info("kill message for worker")
+                    self._task_queue.task_done()
+                    break
+                else:
+                    logger.error('Invalid task type {}'.format(next_task[0]))
+            return
 
     def _build_model(self):
         # by defualt each work has one set of networks, but potentially they
         # could have more
-        self._build_session()
 
         name_scope = self._name_scope
         self._network = self._network_type(

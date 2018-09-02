@@ -10,6 +10,7 @@ distributed and merged with the ECCO algorithm
 """
 import numpy as np
 import tensorflow as tf
+import copy
 
 from policy.baseline.dqn_wrapper import init_wrapper, \
      act_wrapper, train_wrapper, load_wrapper, save_wrapper
@@ -69,7 +70,7 @@ class model(baseline_model):
             dones = data_dict['dones']
             
         data_dict = self._discard_final_states(data_dict)
-        
+
         for i in range(len(data_dict['start_state'])):
             self.baseline_dqn_dict['replay_buffer'].add(
                 np.array(data_dict['start_state'][i]),
@@ -86,11 +87,11 @@ class model(baseline_model):
         if self._not_actor_network:
             self.timesteps_so_far += len(data_dict['start_state'])
         
-        _target_update = (self.timesteps_so_far % \
+        _target_update = (self.timesteps_so_far %
             self.args.dqn_update_target_steps) == 0
         
         td_errors = []
-                          
+
         for _ in range(self.args.dqn_update_epochs):
             td_errors.append(
                 train_wrapper(
@@ -102,10 +103,11 @@ class model(baseline_model):
                     self.baseline_dqn_dict['update_target_function'],
                     self.args.dqn_replay_batch_size,
                     self.baseline_dqn_dict['train_function'],
+                    train_flag = True,
                     target_update = _target_update
                 )
             )
-                
+
         stats['td_errors'] = np.mean(np.array(td_errors)**2)
         stats['epsilon'] = \
             self.baseline_dqn_dict['exploration_scheme'].value(

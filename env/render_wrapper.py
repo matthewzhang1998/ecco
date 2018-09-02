@@ -14,7 +14,7 @@ import time
 import env.env_register
 from util import logger
 
-RENDER_EPISODE = 1000
+RENDER_EPISODE = 100
 
 class render_wrapper(object):
     def __init__(self, env_name, *args, **kwargs):

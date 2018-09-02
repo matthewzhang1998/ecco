@@ -50,57 +50,60 @@ class trainer(object):
     
     def run(self):
         self._set_io_size()
-        self._build_models()
-        self._init_whitening_stats()
-        
+        self._build_session()
+
         timer_dict = OrderedDict()
         timer_dict['Program Start'] = time.time()
         rolling_stats = defaultdict(list)
         training_return = {}
-        
-        while True:
-            if (self.timesteps_so_far % self.args.print_frequency) == 0:
-                timer_dict['** Program Total Time **'] = time.time()
-                training_return['stats'] = {}
-                for key in rolling_stats:
-                    training_return['stats'][key] = np.mean(
-                        rolling_stats[key][-self.args.print_frequency:]
+
+        with self._session as sess:
+            self._build_models()
+            self._init_whitening_stats()
+
+            while True:
+                if (self.timesteps_so_far % self.args.print_frequency) == 0:
+                    timer_dict['** Program Total Time **'] = time.time()
+                    training_return['stats'] = {}
+                    for key in rolling_stats:
+                        training_return['stats'][key] = np.mean(
+                            rolling_stats[key][-self.args.print_frequency:]
+                        )
+
+                    if 'mean_rewards' in training_return['stats']:
+                        training_return['stats']['mean_rewards'] *= \
+                           self.args.episode_length
+
+                    training_return['iteration'] = \
+                        self.timesteps_so_far//self.args.print_frequency
+                    training_return['totalsteps'] = self.timesteps_so_far
+
+                    log_results(training_return, timer_dict)
+
+                data_dict = self._play()
+                if self.timesteps_so_far >= self.args.dqn_training_start:
+                    stats, _ = self._train(data_dict)
+
+                    for key in stats:
+                        rolling_stats[key].append(stats[key])
+                    # log and print the results
+
+                if self.timesteps_so_far >= self.args.train_dqn_steps:
+                    self._saver.save(
+                        self._session,
+                        osp.join(logger._get_path(),
+                            "pretrained_model_{}".format(self._name_scope)
+                        )
                     )
-                  
-                if 'mean_rewards' in training_return['stats']:
-                    training_return['stats']['mean_rewards'] *= \
-                       self.args.episode_length
-                    
-                training_return['iteration'] = \
-                    self.timesteps_so_far//self.args.print_frequency
-                training_return['totalsteps'] = self.timesteps_so_far
-                    
-                log_results(training_return, timer_dict)
-    
-            data_dict = self._play()
-            if self.timesteps_so_far >= self.args.dqn_training_start:
-                stats, _ = self._train(data_dict)
-            
-                for key in stats:
-                    rolling_stats[key].append(stats[key])
-                # log and print the results
-            
-            if self.timesteps_so_far >= self.args.train_dqn_steps:
-                self._saver.save(
-                    self._session,
-                    osp.join(logger._get_path(),
-                        "pretrained_model_{}".format(self._name_scope)
-                    )
-                )
-                break
-            else:
-                self.timesteps_so_far += 1
-                
-        return self._get_weights(), self._environments_cache
+                    break
+                else:
+                    self.timesteps_so_far += 1
+
+            final_weights = self._get_weights()
+
+        return final_weights, self._environments_cache
         
     def _build_models(self):
-        self._build_session()
-        
         self._network = {key: self._network_type[key](
                 self.args, self._session, self._name_scope,
                 self._observation_size, self._action_size,
@@ -170,7 +173,7 @@ class trainer(object):
         feed_dict = {'start_state': [self._last_obs]}
         
         act_dict = self._network['base'].act(feed_dict, control_infos)
-        action = act_dict['actions']
+        action = act_dict['actions'][0]
         
         obs, reward, done, _ = self.env.step(action)
         data_dict = {'start_state': np.array([self._last_obs]),
