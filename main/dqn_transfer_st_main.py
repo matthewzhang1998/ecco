@@ -81,6 +81,11 @@ def train(trainer, sampler, worker, models,
     if environments_cache is not None:
         sampler_agent.set_environments(environments_cache)
 
+        trainer_tasks.put(
+            (parallel_util.TRAINER_SET_ENVIRONMENTS,
+            environments_cache)
+        )
+
     timer_dict = OrderedDict()
     timer_dict['Program Start'] = time.time()
     current_iteration = 0
@@ -94,6 +99,9 @@ def train(trainer, sampler, worker, models,
         if current_iteration < args.train_transfer_iterations:
             training_info['train_model'] = 'transfer'
             rollout_info['rollout_model'] = 'transfer'
+
+            if (current_iteration % args.test_transfer_freq) == 0:
+                training_info['test'] = True
         
         else:
             training_info['train_model'] = 'final'

@@ -9,7 +9,7 @@ import init_path
 
 def get_dqn_transfer_config(parser):
     parser.add_argument("--dqn_task", type=str,
-                        default='gym_sokoban_small_tiny_world_easy')
+                        default='gym_sokoban_small_tiny_world_easy__render')
     parser.add_argument("--base_policy", type=str, default='dqn'),
     # dqn, a2c
                 
@@ -107,6 +107,13 @@ def get_dqn_transfer_config(parser):
                         default=1e-4)
     parser.add_argument("--transfer_value_lr", type=float,
                         default=1e-4)
+
+    parser.add_argument("--test_transfer_freq", type=int,
+                        default=20)
+    parser.add_argument("--test_transfer_nenvs")
+
+    parser.add_argument("--test_transfer_episode_length", type=int,
+                        default=20)
 
     parser.add_argument("--freeze_actor_final", type=int,
                         default=1)

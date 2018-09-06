@@ -72,6 +72,38 @@ class model(base_model):
             is_manager = False,
             reuse = tf.AUTO_REUSE
         )
+
+        self._input_ph['test_goal'] = tf.placeholder(
+            tf.float32, [None, self._maximum_dim]
+        )
+
+        test_input_tensors = {
+            'net_input': self._tensor['net_input'],
+            'lookahead_input': tf.identity(self._tensor['net_input']),
+            'action_input': self._input_ph['actions'],
+            'goal_input':
+                tf.stop_gradient(self._input_ph['test_goal']),
+            'recurrent_input': self._input_ph['net_states'][name],
+            'old_goal_input':
+                tf.stop_gradient(_manager.outputs['hindsight_goal'])
+        }
+
+        self._test_agent = self._actor_net_proto(
+            self.args, test_input_tensors,
+            self._action_distribution,
+            self._network_input_size,
+            self._goal_size_by_level(level + 1),
+            self._action_size,
+            self._maximum_dim,
+            self._npr,
+            self._input_ph['episode_length'],
+            self._input_ph['batch_size'],
+            self._lookahead_by_level(level), name,
+            is_manager=False,
+            reuse=tf.AUTO_REUSE
+        )
+
+        self._tensor['test_action'] = self._test_agent.action
         
     def _build_loss(self):        
         self.required_keys = [
@@ -244,10 +276,8 @@ class model(base_model):
             data_dict["motivations"][:,-1])
         
         return _final_stats, data_dict
-        
-    
+
     def _generate_prelim_outputs(self, data_dict):
-        # TODO: generate dummy goal for final state to prevent errors
         feed_dict = {
             self._input_ph['start_state']: data_dict['start_state'],
         }
@@ -339,6 +369,167 @@ class model(base_model):
         )
             
         data_dict = self._discard_final_states(data_dict)
-    
-    def act(self, data_dict):
-        raise NotImplementedError("Do not use transfer model for act")
+
+    def act(self, data_dict, control_infos):
+        __last_ob = np.array(data_dict['start_state'])
+        batch_size = len(__last_ob)
+
+        feed_dict = {
+            self._input_ph['start_state']: \
+                np.reshape(__last_ob, (batch_size, -1)),
+            self._input_ph['test_goal']: data_dict['test_goal']
+        }
+
+        feed_dict[self._input_ph['episode_length']] = \
+            np.array(1, dtype=np.int32)
+
+        _timestep = control_infos['step_index']
+        _hash = {}
+        states_dict = {}
+
+        for layer in self._recurrent_layers:
+            if self.args.use_dilatory_network:
+                _modulo = _timestep % layer['lookahead']
+                _hash[layer['name']] = layer['name'] + '_' + str(_modulo)
+            else:
+                _hash[layer['name']] = layer['name']
+
+            if _hash[layer['name']] in data_dict:
+                states_dict[self._input_ph['net_states'][layer['name']]] = \
+                    np.array(data_dict[_hash[layer['name']]])
+
+            else:
+                states_dict[self._input_ph['net_states'][layer['name']]] = \
+                    np.reshape(np.tile(
+                        self._dummy_states[layer['name']], [batch_size]),
+                        [batch_size] +
+                        list(self._dummy_states[layer['name']].shape)
+                    )
+
+        run_dict = {
+            'actions': self._tensor['output_action']
+        }
+
+        states_dict = {}
+
+        for layer in self._recurrent_layers:
+            states_dict[_hash[layer['name']]] = self._tensor[layer['name']]
+
+        run_dict = {**run_dict, **states_dict}
+
+        return self._session.run(run_dict, feed_dict)
+
+    def _generate_prelim_test(self, data_dict):
+        # target goal generation
+
+        feed_dict = {
+            self._input_ph['start_state']: data_dict['start_state'],
+        }
+
+        feed_dict[self._input_ph['episode_length']] = \
+            self.args.transfer_test_length
+
+        batch_size = data_dict['start_state'].shape[0]
+
+        _dummy_goals = np.reshape(np.tile(
+            self._dummy_initial_goals, [batch_size]),
+            [batch_size] + list(self._dummy_initial_goals.shape)
+        )
+
+        feed_dict[self._input_ph['initial_goals']] = \
+            data_dict['initial_goals'] = _dummy_goals
+
+        # states are not used for hindsight goal generation
+        num_episodes = int(len(data_dict['start_state']) / \
+                           (self.args.episode_length + 1))
+
+        states_dict = {
+            self._input_ph['net_states'][layer['name']]:
+                np.reshape(np.tile(self._dummy_states[layer['name']],
+                                   [num_episodes]), [num_episodes, -1])
+            for layer in self._recurrent_layers
+        }
+
+        # concat variables with recurrent states
+
+        feed_dict = {**feed_dict, **states_dict}
+
+        final_lookaheads = self._session.run(
+            self._tensor['lookahead_manager_final'], feed_dict
+        )
+
+        _dummy_lookaheads = np.zeros(
+            (batch_size, self.args.maximum_hierarchy_depth - 1,
+             self._observation_size), dtype=np.float32
+        )
+
+        _dummy_lookaheads[:, -1] = final_lookaheads
+
+        feed_dict[self._input_ph['lookahead_state']] = \
+            data_dict['lookahead_state'] = _dummy_lookaheads
+
+        data_dict['test_goal'] = self._session.run(
+            self._tensor['hindsight_goal'], feed_dict
+        )
+
+    def _test(self, data_dict):
+        feed_dict = {
+            self._input_ph['start_state']: data_dict['start_state'],
+            self._input_ph['test_goal']: data_dict['test_goal']
+        }
+
+        feed_dict[self._input_ph['episode_length']] = \
+            self.args.transfer_test_length
+
+        batch_size = data_dict['start_state'].shape[0]
+
+        _dummy_goals = np.reshape(np.tile(
+            self._dummy_initial_goals, [batch_size]),
+            [batch_size] + list(self._dummy_initial_goals.shape)
+        )
+
+        feed_dict[self._input_ph['initial_goals']] = \
+            data_dict['initial_goals'] = _dummy_goals
+
+        num_episodes = int(len(data_dict['start_state']) / \
+                           (self.args.transfer_test_length))
+
+        states_dict = {
+            self._input_ph['net_states'][layer['name']]:
+                np.reshape(np.tile(self._dummy_states[layer['name']],
+                                   [num_episodes]), [num_episodes, -1])
+            for layer in self._recurrent_layers
+        }
+
+        # concat variables with recurrent states
+
+        _dummy_input_goals = np.zeros(
+            (batch_size, self.args.maximum_hierarchy_depth - 1,
+             self._maximum_dim), dtype=np.float32
+        )
+
+        _dummy_input_goals[:,-1] = data_dict['test_goal']
+
+        feed_dict[self._input_ph['goal']] = _dummy_input_goals
+
+        feed_dict = {**feed_dict, **states_dict}
+
+        _motivations = self._session.run(
+            self._tensor['output_motivations'],
+        )
+
+        return {'motivations': np.sum(_motivations) / self.args.transfer_test_length}
+
+    def _get_hash_states(self, data_dict, start_inds):
+        states_dict = {}
+
+        for layer in self._recurrent_layers:
+            if self.args.use_dilatory_network:
+                for x in range(self.args.test_transfer_nenvs):
+                    for t in range(layer['lookahead']):
+                        _modulos = (start_inds - t) % layer['lookahead']
+                        _hash[layer['name']] = layer['name'] + '_' + str(_modulo)
+            else:
+                _hash[layer['name']] = layer['name']
+
+

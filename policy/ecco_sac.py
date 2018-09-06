@@ -9,4 +9,5 @@ import tensorflow as tf
 
 class model(ecco_base.base_model):
     def _build_loss(self):
+        pass
         

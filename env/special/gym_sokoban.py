@@ -28,6 +28,7 @@ class env(bew.base_env):
             self.n_boxes = 1
             
         self._last_reward = 0
+        self._episode_reward = 0
         
     def step(self, action):    
         action = int(action) # get int from action     
@@ -53,11 +54,17 @@ class env(bew.base_env):
         else:
             done = False # will raise warnings -> set logger flag to ignore
         self._old_ob = np.array(ob)
+        self._episode_reward += reward
+
+        if done:
+            print(self._episode_reward)
                
         return ob, reward, done, {}
     
     def reset(self):
         self._env.reset()
+
+        self._episode_reward = 0
         
         self._last_reward = 0
         
@@ -93,7 +100,7 @@ class env(bew.base_env):
         
         return one_hot_ob
     
-    def get_supervised_goal():
+    def get_supervised_goal(self):
         return None
     
     def _keep_n_boxes(self, num_boxes):

@@ -16,7 +16,11 @@ import os.path as osp
 
 from .base_trainer import base_trainer
 
-class trainer(base_trainer):        
+class trainer(base_trainer):
+    def __init__(self, *args, **kwargs):
+        super(trainer, self).__init__(*args, **kwargs)
+        self._environments_cache = None
+
     def run(self):
         self._set_io_size()
         self._build_session()
@@ -66,6 +70,11 @@ class trainer(base_trainer):
                     _save_dir = osp.join(_log_path, _save_extension)
                     self._saver.save(self._session, _save_dir)
 
+                elif next_task[0] == \
+                    parallel_util.TRAINER_SET_ENVIRONMENTS:
+                    self._environments_cache = \
+                        next_task[1]
+
                 else:
                     # training
                     assert next_task[0] == parallel_util.TRAIN_SIGNAL
@@ -73,6 +82,15 @@ class trainer(base_trainer):
                         next_task[1]['data'],
                         next_task[1]['training_info']
                     )
+
+                    if 'test' in next_task[1]['training_info'] and \
+                        next_task[1]['training_info']['test']:
+                        stats.update(
+                            self._test_transfer(
+                                next_task[1]['data']
+                            )
+                        )
+
                     self._task_queue.task_done()
 
                     self._iteration += 1
@@ -124,6 +142,14 @@ class trainer(base_trainer):
         }
 
         return weights
+
+    def _test_transfer(self):
+        assert self._environments_cache or \
+            not self.args.cache_environments
+
+        if self.args.cache_environments:
+            pass
+
         
     def _update_parameters(self, rollout_data, training_info):
         # get the observation list
@@ -190,3 +216,10 @@ class trainer(base_trainer):
         # update timesteps so far
         self._timesteps_so_far += len(training_data['actions'])
         return training_data
+
+    def _test_transfer(self, data_dict):
+        pass
+
+
+        _hashed_states = self._network['transfer']
+

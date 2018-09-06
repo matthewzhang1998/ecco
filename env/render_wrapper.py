@@ -10,6 +10,7 @@ import pickle
 import os.path as osp
 import numpy as np
 import time
+import init_path
 
 import env.env_register
 from util import logger
@@ -31,14 +32,15 @@ class render_wrapper(object):
         self.render_name = ''
 
     def step(self, action, *args, **kwargs):
-        if self.always_render or self.episode_number % RENDER_EPISODE == 0:
-            self.obs_buffer.append({
-                    'start_state':self.env._old_ob.tolist(),
-                    'action':action.tolist()
-                    })
+        self.obs_buffer.append({
+                'start_state':self.env._old_ob.tolist(),
+                'action':action.tolist()
+                })
         return_tup = self.env.step(action, *args, **kwargs)
+
+        self.obs_buffer[-1]['reward'] = return_tup[1]
         
-        if return_tup[2]:
+        if return_tup[2] and self.env._episode_reward > 1.0:
             self.dump_render()
             
         return return_tup
@@ -65,17 +67,19 @@ class render_wrapper(object):
         return self.env.reset_soft(*args, **kwargs)
     
     def dump_render(self):
-        if (self.episode_number % RENDER_EPISODE) == 0:
-            file_name = osp.join(
-                self.path, 'ep_{}_{}.p'.format(
-                    self.episode_number, self.render_name
-                )
+        file_name = osp.join(
+            self.path, 'ep_{}_{}.p'.format(
+                self.episode_number, self.render_name
             )
-            with open(file_name, 'wb') as pickle_file:
-                pickle.dump(
-                    self.obs_buffer, pickle_file,
-                    protocol=pickle.HIGHEST_PROTOCOL
-                )
+        )
+        with open(file_name, 'wb') as pickle_file:
+            pickle.dump(
+                self.obs_buffer, pickle_file,
+                protocol=pickle.HIGHEST_PROTOCOL
+            )
+
+        #self.render(self.obs_buffer)
+
         self.obs_buffer = []
 
     def reward_derivative(self, *args, **kwargs):
@@ -87,6 +91,8 @@ class render_wrapper(object):
                 'start_state':np.asarray(transition['start_state']),
                 'action':np.asarray(transition['action']),
             }
+
+            print(transition['reward'])
             
             self.env.fdynamics(render_transition)
             self.env._env.render()

@@ -27,7 +27,7 @@ def get_base_config():
     # training configuration
     parser.add_argument("--batch_size", type=int, default=5000,
                         help='number of steps in the rollout')
-    parser.add_argument("--max_timesteps", type=int, default=1e7)
+    parser.add_argument("--max_timesteps", type=int, default=1e9)
     parser.add_argument("--num_minibatches", type=int, default=50)
     parser.add_argument("--num_workers", type=int, default=1)
     
