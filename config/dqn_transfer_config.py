@@ -82,6 +82,7 @@ def get_dqn_transfer_config(parser):
     parser.add_argument("--dqn_gradient_max", type=float, default=0.1)      
     parser.add_argument("--dqn_gamma", type=float, default=0.99)
     parser.add_argument("--use_dqn_param_noise", type=int, default=0)
+    parser.add_argument("--dqn_train_freq", type=int, default=1)
     
     parser.add_argument("--train_transfer_iterations", type=int, 
                         default=100)

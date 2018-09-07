@@ -20,7 +20,7 @@ class rendering(object):
     def render(self, transition):
         self.env.fdynamics(transition)
         self.env._env.render()
-        time.sleep(1)
+        time.sleep(1/2)
         
 def get_rendering_config():
     import argparse
@@ -45,6 +45,8 @@ def main():
                     'start_state':np.asarray(transition['start_state']),
                     'action':np.asarray(transition['action']),
                     }
+
+        print(transition['reward'])
         render_env.render(render_transition)
 
 if __name__ == '__main__':

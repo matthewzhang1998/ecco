@@ -29,25 +29,26 @@ class env(bew.base_env):
             
         self._last_reward = 0
         self._episode_reward = 0
-        
+
     def step(self, action):    
-        action = int(action) # get int from action     
-        
-        reward_last = self._env.env.reward_last
-        self._env.env.reward_last = 0
-        
+        action = int(action) # get int from action
+
         self._env.step(action)
-        ob = self._one_hot(self._env.env.room_state)
-        
-        reward = self._env.env.reward_last - reward_last
-        reward /= 10
-           
+        time.sleep(1/20)
         ob = self._one_hot(self._env.env.room_state)
 
         # flatten observation
         ob = np.reshape(ob, [-1])
 
         self._current_step += 1
+
+        data_dict = {
+            'start_state': self._old_ob,
+            'action': action,
+            'end_state': ob
+        }
+
+        reward = self._reward(data_dict)
 
         if self._current_step >= self._maximum_length:
             done = True
@@ -65,6 +66,7 @@ class env(bew.base_env):
         self._env.reset()
 
         self._episode_reward = 0
+        self._env.env.reward_last = 0
         
         self._last_reward = 0
         
@@ -114,17 +116,52 @@ class env(bew.base_env):
             if self._env.env.room_state[targets[0][i], targets[1][i]] == 2:
                 self._env.env.room_state[targets[0][i], targets[1][i]] = 1
             self._env.env.room_state[boxes[0][i], boxes[1][i]] = 1
-     
+
+    def _reward(self, data_dict):
+        total_targets = np.sum(
+            np.where(self._env.env.room_fixed == 2, 1, 0)
+        )
+
+        start_state = self._undo_one_hot(
+            data_dict['start_state']
+        )
+        end_state = self._undo_one_hot(
+            data_dict['end_state']
+        )
+
+        boxes_before = np.sum(
+            np.where(start_state == 3, 1, 0)
+        )
+
+        boxes_after = np.sum(
+            np.where(end_state == 3, 1, 0)
+        )
+
+        reward = .1 * (boxes_after - boxes_before)
+
+        if (boxes_after == total_targets) and \
+            (boxes_before != total_targets):
+            reward += 1.0
+
+        elif (boxes_after != total_targets) and \
+            (boxes_before == total_targets):
+            reward -= 1.0
+
+        return reward
+
+    def _undo_one_hot(self, state):
+        _room_dim_shape = self._env.env.dim_room
+        geo_state_array = np.reshape(
+            state, [*_room_dim_shape] + [-1]
+        )
+
+        ground_truth_state = np.argmax(geo_state_array, axis=-1)
+        return ground_truth_state
+
     def fdynamics(self, data_dict):
         action = float(data_dict['action'])
         
-        _room_dim_shape = self._env.env.dim_room
-        geo_state_array = np.reshape(
-            data_dict['start_state'],
-            [*_room_dim_shape] + [-1]
-        )
-        
-        ground_truth_state = np.argmax(geo_state_array, axis=-1)
+        state = _undo_one_hot(data_dict['start_state'])
         
         self._env.env.room_state = ground_truth_state
         

@@ -40,7 +40,7 @@ class render_wrapper(object):
 
         self.obs_buffer[-1]['reward'] = return_tup[1]
         
-        if return_tup[2] and self.env._episode_reward > 1.0:
+        if return_tup[2]:
             self.dump_render()
             
         return return_tup
@@ -67,18 +67,19 @@ class render_wrapper(object):
         return self.env.reset_soft(*args, **kwargs)
     
     def dump_render(self):
-        file_name = osp.join(
-            self.path, 'ep_{}_{}.p'.format(
-                self.episode_number, self.render_name
-            )
-        )
-        with open(file_name, 'wb') as pickle_file:
-            pickle.dump(
-                self.obs_buffer, pickle_file,
-                protocol=pickle.HIGHEST_PROTOCOL
-            )
+        if self.obs_buffer and (self.render or
+            self.episode_number % RENDER_EPISODE == 0):
 
-        #self.render(self.obs_buffer)
+            file_name = osp.join(
+                self.path, 'ep_{}_{}.p'.format(
+                    self.episode_number, self.render_name
+                )
+            )
+            with open(file_name, 'wb') as pickle_file:
+                pickle.dump(
+                    self.obs_buffer, pickle_file,
+                    protocol=pickle.HIGHEST_PROTOCOL
+                )
 
         self.obs_buffer = []
 

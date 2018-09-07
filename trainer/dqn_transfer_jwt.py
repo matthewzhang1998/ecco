@@ -82,7 +82,8 @@ class trainer(object):
                     log_results(training_return, timer_dict)
 
                 data_dict = self._play()
-                if self.timesteps_so_far >= self.args.dqn_training_start:
+                if self.timesteps_so_far >= self.args.dqn_training_start and \
+                    (self.timesteps_so_far % self.args.dqn_train_freq == 0):
                     stats, _ = self._train(data_dict)
 
                     for key in stats:
