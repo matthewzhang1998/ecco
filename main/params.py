@@ -20,10 +20,11 @@ def env_args():
     params["--num_cache"] = [1]
     params["--episode_length"] = [100]
     params["--seed"] = [1]
-    params["--dqn_batch_size"] = [64]
-    params["--dqn_update_epochs"] = [50]
+    params["--dqn_batch_size"] = [128]
+    params["--dqn_update_epochs"] = [1]
     params["--dqn_lr"] = [1e-4]
-    params["--dqn_update_target_steps"] = [10000]
+    params["--dqn_train_freq"] = [1, 10, 100, 1000]
+    params["--seed"] = [0,1,2]
     
     # Tuned Parameters
     return params
@@ -56,6 +57,14 @@ if __name__ == "__main__":
             
         args += "--num_minibatches {} ".format(
             instance['--batch_size']//instance['--episode_length']
+        )
+
+        args += "--print_freq {} ".format(
+            instance['--dqn_train_freq']
+        )
+
+        args += "--train_dqn_steps {} ".format(
+            instance['--dqn_train_freq'] * 10000
         )
         
         args += "--replay_batch_size {} ".format(instance['--batch_size'])

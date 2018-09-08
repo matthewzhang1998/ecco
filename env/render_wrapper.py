@@ -15,7 +15,7 @@ import init_path
 import env.env_register
 from util import logger
 
-RENDER_EPISODE = 100
+RENDER_EPISODE = 1000
 
 class render_wrapper(object):
     def __init__(self, env_name, *args, **kwargs):
@@ -60,14 +60,14 @@ class render_wrapper(object):
     
     def reset_soft(self, *args, **kwargs):
         self.episode_number += 1
-        if self.obs_buffer and (self.render or 
+        if self.obs_buffer and (self.always_render or
             self.episode_number % RENDER_EPISODE == 0):
             self.dump_render()
         
         return self.env.reset_soft(*args, **kwargs)
     
     def dump_render(self):
-        if self.obs_buffer and (self.render or
+        if self.obs_buffer and (self.always_render or
             self.episode_number % RENDER_EPISODE == 0):
 
             file_name = osp.join(

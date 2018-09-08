@@ -80,7 +80,8 @@ class model(baseline_model):
                 np.array(dones[i], dtype=np.float32)
             )
         
-        stats = {'mean_rewards': np.sum(data_dict['rewards'])}
+        stats = {'mean_rewards': np.mean(data_dict['rewards']) \
+                 * self.args.episode_length}
         
         # this is necessary because the train and act networks are
         # different class instances
