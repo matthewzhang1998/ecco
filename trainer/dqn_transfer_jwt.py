@@ -62,6 +62,7 @@ class trainer(object):
             self._build_models()
             self._init_whitening_stats()
 
+            data_dict = defaultdict(list)
             while True:
                 if (self.timesteps_so_far % self.args.print_frequency) == 0:
                     timer_dict['** Program Total Time **'] = time.time()
@@ -81,7 +82,11 @@ class trainer(object):
 
                     log_results(training_return, timer_dict)
 
-                data_dict = self._play()
+                temp_dict = self._play()
+                for key in data_dict:
+                    data_dict[key].append(temp_dict[key])
+
+
                 if self.timesteps_so_far >= self.args.dqn_training_start and \
                     (self.timesteps_so_far % self.args.dqn_train_freq == 0):
                     stats, _ = self._train(data_dict)
@@ -89,6 +94,9 @@ class trainer(object):
                     for key in stats:
                         rolling_stats[key].append(stats[key])
                     # log and print the results
+
+                    # clear data_dict
+                    data_dict = defaultdict(list)
 
                 if self.timesteps_so_far >= self.args.train_dqn_steps:
                     self._saver.save(

@@ -56,9 +56,6 @@ class env(bew.base_env):
             done = False # will raise warnings -> set logger flag to ignore
         self._old_ob = np.array(ob)
         self._episode_reward += reward
-
-        if done:
-            print(self._episode_reward)
                
         return ob, reward, done, {}
     

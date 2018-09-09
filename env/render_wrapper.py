@@ -92,8 +92,6 @@ class render_wrapper(object):
                 'start_state':np.asarray(transition['start_state']),
                 'action':np.asarray(transition['action']),
             }
-
-            print(transition['reward'])
             
             self.env.fdynamics(render_transition)
             self.env._env.render()
