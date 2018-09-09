@@ -79,10 +79,9 @@ class model(baseline_model):
                 np.array(data_dict['end_state'][i]),
                 np.array(dones[i], dtype=np.float32)
             )
-        
-        stats = {'mean_rewards': np.mean(data_dict['rewards']) \
-                 * self.args.episode_length}
-        
+
+        stats = {'mean_rewards': np.mean(data_dict['rewards'])}
+
         # this is necessary because the train and act networks are
         # different class instances
         if self._not_actor_network:
