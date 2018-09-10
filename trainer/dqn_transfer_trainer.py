@@ -85,11 +85,12 @@ class trainer(base_trainer):
 
                     if 'test' in next_task[1]['training_info'] and \
                         next_task[1]['training_info']['test']:
-                        stats.update(
-                            self._test_transfer(
-                                next_task[1]['data']
-                            )
-                        )
+                        continue
+                        # stats.update(
+                        #     self._test_transfer(
+                        #         next_task[1]['data']
+                        #     )
+                        # )
 
                     self._task_queue.task_done()
 
