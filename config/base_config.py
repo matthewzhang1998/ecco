@@ -42,6 +42,7 @@ def get_base_config():
                         default=5000)
     
     parser.add_argument("--cache_environments", type=int, default=1)
+    parser.add_argument("--load_environments", type=str, default=None)
     parser.add_argument("--num_cache", type=int, default=1)
 
     parser.add_argument("--policy_lr", type=float, default=3e-4)

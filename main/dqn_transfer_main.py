@@ -154,6 +154,7 @@ def main():
                                 prefix='ecco_ecco' + args.task,
                                 time_str=args.exp_id)
 
+    print('DQN_TRANSFER_MAIN.PY is Deprecated, do not use')
     print('Training starts at {}'.format(init_path.get_abs_base_dir()))
     from trainer import dqn_transfer_trainer
     from runners import dqn_transfer_task_sampler

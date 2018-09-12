@@ -96,5 +96,7 @@ class render_wrapper(object):
             self.env.fdynamics(render_transition)
             self.env._env.render()
             time.sleep(1/20)
-    
+
+    def set_info(self, info):
+        self.env.set_info(info)
     

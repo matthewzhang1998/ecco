@@ -221,6 +221,5 @@ class trainer(base_trainer):
     def _test_transfer(self, data_dict):
         pass
 
-
-        _hashed_states = self._network['transfer']
+        # _hashed_states = self._network['transfer']
 

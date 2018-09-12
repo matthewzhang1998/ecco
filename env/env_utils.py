@@ -7,6 +7,10 @@ Created on Sun Aug 12 16:27:44 2018
 """
 import numpy as np
 from collections import defaultdict
+import glob
+import pickle
+import os
+import os.path as osp
 
 def play_episode_with_env(envs, policy,
         control_info={'use_default_goal':True, 'use_default_states':True}):
@@ -88,3 +92,29 @@ def play_episode_with_env(envs, policy,
         all_episode_infos.append(episode_info)
         
     return all_episode_infos
+
+def load_environments(load_path, num_envs,
+    task_name, maximum_length=100, seed=0):
+    from . import env_register
+
+    root_dir = osp.join(os.getcwd(), '..', load_path)
+
+    all_environments = [
+        file for file in os.listdir(root_dir)
+        if osp.isfile(osp.join(root_dir, file))
+    ]
+
+    environment_cache = []
+    for i in range(num_envs):
+        env, _ = env_register.make_env(task_name, seed, maximum_length)
+        env.reset()
+
+        file_name = osp.join(root_dir, all_environments[i])
+
+        with open(file_name, 'rb') as pickle_load:
+            env_info = pickle.load(pickle_load)
+
+        env.set_info(env_info)
+        environment_cache.append(env)
+
+    return environment_cache

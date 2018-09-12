@@ -163,3 +163,10 @@ class env(bew.base_env):
         self._env.env.room_state = ground_truth_state
         
         # no act, creates bugs
+
+    def set_info(self, info):
+        if 'fixed_state' in info:
+            self._env.env.room_fixed = info['fixed_state']
+
+        if 'init_state' in info:
+            self._env.env.room_state = info['init_state']

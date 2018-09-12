@@ -224,3 +224,7 @@ class trainer(object):
     def _init_whitening_stats(self):
         self._whitening_stats = \
             whitening_util.init_whitening_stats(['state', 'diff_state'])
+
+    def set_environments(self, environments_cache=None):
+        if environments_cache is not None:
+            self._environments_cache = environments_cache

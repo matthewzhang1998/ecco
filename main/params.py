@@ -17,13 +17,14 @@ def env_args():
     # Fixed parameters
     params["--task"] = ["gym_sokoban_small_tiny_world_easy__render"]
     params["--batch_size"] = [5000]
-    params["--num_cache"] = [1]
+    params["--num_cache"] = [1,3,10,100]
     params["--episode_length"] = [100]
     params["--seed"] = [1]
     params["--dqn_batch_size"] = [128]
+    params["--load_environments"] = ["env/cache/environments/sokoban"]
     params["--dqn_update_epochs"] = [1]
     params["--dqn_lr"] = [1e-4]
-    params["--dqn_train_freq"] = [1, 10, 100, 1000]
+    params["--dqn_train_freq"] = [10]
     params["--seed"] = [0,1,2]
     
     # Tuned Parameters
