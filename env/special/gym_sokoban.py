@@ -30,7 +30,7 @@ class env(bew.base_env):
         self._last_reward = 0
         self._episode_reward = 0
 
-    def step(self, action):    
+    def step(self, action):
         action = int(action) # get int from action
 
         self._env.step(action)
@@ -56,6 +56,8 @@ class env(bew.base_env):
             done = False # will raise warnings -> set logger flag to ignore
         self._old_ob = np.array(ob)
         self._episode_reward += reward
+
+        next_info = self.get_info()
                
         return ob, reward, done, {}
     
@@ -166,7 +168,84 @@ class env(bew.base_env):
 
     def set_info(self, info):
         if 'fixed_state' in info:
-            self._env.env.room_fixed = info['fixed_state']
+            self._env.env.room_fixed = np.copy(info['fixed_state'])
 
         if 'init_state' in info:
-            self._env.env.room_state = info['init_state']
+            self._env.env.room_state = np.copy(info['init_state'])
+
+    def get_info(self):
+        return {'fixed_state': np.copy(self._env.env.room_fixed),
+            'init_state': np.copy(self._env.env.room_state)}
+
+    def get_obs_from_info(self, info):
+        return np.reshape(self._one_hot(info['init_state']), [-1])
+
+    def shuffle(self):
+        temp_state = np.copy(self._env.env.room_state)
+        floor = np.where(temp_state == 1)
+        player = np.where(temp_state == 5)
+
+        if len(floor) > 0:
+            new_player_ind = self._npr.randint(len(floor))
+            temp_state[player] = self._env.env.room_fixed[player]
+            temp_state[floor[0][new_player_ind]][floor[1][new_player_ind]] = \
+                5
+
+        floor = np.where(temp_state == 1)
+        boxes = np.where(temp_state == 4|temp_state == 3)
+
+        if len(floor) > 0:
+            maximum_length = min(len(floor), len(boxes))
+            new_box_inds = self._npr.randint(0, len(floor), maximum_length)
+            for box in range(maximum_length):
+                temp_state[boxes[0][box]][boxes[1][box]] = \
+                    self._env.env.room_fixed[boxes[0][box]][[boxes][1][box]]
+
+                ix = new_box_inds[box]
+
+                temp_state[floor[0][ix]][floor[1][ix]] = 4
+
+    def a_star_cost(self, info):
+        room_state = info['init_state']
+        room_fixed = info['fixed_state']
+
+        boxes = np.where(
+            (room_state == 4)|(room_state == 3)
+        )
+
+        player = np.where(
+            room_state == 5
+        )
+
+        targets = np.where(
+            (room_fixed == 2)
+        )
+
+        total_manhattan_distances = 0.0
+
+        # box term
+        for i in range(len(boxes[0])):
+            min_manhattan_dist = 1000.0
+            manhattan_dist_temp = 0.0
+            for j in range(len(targets[0])):
+                manhattan_dist_temp = \
+                    np.abs(boxes[0][i] - targets[0][j]) + \
+                    np.abs(boxes[1][i] - targets[1][j])
+
+                if manhattan_dist_temp < min_manhattan_dist:
+                    min_manhattan_dist = manhattan_dist_temp
+            total_manhattan_distances += min_manhattan_dist
+
+        # player term
+        min_manhattan_dist = 1000.0
+        for i in range(len(boxes[0])):
+            manhattan_dist_temp = \
+                np.abs(boxes[0][i] - player[0][0]) + \
+                np.abs(boxes[0][i] - player[1][0])
+
+            if manhattan_dist_temp < min_manhattan_dist:
+                min_manhattan_dist = manhattan_dist_temp
+
+        total_manhattan_distances += min_manhattan_dist
+
+        return total_manhattan_distances

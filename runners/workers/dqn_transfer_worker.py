@@ -68,8 +68,10 @@ class worker(base_worker.worker):
             ) for key in self._network_type
         }
 
-        self._network['base'].timesteps_so_far = \
-            self.args.train_dqn_steps
+        if 'base' in self._network:
+            self._network['base'].timesteps_so_far = \
+                self.args.train_dqn_steps
+
 
         for key in self._network:
             self._network[key].build_model()

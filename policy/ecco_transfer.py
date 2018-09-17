@@ -107,7 +107,7 @@ class model(base_model):
         
     def _build_loss(self):        
         self.required_keys = [
-            'start_state', 'end_state', 'rewards', 'actions'
+            'start_state', 'rewards', 'actions'
         ]
         
         self._build_transfer_agent()
@@ -176,12 +176,16 @@ class model(base_model):
                     learning_rate=self._input_ph['learning_rate']
                 ).minimize(self._update_operator['transfer_loss'])
         
-    def train(self, data_dict, replay_buffer, train_net):
-        self._generate_prelim_outputs(data_dict)
-        self._generate_advantages(data_dict)
+    def train(self, data_dict, replay_buffer, train_infos):
+        episode_length = self.args.episode_length
+        if 'episode_length' in train_infos:
+            episode_length = train_infos['episode_length']
+
+        self._generate_prelim_outputs(data_dict, episode_length)
+        self._generate_advantages(data_dict, episode_length)
         
         _num_minibatches = self.args.transfer_minibatches
-        
+
         _log_stats = defaultdict(list)
         
         for epoch in range(max(self.args.transfer_policy_epochs,
@@ -191,7 +195,7 @@ class model(base_model):
             if self.args.use_recurrent:
                 # ensure we can factorize into episodes
                 assert total_batch_len/_num_minibatches \
-                    % self.args.episode_length == 0
+                    % episode_length == 0
             else:
                 self._npr.shuffle(total_batch_inds)
             minibatch_size = total_batch_len//_num_minibatches
@@ -207,7 +211,7 @@ class model(base_model):
                          'lookahead_state']
                 }
                 
-                num_episodes = int((end - start) / self.args.episode_length)
+                num_episodes = int((end - start) / episode_length)
                 states_dict = {
                     self._input_ph['net_states'][layer['name']]:
                     np.reshape(np.tile(
@@ -224,7 +228,7 @@ class model(base_model):
                 feed_dict[self._input_ph['batch_size']] = \
                         np.array(float(end - start))  
                 feed_dict[self._input_ph['episode_length']] = \
-                        np.array(self.args.episode_length)
+                        np.array(episode_length)
                 feed_dict[self._input_ph['learning_rate']] = \
                         self.args.transfer_policy_lr
                 feed_dict[self._input_ph['value_target']] = \
@@ -277,13 +281,13 @@ class model(base_model):
         
         return _final_stats, data_dict
 
-    def _generate_prelim_outputs(self, data_dict):
+    def _generate_prelim_outputs(self, data_dict, episode_length):
         feed_dict = {
             self._input_ph['start_state']: data_dict['start_state'],
         }
         
         feed_dict[self._input_ph['episode_length']] = \
-            self.args.episode_length + 1
+            episode_length + 1
         
         batch_size = data_dict['start_state'].shape[0]
         
@@ -297,7 +301,7 @@ class model(base_model):
             data_dict['initial_goals'] = _dummy_goals
         
         num_episodes = int(len(data_dict['start_state']) / \
-            (self.args.episode_length + 1))
+            (episode_length + 1))
         
         states_dict = {
             self._input_ph['net_states'][layer['name']]:
@@ -332,7 +336,7 @@ class model(base_model):
              self._maximum_dim), dtype=np.float32
         )
         _hindsight_goals_by_episode = np.reshape(
-            hindsight_goals, (num_episodes, self.args.episode_length + 1, -1)
+            hindsight_goals, (num_episodes, episode_length + 1, -1)
         )
         correct_ratio = int(num_episodes * self.args.hindsight_correct_eps)
         incorrect_ratio = num_episodes - correct_ratio

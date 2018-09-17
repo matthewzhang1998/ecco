@@ -99,4 +99,15 @@ class render_wrapper(object):
 
     def set_info(self, info):
         self.env.set_info(info)
-    
+
+    def get_info(self):
+        return self.env.get_info()
+
+    def a_star_cost(self, info):
+        return self.env.a_star_cost(info)
+
+    def shuffle(self):
+        env.shuffle()
+
+    def get_obs_from_info(self, info):
+        return env.get_obs_from_info(info)

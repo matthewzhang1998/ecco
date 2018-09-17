@@ -32,14 +32,24 @@ import numpy as np
 def make_single_threaded_agent(worker_trainer_proto, models, args=None):
     return worker_trainer_proto(models, args, scope='pretrain')
 
+def make_transfer_thread(trainer, models, args, init_weights, environments_cache):
+    agent = trainer(models, args, 'transfer_trainer', environments_cache)
+    agent._set_weights(init_weights)
+    return agent
 
-def pretrain(worker_trainer, models, args=None):
+def pretrain(worker_trainer, models, args=None,
+    environments_cache = None):
     logger.info('Pretraining starts at {}'.format(
         init_path.get_abs_base_dir()))
 
     single_threaded_agent = make_single_threaded_agent(
         worker_trainer.trainer, models, args
     )
+
+    if environments_cache is not None:
+        single_threaded_agent.set_environments(
+            environments_cache
+        )
 
     weights, environments = single_threaded_agent.run()
 
@@ -58,7 +68,7 @@ def transfer(transfer_thread, models, args,
 
 def train(trainer, sampler, worker, models,
           args=None, pretrain_dict=None,
-          transfer_dict=None):
+          transfer_dict=None, environments_cache=None):
     logger.info('Training starts at {}'.format(init_path.get_abs_base_dir()))
 
     # make the trainer and sampler
@@ -67,20 +77,14 @@ def train(trainer, sampler, worker, models,
         make_trainer(trainer, models, args)
 
     if pretrain_dict is not None:
-        pretrain_weights, environments_cache = \
+        pretrain_weights = \
             pretrain_dict['pretrain_fnc'](
-                pretrain_dict['pretrain_thread'], models, args
+                pretrain_dict['pretrain_thread'], models, args,
+                environments_cache
             )
 
     else:
-        pretrain_weights = environments_cache = None
-
-    for key in pretrain_weights['base']:
-        try:
-            assert not np.array_equal(pretrain_weights['base'][key],
-                                      init_weights['base'][key])
-        except:
-            print(key, pretrain_weights['base'][key], init_weights['base'][key])
+        pretrain_weights = None
 
     init_weights = init_weights \
         if pretrain_weights is None else pretrain_weights
@@ -195,17 +199,24 @@ def main():
     from policy import a_star
     from policy import ecco_transfer
 
-    base_model = {
-        'dqn': dqn_base, 'a2c': a2c_base
-    }[args.base_policy]
-
     models = {'final': ecco_pretrain.model, 'transfer': ecco_transfer.model,
-              'explore': a_star.model, ''base': base_model.model}
+              'explore': a_star.model}
+
+    from env.env_utils import load_environments
+
+    if args.load_environments is not None:
+        environments_cache = load_environments(
+            args.load_environments, args.num_cache, args.task,
+            args.episode_length, args.seed
+        )
+
+    else:
+        environments_cache = None
 
     train(dqn_transfer_trainer.trainer, dqn_transfer_task_sampler,
-          dqn_transfer_worker, models, args,
-          {'pretrain_fnc': pretrain, 'pretrain_thread': dqn_transfer_jwt},
-          {'transfer_fnc': transfer, 'transfer_thread': a_star_transfer_trainer})
+          dqn_transfer_worker, models, args, None,
+          {'transfer_fnc': transfer, 'transfer_thread': a_star_transfer_trainer},
+          environments_cache)
 
 if __name__ == '__main__':
     main()

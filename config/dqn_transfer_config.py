@@ -118,6 +118,10 @@ def get_dqn_transfer_config(parser):
 
     parser.add_argument("--freeze_actor_final", type=int,
                         default=1)
+
+    parser.add_argument("--transfer_num_traj", type=int, default=500)
+    parser.add_argument("--transfer_sample_traj", type=int, default=50)
+    parser.add_argument("--transfer_shuffle_freq", type=int, default=50)
     
     parser.add_argument("--print_frequency", type=int, default=1000)
     

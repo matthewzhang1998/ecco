@@ -504,7 +504,10 @@ class base_model(object):
                     
         return data_dict
             
-    def _generate_advantages(self, data_dict):
+    def _generate_advantages(self, data_dict, episode_length=None):
+        if episode_length is None:
+            episode_length = self.args.episode_length
+
         # fix indices
         data_dict['advantage'] = \
             np.zeros(data_dict['value'].shape)
@@ -529,9 +532,9 @@ class base_model(object):
         # assume that the states are arranged as a flatten vector of episodes,
         # each of fixed length
         
-        for episode in range(int(_batch_size/self.args.episode_length)):
-            episode_start = episode * self.args.episode_length
-            episode_end = episode_start + self.args.episode_length
+        for episode in range(int(_batch_size/episode_length)):
+            episode_start = episode * episode_length
+            episode_end = episode_start + episode_length
             for i_step in reversed(range(episode_start, episode_end)):
                 if i_step < episode_end - 1:
                     delta = data_dict['joint_reward'][i_step] \

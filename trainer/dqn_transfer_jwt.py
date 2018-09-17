@@ -137,8 +137,7 @@ class trainer(object):
         self._observation_size, self._action_size, \
             self._action_distribution = \
             env_register.io_information(self.args.task)
-     
-        
+
     def _build_env(self):
         if self.args.cache_environments:
             while len(self._environments_cache) < self.args.num_cache:

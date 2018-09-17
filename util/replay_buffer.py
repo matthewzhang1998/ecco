@@ -379,3 +379,51 @@ def build_replay_buffer(args, observation_size, action_size,
                         
     else:
         raise ValueError("Unsupported replay buffer type")
+
+class DummyEpisodicBuffer(object):
+    def __init__(self, double_dict_list, seed=0):
+        assert double_dict_list[0][0] is not None
+
+        buffer = {}
+
+        for key in double_dict_list[0][0]:
+            buffer[key] = []
+
+        for key in buffer:
+            for traj in double_dict_list:
+                traj_key = []
+                for timestep in traj:
+                    traj_key.append(timestep[key])
+                traj_key = np.array(traj_key)
+                buffer[key].append(traj_key)
+            buffer[key] = np.array(buffer[key])
+
+        self.buffer = buffer
+        self.num_trajectories = len(double_dict_list)
+        self._npr = np.random.RandomState(seed)
+
+    def sample(self, num_trajectories):
+        assert num_trajectories <= self.num_trajectories
+
+        sample_idx = self._npr.randint(
+            0, self.num_trajectories, num_trajectories
+        )
+
+        data_dict = {}
+        for key in self.buffer:
+            data_dict[key] = self.buffer[key][sample_idx]
+            data_dict[key] = data_dict[key].reshape(
+                (data_dict[key].shape[0] * data_dict[key].shape[1],
+                data_dict[key].shape[2:])
+            )
+
+        return data_dict
+
+def make_dummy_buffer(double_list_dict, seed=0):
+    '''
+    :param double_dict_list: list of trajectories, each of which is
+        list of per-timestep dictionaries
+    :return: unprioritized buffer organized by episode, but sampling as 1d array
+    '''
+
+    return DummyEpisodicBuffer(double_list_dict, seed)
